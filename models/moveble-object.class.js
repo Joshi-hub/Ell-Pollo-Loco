@@ -20,8 +20,15 @@ class MoveableObject {
         img.src = path;
         this.imgCache[path] = img;
     });
-    }
-    
+}
+   playAnimation(image) {
+        let i = this.currentImage % this.walkInterval.length;
+        let path = image[i];
+        this.img = this.imgCache[path];
+        this.currentImage++;
+
+   }
+
     moveRight() {
         setInterval(() => {
             this.x += this.speed;
