@@ -25,7 +25,7 @@ class chicken extends MoveableObject {
             let path = this.walkInterval[i];
             this.img = this.imgCache[path];
             this.currentImage++;
-        }, 500);
+        }, 1000);
 
         this.x = 200 + Math.random() * 500; 
     }
