@@ -1,28 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-    <link rel="stylesheet" href="style.css" />
-    <script src="models/drawable-object.clas.js"></script>
-    <script src="models/moveble-object.class.js"></script>
-    <script src="models/keyboard.class.js"></script>
-    <script src="models/status-bar.class.js"></script>
-    <script src="models/character.class.js"></script>
-    <script src="models/chicken.class.js"></script>
-    <script src="models/cloud.class.js"></script>
-    <script src="models/backround.class.js"></script>
-    <script src="models/coins.class.js"></script>
-    <script src="models/endboss.class.js"></script>
-    <script src="models/level.class.js"></script>
-    <script src="level/level1.js"></script>
-    <script src="models/world.class.js"></script>
-    <script src="js/game.js"></script>
-  </head>
-  <body onload="init();">
-    <h1>El pollo loco</h1>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>El pollo loco</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body onload="init();">
 
-    <canvas id="canvas" width="720" height="480"></canvas>
-  </body>
+  <div class="hero">
+    <h1 id="title">El pollo loco</h1>
+  </div>
+
+  <canvas id="canvas" width="720" height="480"></canvas>
+
+  <script>
+  // Minimal: Buchstaben wrappen + gestaffelter Fly-In
+  (function () {
+    const h1 = document.getElementById('title');
+    if (!h1 || h1.dataset.wrapped) return;
+    h1.dataset.wrapped = '1';
+
+    const text = h1.textContent;
+    h1.textContent = '';
+
+    Array.from(text).forEach((ch, i) => {
+      const s = document.createElement('span');
+      s.className = 'title-char enter';
+      s.style.setProperty('--i', i);
+      s.textContent = ch === ' ' ? '\u00A0' : ch;
+      h1.appendChild(s);
+    });
+
+    // Nach dem letzten Buchstaben: Animation beenden (ruhig stehen)
+    const last = h1.lastElementChild;
+    if (last) last.addEventListener('animationend', () => {
+      h1.querySelectorAll('.title-char').forEach(el => el.style.animation = 'none');
+    }, { once: true });
+  })();
+  </script>
+
+  <script src="models/drawable-object.clas.js"></script>
+  <script src="models/moveble-object.class.js"></script>
+  <script src="models/keyboard.class.js"></script>
+  <script src="models/status-bar.class.js"></script>
+  <script src="models/character.class.js"></script>
+  <script src="models/chicken.class.js"></script>
+  <script src="models/cloud.class.js"></script>
+  <script src="models/backround.class.js"></script>
+  <script src="models/coins.class.js"></script>
+  <script src="models/endboss.class.js"></script>
+  <script src="models/throwable-object.class.js"></script>
+  <script src="models/level.class.js"></script>
+  <script src="level/level1.js"></script>
+  <script src="models/world.class.js"></script>
+  <script src="js/game.js"></script>
+</body>
 </html>
