@@ -8,9 +8,6 @@ class Cloud extends MovableObject {
         'img/5_background/layers/4_clouds/2.png'
     ];
 
-    /**
-     * Creates a new Cloud at a random position.
-     */
     constructor() {
         super();
         let randomNumber = Math.floor(Math.random() * 2);
@@ -20,9 +17,6 @@ class Cloud extends MovableObject {
         this.animate();
     }
 
-    /**
-     * Animates the cloud's movement.
-     */
     animate() {
         setStopableIntervall(() => {
             this.moveLeft();

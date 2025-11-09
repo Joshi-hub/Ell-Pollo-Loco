@@ -1,6 +1,3 @@
-/**
- * Base class for drawable objects on the canvas.
- */
 class DrawableObjects {
     img;
     imageCache = {};
@@ -10,19 +7,11 @@ class DrawableObjects {
     height = 150;
     width = 100;
 
-    /**
-     * Loads a single image and assigns it to the object.
-     * @param {string} path - Path to the image file.
-     */
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;
     }
 
-    /**
-     * Loads multiple images into the image cache.
-     * @param {string[]} arr - Array of image file paths.
-     */
     loadImages(arr) {
         arr.forEach((path) => {
             let img = new Image();
@@ -31,10 +20,6 @@ class DrawableObjects {
         });
     }
 
-    /**
-     * Returns the hitbox of the object.
-     * @returns {{x: number, y: number, width: number, height: number}}
-     */
     getHitbox() {
         return {
             x: this.x + (this.hitboxOffsetX || 0),
@@ -44,10 +29,6 @@ class DrawableObjects {
         };
     }
 
-    /**
-     * Draws the object's current image on the canvas.
-     * @param {CanvasRenderingContext2D} ctx - Canvas rendering context.
-     */
     draw(ctx) {
         if (!this.img) {
             console.warn('No image to draw for', this);
@@ -61,10 +42,6 @@ class DrawableObjects {
         }
     }
 
-    /**
-     * Draws a border (hitbox) for debugging.
-     * @param {CanvasRenderingContext2D} ctx - Canvas rendering context
-     */
     drawBorder(ctx) {
         const { x, y, width, height } = this.getHitbox ? this.getHitbox() : this;
         if (!(this instanceof Character)) {

@@ -1,7 +1,3 @@
-/**
- * Enemy chicken class.
- * @extends MovableObject
- */
 class Chicken extends MovableObject {
     y = 370;
     height = 60;
@@ -24,9 +20,6 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];
 
-    /**
-     * Creates a new Chicken at a random position.
-     */
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -36,21 +29,14 @@ class Chicken extends MovableObject {
         this.animate();
     }
 
-    /**
-     * Kills the chicken and sets dead image.
-     */
     die() {
         if (this.isDead) return;
         this.isDead = true;
         this.speed = 0;
         this.deathTime = Date.now();
-        // Immediately set the dead image
         this.loadImage(this.IMAGES_DEAD[0]);
     }
 
-    /**
-     * Override animate to stop moving if dead.
-     */
     animate() {
         setStopableIntervall(() => {
             if (!this.isDead) this.moveLeft();

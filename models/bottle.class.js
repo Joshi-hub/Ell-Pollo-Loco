@@ -12,9 +12,6 @@ class Bottle extends DrawableObjects {
         'img/6_salsa_bottle/2_salsa_bottle_on_ground.png',
     ];
 
-    /**
-     * Creates a new Bottle at a random position.
-     */
     constructor() {
         super();
         let randomNumber = Math.floor(Math.random() * 2);

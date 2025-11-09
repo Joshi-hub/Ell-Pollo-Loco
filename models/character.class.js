@@ -1,7 +1,3 @@
-/**
- * The main playable character (Pepe).
- * @extends MovableObject
- */
 class Character extends MovableObject {
     height = 280;
     y = 80;
@@ -77,10 +73,6 @@ class Character extends MovableObject {
         'img/2_character_pepe/1_idle/long_idle/I-20.png'
     ];
 
-
-    /**
-     * Creates a new Character.
-     */
     constructor() {
         super().loadImage(this.IMAGES_IDLE[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -93,9 +85,6 @@ class Character extends MovableObject {
         this.animate();
     }
 
-    /**
-     * Handles movement and animation logic.
-     */
     animate() {
         this.isIdle = 0;
         setStopableIntervall(() => {
@@ -128,16 +117,10 @@ class Character extends MovableObject {
         }, 100);
     }
 
-    /**
-     * Resets the idle counter.
-     */
     resetIsIdle() {
         this.isIdle = 0;
     }
 
-    /**
-     * Checks and handles idle animation.
-     */
     checkIdleStatus() {
         this.isIdle++;
         if (this.isIdle < 200) {
@@ -147,12 +130,8 @@ class Character extends MovableObject {
         }
     }
 
-    /**
-     * Handles the dead animation.
-     */
     isDeadHanlder() {
         this.playAnimation(this.IMAGES_DEAD);
-        // this.isDeadAnimation();
         this.resetIsIdle();
     }
 
@@ -166,17 +145,11 @@ class Character extends MovableObject {
         }, 10000)
     }
 
-    /**
-     * Handles the hurt animation.
-     */
     isHurtHandler() {
         this.playAnimation(this.IMAGES_HURT);
         this.resetIsIdle();
     }
 
-    /**
-     * Handles the jumping animation.
-     */
     isJumpingHandler() {
         if (this.speedY > 0) {
             this.playAnimation(this.IMAGES_JUMPING);
@@ -184,9 +157,6 @@ class Character extends MovableObject {
         this.resetIsIdle();
     }
 
-    /**
-     * Handles the walking animation.
-     */
     isWalkingHandler() {
         this.playAnimation(this.IMAGES_WALKING);
         this.resetIsIdle();

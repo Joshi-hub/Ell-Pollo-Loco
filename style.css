@@ -266,7 +266,6 @@ canvas {
   }
 }
 
-/* Stage bündelt Canvas + Overlays */
 .stage {
   position: relative;
   display: grid;
@@ -275,7 +274,6 @@ canvas {
   height: auto;
 }
 
-/* Alles in der Stage liegt übereinander */
 .stage > canvas,
 .stage > .game-overlay {
   grid-area: 1 / 1;
@@ -283,7 +281,6 @@ canvas {
   height: 100%;
 }
 
-/* Fullscreen-Button oben rechts in der Stage */
 .fullscreen-btn {
   position: absolute;
   top: 10px;
@@ -300,7 +297,11 @@ canvas {
   box-shadow: var(--shadow-btn);
   transition: all 0.2s ease;
 }
-.fullscreen-btn:hover { transform: scale(1.05); box-shadow: var(--shadow-btn-hover); }
-.fullscreen-btn:active { transform: scale(0.95); box-shadow: var(--shadow-btn-active); }
-
-
+.fullscreen-btn:hover {
+  transform: scale(1.05);
+  box-shadow: var(--shadow-btn-hover);
+}
+.fullscreen-btn:active {
+  transform: scale(0.95);
+  box-shadow: var(--shadow-btn-active);
+}

@@ -1,6 +1,3 @@
-/**
- * Tracks the current state of keyboard controls.
- */
 class Keyboard {
     LEFT = false;
     RIGHT = false;

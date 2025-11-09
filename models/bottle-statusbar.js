@@ -10,9 +10,6 @@ class BottleStatusBar extends StatusBar {
 
     percentage = 0;
 
-    /**
-     * Creates a new BottleStatusBar.
-     */
     constructor() {
         super().loadImage(this.IMAGES[0]);
         this.loadImages(this.IMAGES);
@@ -23,10 +20,6 @@ class BottleStatusBar extends StatusBar {
         this.setPercentage(this.percentage);
     }
 
-    /**
-     * Sets the bottle percentage and updates the bar image.
-     * @param {number} percentage - Percentage of bottles collected.
-     */
     setPercentage(percentage) {
         this.percentage = percentage;
         let path = this.IMAGES[this.resolveImageIndex()];

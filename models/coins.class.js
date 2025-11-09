@@ -1,7 +1,3 @@
-/**
- * Represents a collectible coin in the game.
- * @extends DrawableObjects
- */
 class Coin extends DrawableObjects {
     height = 120;
     width = 120;
@@ -16,9 +12,6 @@ class Coin extends DrawableObjects {
         'img/8_coin/coin_2.png'
     ];
 
-    /**
-     * Creates a new Coin at a random position.
-     */
     constructor() {
         super();
         let randomNumber = Math.floor(Math.random() * 2);

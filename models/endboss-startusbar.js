@@ -1,7 +1,3 @@
-/**
- * Health bar display for the endboss.
- * @extends StatusBar
- */
 class EndbossStatusBar extends StatusBar {
     IMAGES = [
         'img/7_statusbars/2_statusbar_endboss/orange/orange0.png',
@@ -12,7 +8,6 @@ class EndbossStatusBar extends StatusBar {
         'img/7_statusbars/2_statusbar_endboss/orange/orange100.png'
     ];
 
-
     constructor(endboss) {
         super();
         this.endboss = endboss;
@@ -22,18 +17,12 @@ class EndbossStatusBar extends StatusBar {
         this.setPercentage(100);
     }
 
-    /**
-     * Updates bar position and draws using parent method.
-     * @param {CanvasRenderingContext2D} ctx - Canvas context
-     */
     draw(ctx) {
         this.updatePosition();
+        this.updateStatusBar();
         super.draw(ctx);
     }
 
-    /**
-     * Updates bar position relative to endboss.
-     */
     updatePosition() {
         if (this.endboss) {
             this.x = this.endboss.x + (this.endboss.width / 2) - (this.width / 2);
@@ -41,9 +30,6 @@ class EndbossStatusBar extends StatusBar {
         }
     }
 
-    /**
-     * Updates the status bar based on endboss health.
-     */
     updateStatusBar() {
         if (this.endboss) {
             const percentage = (this.endboss.health / this.endboss.maxHealth) * 100;
@@ -51,19 +37,11 @@ class EndbossStatusBar extends StatusBar {
         }
     }
 
-    /**
-     * Draws the background of the HP bar.
-     * @param {CanvasRenderingContext2D} ctx
-     */
     drawBackground(ctx) {
         ctx.fillStyle = 'red';
         ctx.fillRect(this.x, this.y, this.width, this.height);
     }
 
-    /**
-     * Draws the current health level.
-     * @param {CanvasRenderingContext2D} ctx
-     */
     drawHealthBar(ctx) {
         const healthPercent = this.endboss.health / this.endboss.maxHealth;
         ctx.fillStyle = 'green';
