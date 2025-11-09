@@ -6,185 +6,197 @@ let startRef;
 let intervallIds = [];
 
 const keyMap = {
-    39: 'RIGHT',
-    37: 'LEFT',
-    38: 'UP',
-    40: 'DOWN',
-    32: 'SPACE',
-    68: 'D'
+  39: "RIGHT",
+  37: "LEFT",
+  38: "UP",
+  40: "DOWN",
+  32: "SPACE",
+  68: "D",
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-    initializeGameControls();
+document.addEventListener("DOMContentLoaded", () => {
+  initializeGameControls();
 });
 
-window.addEventListener('keydown', (e) => {
-    updateKeyboardState(e, true);
+window.addEventListener("keydown", (e) => {
+  updateKeyboardState(e, true);
 });
 
-window.addEventListener('keyup', (e) => {
-    updateKeyboardState(e, false);
+window.addEventListener("keyup", (e) => {
+  updateKeyboardState(e, false);
 });
 
 function initializeGameControls() {
-    setupElementReferences();
-    attachEventListeners();
+  setupElementReferences();
+  attachEventListeners();
 }
 
 function setupElementReferences() {
-    startBtn = document.getElementById('play-btn');
-    startRef = document.getElementById('start-game');
+  startBtn = document.getElementById("play-btn");
+  startRef = document.getElementById("start-game");
 }
 
 function attachEventListeners() {
-    const helpBtn = document.getElementById('help-btn');
-    const backToMenuBtn = document.getElementById('back-to-menu-btn');
-    
-    startBtn.addEventListener('click', handleStartButtonClick);
-    helpBtn.addEventListener('click', showHelpScreen);
-    backToMenuBtn.addEventListener('click', hideHelpScreen);
+  const helpBtn = document.getElementById("help-btn");
+  const backToMenuBtn = document.getElementById("back-to-menu-btn");
+
+  startBtn.addEventListener("click", handleStartButtonClick);
+  helpBtn.addEventListener("click", showHelpScreen);
+  backToMenuBtn.addEventListener("click", hideHelpScreen);
 }
 
 function updateKeyboardState(e, isPressed) {
-    if (keyMap[e.keyCode]) {
-        keyboard[keyMap[e.keyCode]] = isPressed;
-    }
+  if (keyMap[e.keyCode]) {
+    keyboard[keyMap[e.keyCode]] = isPressed;
+  }
 }
 
 function handleStartButtonClick() {
-    hideStartScreen();
-    loadGame();
+  hideStartScreen();
+  loadGame();
 }
 
 function hideStartScreen() {
-    startRef.classList.add('d-none');
+  startRef.classList.add("d-none");
 }
 
 function loadGame() {
-    initializeCanvas();
-    createGameWorld();
+  initializeCanvas();
+  createGameWorld();
 }
 
 function initializeCanvas() {
-    canvas = document.getElementById('canvas');
-    canvas.classList.remove('d-none');
-    startGame();
+  canvas = document.getElementById("canvas");
+  canvas.classList.remove("d-none");
+  startGame();
 }
 
 function createGameWorld() {
-    world = new World(canvas, keyboard, level1);
+  world = new World(canvas, keyboard, level1);
 }
 
 function showHelpScreen() {
-    hideElementById('start-game');
-    showElementById('help-screen');
+  hideElementById("start-game");
+  showElementById("help-screen");
 }
 
 function hideHelpScreen() {
-    hideElementById('help-screen');
-    showElementById('start-game');
+  hideElementById("help-screen");
+  showElementById("start-game");
 }
 
 function toggleScreenContent(hideId, showId) {
-    hideElementById(hideId);
-    showElementById(showId);
+  hideElementById(hideId);
+  showElementById(showId);
 }
 
 function hideElementById(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.classList.add('d-none');
-    }
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.classList.add("d-none");
+  }
 }
 
 function showElementById(elementId) {
-    const element = document.getElementById(elementId);
-    if (element) {
-        element.classList.remove('d-none');
-    }
+  const element = document.getElementById(elementId);
+  if (element) {
+    element.classList.remove("d-none");
+  }
 }
 
 function setStopableIntervall(fn, time) {
-    const id = setInterval(fn, time);
-    intervallIds.push(id);
+  const id = setInterval(fn, time);
+  intervallIds.push(id);
 }
 
 function stopGame() {
-    clearAllIntervals();
-    resetIntervalStorage();
+  clearAllIntervals();
+  resetIntervalStorage();
 }
 
 function clearAllIntervals() {
-    intervallIds.forEach((id) => {
-        clearInterval(id);
-    });
+  intervallIds.forEach((id) => {
+    clearInterval(id);
+  });
 }
 
 function resetIntervalStorage() {
-    intervallIds = [];
+  intervallIds = [];
 }
 
- const title = document.getElementById("title");
+const title = document.getElementById("title");
 
-      function wrapTitleText() {
-        if (!title || title.dataset.wrapped) return;
-        title.dataset.wrapped = "1";
-        const text = title.textContent;
-        title.textContent = "";
-        Array.from(text).forEach((ch, i) => {
-          const s = document.createElement("span");
-          s.className = "title-char enter";
-          s.style.setProperty("--i", i);
-          s.textContent = ch === " " ? "\u00A0" : ch;
-          title.appendChild(s);
-        });
-      }
+function wrapTitleText() {
+  if (!title || title.dataset.wrapped) return;
+  title.dataset.wrapped = "1";
+  const text = title.textContent;
+  title.textContent = "";
+  Array.from(text).forEach((ch, i) => {
+    const s = document.createElement("span");
+    s.className = "title-char enter";
+    s.style.setProperty("--i", i);
+    s.textContent = ch === " " ? "\u00A0" : ch;
+    title.appendChild(s);
+  });
+}
 
-      function stopAnimationAfterEnd() {
-        const last = title.lastElementChild;
-        if (!last) return;
-        last.addEventListener(
-          "animationend",
-          () => {
-            title
-              .querySelectorAll(".title-char")
-              .forEach((el) => (el.style.animation = "none"));
-          },
-          { once: true }
-        );
-      }
+function stopAnimationAfterEnd() {
+  const last = title.lastElementChild;
+  if (!last) return;
+  last.addEventListener(
+    "animationend",
+    () => {
+      title
+        .querySelectorAll(".title-char")
+        .forEach((el) => (el.style.animation = "none"));
+    },
+    { once: true }
+  );
+}
 
-      wrapTitleText();
-      stopAnimationAfterEnd();
+wrapTitleText();
+stopAnimationAfterEnd();
 
-    //   function fullscreen() {
-    //     let fullscreen = document.getElementById('fullscreen');
-    //     enterFullscreen(fullscreen);
-    //   }
+//   function fullscreen() {
+//     let fullscreen = document.getElementById('fullscreen');
+//     enterFullscreen(fullscreen);
+//   }
 
-      function enterFullscreen(element) {
-        if(element.requestFullscreen) {
-          element.requestFullscreen();
-        } else if(element.msRequestFullscreen) {     
-          element.msRequestFullscreen();
-        } else if(element.webkitRequestFullscreen) {  
-          element.webkitRequestFullscreen();
-        }
-      }
+function enterFullscreen(element) {
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+  } else if (element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  }
+}
 
-      function exitFullscreen() {
-        if(document.exitFullscreen) {
-          document.exitFullscreen();
-        } else if(document.webkitExitFullscreen) {
-          document.webkitExitFullscreen();
-        }
-      }
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  }
+}
 
-      function toggleFullscreen() {
-        const canvas = document.getElementById('canvas');
-        if (!document.fullscreenElement) {
-          enterFullscreen(canvas);  
-        } else {
-          exitFullscreen();
-        }
-      }
+function toggleFullscreen() {
+  const canvas = document.getElementById("canvas");
+  if (!document.fullscreenElement) {
+    enterFullscreen(canvas);
+  } else {
+    exitFullscreen();
+  }
+}
+
+document.getElementById("restart-btn").addEventListener("click", () => {
+  location.reload();
+});
+
+document.getElementById("menu-btn").addEventListener("click", () => {
+  location.reload();
+});
+
+document.getElementById("restart-won-btn").addEventListener("click", () => {
+  location.reload();
+});

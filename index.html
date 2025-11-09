@@ -15,7 +15,8 @@
     <div id="stage" class="stage">
       <canvas id="canvas" width="720" height="480"></canvas>
       <button id="fullscreen-btn" class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
-
+    
+      <!-- Startscreen -->
       <div id="start-game" class="game-overlay">
         <div class="start-content">
           <div class="button-container">
@@ -23,23 +24,9 @@
             <button id="help-btn" class="game-btn help-btn">HELP</button>
           </div>
         </div>
-
-        <div id="game-over-screen" class="overlay d-none">
-          <div class="game-over-content">
-            <img src="./img/You won, you lost/You lost.png" alt="Game Over">
-            <button id="restart-btn" class="game-btn">Play Again</button>
-            <button id="menu-btn" class="game-btn">Main Menu</button>
-          </div>
-        </div>
-
-        <div id="you-won-screen" class="overlay d-none">
-          <div class="you-won-content">
-            <img src="./img/You won, you lost/You won A.png" alt="You Won">
-            <button id="restart-won-btn" class="game-btn">Play Again</button>
-          </div>
-        </div>
       </div>
-
+    
+      <!-- Help Screen -->
       <div id="help-screen" class="game-overlay d-none">
         <div class="help-content">
           <div class="controls-grid">
@@ -66,8 +53,25 @@
         </div>
       </div>
     </div>
-
+    
+    <!-- 🔥 Overlays jetzt HIER, außerhalb des Start- und Help-Screens -->
+    <div id="game-over-screen" class="overlay d-none">
+      <div class="game-over-content">
+        <img src="./img/You won, you lost/You lost.png" alt="Game Over">
+        <button id="restart-btn" class="game-btn">Play Again</button>
+        <button id="menu-btn" class="game-btn">Main Menu</button>
+      </div>
+    </div>
+    
+    <div id="you-won-screen" class="overlay d-none">
+      <div class="you-won-content">
+        <img src="./img/You won, you lost/You won A.png" alt="You Won">
+        <button id="restart-won-btn" class="game-btn">Play Again</button>
+      </div>
+    </div>
+    
     <div id="portrait-mode" class="d-none">Please turn your device.</div>
+    
 
     <script src="models/drawable-object.clas.js"></script>
     <script src="models/moveble-object.class.js"></script>

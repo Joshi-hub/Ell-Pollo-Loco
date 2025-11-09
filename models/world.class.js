@@ -157,4 +157,26 @@ class World {
     mo.x = mo.x * -1;
     this.ctx.restore();
   }
-}
+
+  handleGameOver(isWin = false) {
+    this.character?.stopAnimation?.();
+    this.level?.enemies?.forEach((e) => e?.stopAnimation?.());
+  
+    this.isGameFinished = true;
+    this.isGameWon = !!isWin;
+  
+    const lose = document.getElementById("game-over-screen");
+    const win = document.getElementById("you-won-screen");
+  
+    const canvas = document.getElementById("canvas");
+    canvas.classList.add("d-none");
+  
+    if (this.isGameWon) {
+      win?.classList.remove("d-none");
+      lose?.classList.add("d-none");
+    } else {
+      lose?.classList.remove("d-none");
+      win?.classList.add("d-none");
+    }
+  }
+}    
