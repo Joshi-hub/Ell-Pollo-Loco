@@ -1,16 +1,10 @@
-class MoveableObject {
-  x = 80;
-  y = 140;
-  img;
-  height = 300;
-  width = 150;
-  imgCache = {};
-  currentImage = 0;
+class MoveableObject extends DrawableObjekt {
   speed = 0.15;
   otherDirection = false;
   speedY = 0;
   acceleration = 1;
   energy = 100;
+  lastHit = 0;
 
   applyGravity() {
     setInterval(() => {
@@ -23,15 +17,6 @@ class MoveableObject {
 
   isAboveGround() {
     return this.y < 180;
-  }
-
-  loadImage(path) {
-    this.img = new Image();
-    this.img.src = path;
-  }
-
-  draw(ctx) {
-    ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
   drawFrame(ctx) {
@@ -55,11 +40,19 @@ class MoveableObject {
     this.energy -= 10;
     if (this.energy < 0) {
         this.energy = 0;
+    } else {
+      this.lastHit = new Date().getTime();
     }
   }
 
   isDead() {
     return this.energy == 0;
+  }
+
+  isHurt() {
+    let timepassed = new Date().getTime() - this.lastHit;
+    timepassed = timepassed / 1000;
+    return timepassed < 1;
   }
 
   loadImages(arr) {
@@ -71,7 +64,7 @@ class MoveableObject {
   }
 
   playAnimation(image) {
-    let i = this.currentImage % this.walkInterval.length;
+    let i = this.currentImage % image.length;
     let path = image[i];
     this.img = this.imgCache[path];
     this.currentImage++;

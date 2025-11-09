@@ -22,8 +22,7 @@ class character extends MoveableObject {
     "img/2_character_pepe/3_jump/J-36.png",
     "img/2_character_pepe/3_jump/J-37.png",
     "img/2_character_pepe/3_jump/J-38.png",
-    "img/2_character_pepe/3_jump/J-39.png",
-    "img/2_character_pepe/3_jump/J-31.png"
+    "img/2_character_pepe/3_jump/J-39.png"
   ];
 
   deadInterval = [
@@ -36,6 +35,12 @@ class character extends MoveableObject {
     "img/2_character_pepe/5_dead/D-57.png"
   ];
 
+  hurtInterval = [
+    "img/2_character_pepe/4_hurt/H-41.png",
+    "img/2_character_pepe/4_hurt/H-42.png",
+    "img/2_character_pepe/4_hurt/H-43.png"
+  ]
+
   world;
 
   constructor() {
@@ -43,6 +48,7 @@ class character extends MoveableObject {
     this.loadImages(this.walkInterval);
     this.loadImages(this.jumpInterval);
     this.loadImages(this.deadInterval);
+    this.loadImages(this.hurtInterval);
     this.applyGravity();
     this.animate();
   }
@@ -69,18 +75,18 @@ class character extends MoveableObject {
     }, 1000 / 60);
 
     setInterval(() => {
-
       if (this.isDead()) {
         this.playAnimation(this.deadInterval);
+      } else if (this.isHurt()) {
+        this.playAnimation(this.hurtInterval);
       } else if (this.isAboveGround()) {
         this.playAnimation(this.jumpInterval);
       } else {
-
         if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
           this.playAnimation(this.walkInterval);
         }
-      }
-    }, 50);
+      } 
+      }, 60);
   }
 
   jump() {
