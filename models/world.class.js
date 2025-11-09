@@ -1,6 +1,6 @@
 class World {
   character = new character();
-  level = level1;
+  level;
   canvas;
   ctx;
   keyboard;
@@ -11,6 +11,7 @@ class World {
     this.ctx = canvas.getContext("2d");
     this.canvas = canvas;
     this.keyboard = keyboard;
+    this.level = level1;
     this.draw();
     this.setWorld();
     this.checkCollisons();
@@ -42,6 +43,7 @@ class World {
 
     this.addToMap(this.character);
     this.addObjectToMap(this.level.clouds);
+    this.addObjectToMap(this.level.coins);
     this.addObjectToMap(this.level.enemies);
 
     this.ctx.translate(-this.camera_x, 0);
