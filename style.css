@@ -5,26 +5,29 @@ body {
   justify-content: center;
   min-height: 100vh;
   margin: 0;
-  background: url('img/5_background/desert-5112222_1920.png') no-repeat center center fixed;
+  background: url("img/5_background/desert-5112222_1920.png") no-repeat center
+    center fixed;
   background-size: cover;
-  font-family: 'zabars', Arial, Helvetica, sans-serif;
+  font-family: "zabars", Arial, Helvetica, sans-serif;
 }
 
-canvas { background: #000; }
+@font-face {
+  font-family: "zabars";
+  src: url("fonts/zabars.ttf") format("truetype");
+}
 
-.hero { position: relative; display: inline-block; margin-top: 10px; }
+canvas {
+  background: #000;
+  display: block;
+}
 
-#title{
+#title {
   font-weight: 900;
   font-size: 64px;
   line-height: 1.05;
   color: #ffd166;
-  text-shadow:
-    0 1px 0 #000,
-    0 2px 0 #000,
-    0 3px 0 #000,
-    0 4px 8px rgba(0,0,0,0.6),
-    0 0 18px rgba(255,209,102,0.35);
+  text-shadow: 0 1px 0 #000, 0 2px 0 #000, 0 3px 0 #000,
+    0 4px 8px rgba(0, 0, 0, 0.6), 0 0 18px rgba(255, 209, 102, 0.35);
   white-space: nowrap;
   letter-spacing: 1px;
 }
@@ -36,14 +39,14 @@ canvas { background: #000; }
 }
 
 #title .title-char.enter {
-  animation: enterArc .85s cubic-bezier(.2,.8,.2,1) both;
+  animation: enterArc 0.85s cubic-bezier(0.2, 0.8, 0.2, 1) both;
   animation-delay: calc(var(--i) * 70ms);
 }
 
 @keyframes enterArc {
   0% {
-    transform: translate3d(-40px, 40px, 0) rotate(-6deg) scale(.92);
-    filter: blur(1.5px) brightness(.9);
+    transform: translate3d(-40px, 40px, 0) rotate(-6deg) scale(0.92);
+    filter: blur(1.5px) brightness(0.9);
     opacity: 0;
   }
   60% {
@@ -52,16 +55,26 @@ canvas { background: #000; }
     opacity: 1;
   }
   100% {
-    transform: translate3d(0,0,0) rotate(0) scale(1);
+    transform: translate3d(0, 0, 0) rotate(0) scale(1);
     opacity: 1;
   }
 }
 
-@font-face {
-  font-family: 'zabars';
-  src: url('fonts/zabars.ttf') format('truetype');
+@media (max-width: 800px) {
+  .hero {
+    display: none;
+  }
 }
 
-@media (prefers-reduced-motion: reduce){
-  #title .title-char.enter { animation: none; }
+
+@media only screen and (max-width: 720px) {
+  canvas {
+    width: 100%;
+  }
+}
+
+@media only screen and (max-height: 480px) {
+  canvas {
+    height: 100vh;
+  }
 }

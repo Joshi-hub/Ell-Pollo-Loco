@@ -1,59 +1,67 @@
 <!DOCTYPE html>
 <html lang="de">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>El pollo loco</title>
-  <link rel="stylesheet" href="style.css"/>
-</head>
-<body onload="init();">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>El pollo loco</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body onload="init();">
+    <div class="hero">
+      <h1 id="title">El pollo loco</h1>
+    </div>
 
-  <div class="hero">
-    <h1 id="title">El pollo loco</h1>
-  </div>
+    <canvas id="canvas" width="720" height="480"></canvas>
 
-  <canvas id="canvas" width="720" height="480"></canvas>
+    <script>
+      const title = document.getElementById("title");
 
-  <script>
-  // Minimal: Buchstaben wrappen + gestaffelter Fly-In
-  (function () {
-    const h1 = document.getElementById('title');
-    if (!h1 || h1.dataset.wrapped) return;
-    h1.dataset.wrapped = '1';
+      function wrapTitleText() {
+        if (!title || title.dataset.wrapped) return;
+        title.dataset.wrapped = "1";
+        const text = title.textContent;
+        title.textContent = "";
+        Array.from(text).forEach((ch, i) => {
+          const s = document.createElement("span");
+          s.className = "title-char enter";
+          s.style.setProperty("--i", i);
+          s.textContent = ch === " " ? "\u00A0" : ch;
+          title.appendChild(s);
+        });
+      }
 
-    const text = h1.textContent;
-    h1.textContent = '';
+      function stopAnimationAfterEnd() {
+        const last = title.lastElementChild;
+        if (!last) return;
+        last.addEventListener(
+          "animationend",
+          () => {
+            title
+              .querySelectorAll(".title-char")
+              .forEach((el) => (el.style.animation = "none"));
+          },
+          { once: true }
+        );
+      }
 
-    Array.from(text).forEach((ch, i) => {
-      const s = document.createElement('span');
-      s.className = 'title-char enter';
-      s.style.setProperty('--i', i);
-      s.textContent = ch === ' ' ? '\u00A0' : ch;
-      h1.appendChild(s);
-    });
+      wrapTitleText();
+      stopAnimationAfterEnd();
+    </script>
 
-    // Nach dem letzten Buchstaben: Animation beenden (ruhig stehen)
-    const last = h1.lastElementChild;
-    if (last) last.addEventListener('animationend', () => {
-      h1.querySelectorAll('.title-char').forEach(el => el.style.animation = 'none');
-    }, { once: true });
-  })();
-  </script>
-
-  <script src="models/drawable-object.clas.js"></script>
-  <script src="models/moveble-object.class.js"></script>
-  <script src="models/keyboard.class.js"></script>
-  <script src="models/status-bar.class.js"></script>
-  <script src="models/character.class.js"></script>
-  <script src="models/chicken.class.js"></script>
-  <script src="models/cloud.class.js"></script>
-  <script src="models/backround.class.js"></script>
-  <script src="models/coins.class.js"></script>
-  <script src="models/endboss.class.js"></script>
-  <script src="models/throwable-object.class.js"></script>
-  <script src="models/level.class.js"></script>
-  <script src="level/level1.js"></script>
-  <script src="models/world.class.js"></script>
-  <script src="js/game.js"></script>
-</body>
+    <script src="models/drawable-object.clas.js"></script>
+    <script src="models/moveble-object.class.js"></script>
+    <script src="models/keyboard.class.js"></script>
+    <script src="models/status-bar.class.js"></script>
+    <script src="models/character.class.js"></script>
+    <script src="models/chicken.class.js"></script>
+    <script src="models/cloud.class.js"></script>
+    <script src="models/backround.class.js"></script>
+    <script src="models/coins.class.js"></script>
+    <script src="models/endboss.class.js"></script>
+    <script src="models/throwable-object.class.js"></script>
+    <script src="models/level.class.js"></script>
+    <script src="level/level1.js"></script>
+    <script src="models/world.class.js"></script>
+    <script src="js/game.js"></script>
+  </body>
 </html>
