@@ -8,60 +8,64 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
-    <div class="hero">
+    <div id="fullscreen" class="hero">
       <h1 id="title">El pollo loco</h1>
     </div>
 
-    <canvas id="canvas" width="720" height="480"></canvas>
-    <div id="start-game" class="game-overlay">
-            <div class="start-content">
-                <div class="button-container">
-                    <button id="play-btn" class="game-btn start-btn">START GAME</button>
-                    <button id="help-btn" class="game-btn help-btn">HELP</button>
-                </div>
-            </div>
+    <!-- EIN gemeinsamer Stage-Wrapper für Canvas + Overlays + Fullscreen-Button -->
+    <div id="stage" class="stage">
+      <canvas id="canvas" width="720" height="480"></canvas>
+      <button id="fullscreen-btn" class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
 
-            <div id="game-over-screen" class="overlay d-none">
-                <div class="game-over-content">
-                    <img src="./img/You won, you lost/You lost.png" alt="Game Over">
-                    <button id="restart-btn" class="game-btn">Play Again</button>
-                    <button id="menu-btn" class="game-btn">Main Menu</button>
-                </div>
-            </div>
-
-            <div id="you-won-screen" class="overlay d-none">
-                <div class="you-won-content">
-                    <img src="./img/You won, you lost/You won A.png" alt="You Won">
-                    <button id="restart-won-btn" class="game-btn">Play Again</button>
-                </div>
-            </div>
+      <div id="start-game" class="game-overlay">
+        <div class="start-content">
+          <div class="button-container">
+            <button id="play-btn" class="game-btn start-btn">START GAME</button>
+            <button id="help-btn" class="game-btn help-btn">HELP</button>
+          </div>
         </div>
 
-        <div id="help-screen" class="game-overlay d-none">
-            <div class="help-content">
-                <div class="controls-grid">
-                    <div class="control-item">
-                        <span class="key">←</span>
-                        <span class="action">Move Left</span>
-                    </div>
-                    <div class="control-item">
-                        <span class="key">→</span>
-                        <span class="action">Move Right</span>
-                    </div>
-                    <div class="control-item">
-                        <span class="key">SPACE</span>
-                        <span class="action">Jump</span>
-                    </div>
-                    <div class="control-item">
-                        <span class="key">D</span>
-                        <span class="action">Throw Bottle</span>
-                    </div>
-                </div>
-                <div class="help-buttons">
-                    <button id="back-to-menu-btn" class="game-btn help-btn">BACK TO MENU</button>
-                </div>
-            </div>
+        <div id="game-over-screen" class="overlay d-none">
+          <div class="game-over-content">
+            <img src="./img/You won, you lost/You lost.png" alt="Game Over">
+            <button id="restart-btn" class="game-btn">Play Again</button>
+            <button id="menu-btn" class="game-btn">Main Menu</button>
+          </div>
         </div>
+
+        <div id="you-won-screen" class="overlay d-none">
+          <div class="you-won-content">
+            <img src="./img/You won, you lost/You won A.png" alt="You Won">
+            <button id="restart-won-btn" class="game-btn">Play Again</button>
+          </div>
+        </div>
+      </div>
+
+      <div id="help-screen" class="game-overlay d-none">
+        <div class="help-content">
+          <div class="controls-grid">
+            <div class="control-item">
+              <span class="key">←</span>
+              <span class="action">Move Left</span>
+            </div>
+            <div class="control-item">
+              <span class="key">→</span>
+              <span class="action">Move Right</span>
+            </div>
+            <div class="control-item">
+              <span class="key">SPACE</span>
+              <span class="action">Jump</span>
+            </div>
+            <div class="control-item">
+              <span class="key">D</span>
+              <span class="action">Throw Bottle</span>
+            </div>
+          </div>
+          <div class="help-buttons">
+            <button id="back-to-menu-btn" class="game-btn help-btn">BACK TO MENU</button>
+          </div>
+        </div>
+      </div>
     </div>
 
     <div id="portrait-mode" class="d-none">Please turn your device.</div>
