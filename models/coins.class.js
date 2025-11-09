@@ -1,18 +1,29 @@
-class Coin extends MoveableObject {
-  y = 250;
-  height = 150;
-  width = 150;
+/**
+ * Represents a collectible coin in the game.
+ * @extends DrawableObjects
+ */
+class Coin extends DrawableObjects {
+    height = 120;
+    width = 120;
 
-  COIN_IMAGES = ['img/8_coin/coin_1.png','img/8_coin/coin_2.png'];
+    hitboxOffsetX = 40;
+    hitboxOffsetY = 40;
+    hitboxWidth = 40;
+    hitboxHeight = 40;
 
-  constructor(x) {
-    super().loadImage(this.COIN_IMAGES[0]);
-    this.loadImages(this.COIN_IMAGES);
-    this.x = x;
-    this.animate();
-  }
+    IMAGES_COINS = [
+        'img/8_coin/coin_1.png',
+        'img/8_coin/coin_2.png'
+    ];
 
-  animate() {
-    setInterval(() => this.playAnimation(this.COIN_IMAGES), 300);
-  }
+    /**
+     * Creates a new Coin at a random position.
+     */
+    constructor() {
+        super();
+        let randomNumber = Math.floor(Math.random() * 2);
+        this.loadImage(this.IMAGES_COINS[randomNumber]);
+        this.x = Math.floor(200 + (Math.random() * 2000));
+        this.y = Math.floor(80 + (Math.random() * 260));
+    }
 }

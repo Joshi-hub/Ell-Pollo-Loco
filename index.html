@@ -3,55 +3,79 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="google" content="notranslate">
     <title>El pollo loco</title>
     <link rel="stylesheet" href="style.css" />
   </head>
-  <body onload="init();">
+  <body>
     <div class="hero">
       <h1 id="title">El pollo loco</h1>
     </div>
 
     <canvas id="canvas" width="720" height="480"></canvas>
+    <div id="start-game" class="game-overlay">
+            <div class="start-content">
+                <div class="button-container">
+                    <button id="play-btn" class="game-btn start-btn">START GAME</button>
+                    <button id="help-btn" class="game-btn help-btn">HELP</button>
+                </div>
+            </div>
 
-    <script>
-      const title = document.getElementById("title");
+            <div id="game-over-screen" class="overlay d-none">
+                <div class="game-over-content">
+                    <img src="./img/You won, you lost/You lost.png" alt="Game Over">
+                    <button id="restart-btn" class="game-btn">Play Again</button>
+                    <button id="menu-btn" class="game-btn">Main Menu</button>
+                </div>
+            </div>
 
-      function wrapTitleText() {
-        if (!title || title.dataset.wrapped) return;
-        title.dataset.wrapped = "1";
-        const text = title.textContent;
-        title.textContent = "";
-        Array.from(text).forEach((ch, i) => {
-          const s = document.createElement("span");
-          s.className = "title-char enter";
-          s.style.setProperty("--i", i);
-          s.textContent = ch === " " ? "\u00A0" : ch;
-          title.appendChild(s);
-        });
-      }
+            <div id="you-won-screen" class="overlay d-none">
+                <div class="you-won-content">
+                    <img src="./img/You won, you lost/You won A.png" alt="You Won">
+                    <button id="restart-won-btn" class="game-btn">Play Again</button>
+                </div>
+            </div>
+        </div>
 
-      function stopAnimationAfterEnd() {
-        const last = title.lastElementChild;
-        if (!last) return;
-        last.addEventListener(
-          "animationend",
-          () => {
-            title
-              .querySelectorAll(".title-char")
-              .forEach((el) => (el.style.animation = "none"));
-          },
-          { once: true }
-        );
-      }
+        <div id="help-screen" class="game-overlay d-none">
+            <div class="help-content">
+                <div class="controls-grid">
+                    <div class="control-item">
+                        <span class="key">←</span>
+                        <span class="action">Move Left</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">→</span>
+                        <span class="action">Move Right</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">SPACE</span>
+                        <span class="action">Jump</span>
+                    </div>
+                    <div class="control-item">
+                        <span class="key">D</span>
+                        <span class="action">Throw Bottle</span>
+                    </div>
+                </div>
+                <div class="help-buttons">
+                    <button id="back-to-menu-btn" class="game-btn help-btn">BACK TO MENU</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-      wrapTitleText();
-      stopAnimationAfterEnd();
-    </script>
+    <div id="portrait-mode" class="d-none">Please turn your device.</div>
 
     <script src="models/drawable-object.clas.js"></script>
     <script src="models/moveble-object.class.js"></script>
-    <script src="models/keyboard.class.js"></script>
     <script src="models/status-bar.class.js"></script>
+    <script src="models/bottle-statusbar.js"></script>
+    <script src="models/endboss-startusbar.js"></script>
+    <script src="models/coin-status-bar.class.js"></script>
+    <script src="models/bottle.class.js"></script>
+    <script src="models/collisions-hendler.class.js"></script>
+    <script src="models/small-chicken.js"></script>
+    <script src="models/keyboard.class.js"></script>
     <script src="models/character.class.js"></script>
     <script src="models/chicken.class.js"></script>
     <script src="models/cloud.class.js"></script>
