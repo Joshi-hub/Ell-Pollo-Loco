@@ -63,54 +63,41 @@ class Endboss extends MovableObject {
     this.animate();
   }
 
-  takeDamage(damage = 1) {
-    this.health -= damage;
-    if (this.health <= 0) {
-      this.health = 0;
-      this.die();
-    }
-  }
-
-  die() {
-    this.speed = 0;
-    this.currentImage = 0;
-  }
-
   isCharacterNearby() {
-    if (!this.world || !this.world.character) {
-      return "walking";
-    }
+    if (!this.world || !this.world.character) return "walking";
 
     const distance = Math.abs(this.world.character.x - this.x);
     if (distance < 200) return "attack";
     if (distance < 400) return "alert";
     return "walking";
   }
+
   getCurrentAnimationState() {
-    if (this.health <= 0) {
-      return "dead";
-    } else {
-      return this.isCharacterNearby();
-    }
+    if (this.health <= 0) return "dead";
+    return this.isCharacterNearby();
   }
 
   playDeathAnimation() {
     if (this.currentImage < this.IMAGES_DEAD.length - 1) {
       this.currentImage++;
     }
-    let i = Math.min(this.currentImage, this.IMAGES_DEAD.length - 1);
-    let path = this.IMAGES_DEAD[i];
+    const i = Math.min(this.currentImage, this.IMAGES_DEAD.length - 1);
+    const path = this.IMAGES_DEAD[i];
     this.img = this.imageCache[path];
   }
 
-  // endboss.class.js
   takeDamage(damage = 1) {
     this.health -= damage;
     if (this.health <= 0) {
       this.health = 0;
       this.die();
-      this.world?.handleGameOver(true); // Sieg
+      this.world?.handleGameOver(true); 
     }
+  }
+
+  die() {
+    this.speed = 0;
+    this.currentImage = 0;
   }
 
   animate() {
@@ -121,21 +108,19 @@ class Endboss extends MovableObject {
     }, 1000 / 60);
 
     setStopableIntervall(() => {
-      const animationState = this.getCurrentAnimationState();
+      const state = this.getCurrentAnimationState();
 
-      switch (animationState) {
-        case "dead":
-          this.playDeathAnimation();
-          break;
-        case "alert":
-          this.playAnimation(this.IMAGES_ALERT);
-          break;
-        case "walking":
-          this.playAnimation(this.IMAGES_WALKING);
-          break;
-        case "attack":
-          this.playAnimation(this.IMAGES_ATTACK);
-          break;
+      if (state === "dead") {
+        this.playDeathAnimation();
+        return;
+      }
+
+      if (state === "alert") {
+        this.playAnimation(this.IMAGES_ALERT);
+      } else if (state === "walking") {
+        this.playAnimation(this.IMAGES_WALKING);
+      } else if (state === "attack") {
+        this.playAnimation(this.IMAGES_ATTACK);
       }
     }, 200);
   }

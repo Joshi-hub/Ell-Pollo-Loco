@@ -25,10 +25,7 @@ class CollisionHandler {
       this.world.character.hit();
       this.world.statusBar.setPercentage(this.world.character.energy);
   
-      if (this.world.character.energy <= 0) {
-        console.log("💀 Charakter tot → Game Over");
-        this.world.handleGameOver(false);
-      }
+      if (this.world.character.energy <= 0) {this.world.handleGameOver(false);}
     }
   
     checkCoinCollisions() {
@@ -85,11 +82,7 @@ class CollisionHandler {
             this.world.endbossStatusBar.updateStatusBar();
             flask.triggerImpact(enemy);
   
-            // Sieg-Check direkt hier möglich:
-            if (enemy.health <= 0) {
-              console.log("🏆 Boss besiegt → You Won");
-              this.world.handleGameOver(true);
-            }
+            if (enemy.health <= 0) {this.world.handleGameOver(true);}
   
             setTimeout(() => {
               if (flask.splashAnimationComplete) {
