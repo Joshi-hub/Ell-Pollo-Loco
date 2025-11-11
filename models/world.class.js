@@ -19,14 +19,10 @@ class World {
     this.level = level;
     this.lastThrowTime = 0;
     this.throwCooldown = 300;
-
     this.collisionHandler = new CollisionHandler(this);
-
     this.setWorld();
-
     const boss = this.getEndboss();
     this.endbossStatusBar = boss ? new EndbossStatusBar(boss) : null;
-
     this.draw();
     this.run();
   }
@@ -44,7 +40,7 @@ class World {
     setInterval(() => {
       this.collisionHandler.checkAllCollisions();
       this.checkThrowObjects();
-    }, 200);
+    }, 1000 / 60); 
   }
 
   checkThrowObjects() {

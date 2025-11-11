@@ -113,9 +113,7 @@ class Endboss extends MovableObject {
       if (state === "dead") {
         this.playDeathAnimation();
         return;
-      }
-
-      if (state === "alert") {
+      }if (state === "alert") {
         this.playAnimation(this.IMAGES_ALERT);
       } else if (state === "walking") {
         this.playAnimation(this.IMAGES_WALKING);

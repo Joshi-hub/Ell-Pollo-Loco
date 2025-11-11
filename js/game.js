@@ -157,7 +157,7 @@ function stopAnimationAfterEnd() {
 wrapTitleText();
 stopAnimationAfterEnd();
 
-//   function fullscreen() {
+// function fullscreen() {
 //     let fullscreen = document.getElementById('fullscreen');
 //     enterFullscreen(fullscreen);
 //   }

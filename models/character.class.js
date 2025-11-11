@@ -85,35 +85,28 @@ class Character extends MovableObject {
     this.animate();
   }
 
-  // character.class.js (oder CharacterPepe, je nach Dateiname)
   getHit(hitFromRight, damage = 1) {
     if (this.isDead?.()) return;
 
     this.health = Math.max(0, this.health - damage);
     this.lastHit = Date.now();
 
-    // optional: Richtung/Knockback/Hurt-Animation
     this.playHurtAnimation?.(hitFromRight);
 
     if (this.health <= 0) {
       this.die();
-      // -> Spiel beenden (Niederlage)
       this.world?.handleGameOver?.(this, false);
     }
   }
 
-  // Hilfsfunktion, falls noch nicht vorhanden:
   isDead() {
     return this.health <= 0;
   }
 
   die() {
-    // Animationen/Bewegung stoppen
     this.stopAnimation?.();
     this.speed = 0;
     this.speedY = 0;
-    // optional: Toter-Frame setzen:
-    // this.img = this.imgCache[this.IMAGES_DEAD?.[this.IMAGES_DEAD.length - 1]];
   }
 
   animate() {
