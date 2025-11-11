@@ -1,0 +1,40 @@
+.stage {
+  position: relative;
+  display: grid;
+  width: min(100vw, var(--game-width));
+  aspect-ratio: 720/480;
+  height: auto;
+}
+.stage > canvas,
+.stage > .game-overlay {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+}
+canvas {
+  background: #000;
+  display: block;
+  border-radius: 16px;
+  transform: rotateX(2deg);
+  box-shadow: 0 0 40px rgba(255, 215, 0, 0.25);
+  animation: pulseCanvas 4s ease-in-out infinite;
+}
+@keyframes pulseCanvas {
+  0%,
+  100% {
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.25);
+  }
+  50% {
+    box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
+  }
+}
+.stage:hover #canvas {
+  transform: rotateX(2deg) !important;
+  transition: none !important;
+}
+.stage::after {
+  content: none !important;
+}
+.shake {
+  animation: none !important;
+}

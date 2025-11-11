@@ -1,0 +1,93 @@
+.button-container {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.game-btn {
+  font-family: "zabars", Arial, Helvetica, sans-serif;
+  font-size: 24px;
+  font-weight: bold;
+  color: var(--btn-brown);
+  background: linear-gradient(145deg, var(--btn-beige), var(--btn-beige-dark));
+  border: 3px solid var(--btn-brown);
+  border-radius: 15px;
+  padding: 16px 32px;
+  min-width: 200px;
+  cursor: pointer;
+  text-shadow: var(--shadow-text);
+  box-shadow: var(--shadow-btn);
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+.game-btn:hover {
+  background: linear-gradient(145deg, var(--btn-beige-light), var(--btn-beige));
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-btn-hover);
+}
+.game-btn:active {
+  transform: translateY(1px);
+  box-shadow: var(--shadow-btn-active);
+}
+.game-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.4),
+    transparent
+  );
+  transform: skewX(-25deg);
+  transition: 0.5s;
+}
+.game-btn:hover::after {
+  left: 120%;
+}
+.start-btn {
+  background: linear-gradient(160deg, var(--btn-green), var(--btn-green-dark));
+  color: #fff;
+  border-color: var(--btn-green-border);
+}
+.start-btn:hover {
+  background: linear-gradient(160deg, var(--btn-green-light), var(--btn-green));
+}
+.help-btn {
+  background: linear-gradient(160deg, var(--btn-red), var(--btn-red-dark));
+  color: #fff;
+  border-color: var(--btn-red-border);
+}
+.help-btn:hover {
+  background: linear-gradient(160deg, var(--btn-red-light), var(--btn-red));
+}
+
+.fullscreen-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: rgba(244, 228, 188, 0.95);
+  border: 3px solid var(--btn-brown);
+  border-radius: 10px;
+  font-size: 28px;
+  font-weight: bold;
+  color: var(--btn-brown);
+  cursor: pointer;
+  padding: 8px 14px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease, box-shadow 0.4s;
+}
+.fullscreen-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.7);
+}
+.fullscreen-btn:active {
+  transform: scale(0.95);
+}

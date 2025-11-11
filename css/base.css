@@ -1,0 +1,45 @@
+body {
+    background: url("img/5_background/desert-5112222_1920.png") no-repeat center center fixed;
+    background-size: cover;
+  }  
+
+:root {
+    --game-width: 720px;
+    --game-height: 480px;
+    --btn-brown: #5a3a16;
+    --btn-beige: #f4e4bc;
+    --btn-beige-dark: #e2d2a3;
+    --btn-beige-light: #fff1ce;
+    --btn-green: #2f9e44;
+    --btn-green-dark: #2a8c3d;
+    --btn-green-light: #3fbf58;
+    --btn-green-border: #1f6f2f;
+    --btn-red: #c92a2a;
+    --btn-red-dark: #a51111;
+    --btn-red-light: #e03b3b;
+    --btn-red-border: #7e0d0d;
+    --shadow-text: 0 1px 0 #000;
+    --shadow-btn: 0 6px 0 rgba(0, 0, 0, 0.25);
+    --shadow-btn-hover: 0 8px 0 rgba(0, 0, 0, 0.25);
+    --shadow-btn-active: 0 3px 0 rgba(0, 0, 0, 0.35);
+    --title-color: #5a0000;
+    --title-outline: #000000;
+    --depth: 800px;
+  }
+  @font-face {
+    font-family: "zabars";
+    src: url("../fonts/zabars.ttf") format("truetype");
+  }
+  
+  html { font-size: 16px; }
+  body {
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+    margin: 0;
+    background: url("../img/5_background/desert-5112222_1920.png") no-repeat center center fixed;
+    background-size: cover;
+    font-family: "zabars", Arial, Helvetica, sans-serif;
+    line-height: 1.25;
+  }
+  
