@@ -1,4 +1,5 @@
 let canvas;
+let ctx;
 let world;
 let keyboard = new Keyboard();
 let startBtn;
@@ -15,16 +16,35 @@ const keyMap = {
 };
 
 document.addEventListener("DOMContentLoaded", () => {
+  initializeCanvas(); 
+  drawStartScreenImage(); 
   initializeGameControls();
 });
 
-window.addEventListener("keydown", (e) => {
-  updateKeyboardState(e, true);
-});
+window.addEventListener("keydown", (e) => updateKeyboardState(e, true));
+window.addEventListener("keyup", (e) => updateKeyboardState(e, false));
 
-window.addEventListener("keyup", (e) => {
-  updateKeyboardState(e, false);
-});
+function initializeCanvas() {
+  canvas = document.getElementById("canvas");
+  canvas.classList.remove("d-none");
+  ctx = canvas.getContext("2d");
+}
+
+function drawStartScreenImage() {
+  if (!ctx || !canvas) return;
+
+  const img = new Image();
+  img.src = "img/9_intro_outro_screens/start/startscreen_1.png";
+  img.onload = () => {
+    const w = canvas.width, h = canvas.height;
+    const scale = Math.max(w / img.width, h / img.height);
+    const newW = img.width * scale, newH = img.height * scale;
+    const posX = (w - newW) / 2, posY = (h - newH) / 2;
+    ctx.clearRect(0, 0, w, h);
+    ctx.drawImage(img, posX, posY, newW, newH);
+  };
+}
+
 
 function initializeGameControls() {
   setupElementReferences();
@@ -62,13 +82,8 @@ function hideStartScreen() {
 
 function loadGame() {
   initializeCanvas();
-  createGameWorld();
-}
-
-function initializeCanvas() {
-  canvas = document.getElementById("canvas");
-  canvas.classList.remove("d-none");
-  startGame();
+  startGame(); 
+  createGameWorld(); 
 }
 
 function createGameWorld() {
@@ -177,11 +192,6 @@ function startTitleRipples() {
 wrapTitleText();
 stopAnimationAfterEnd();
 
-// function fullscreen() {
-//     let fullscreen = document.getElementById('fullscreen');
-//     enterFullscreen(fullscreen);
-//   }
-
 function enterFullscreen(element) {
   if (element.requestFullscreen) {
     element.requestFullscreen();
@@ -220,179 +230,3 @@ document.getElementById("menu-btn").addEventListener("click", () => {
 document.getElementById("restart-won-btn").addEventListener("click", () => {
   location.reload();
 });
-
-function clampValue(value, min, max) {
-  return Math.max(min, Math.min(max, value));
-}
-
-function setCssVariable(element, variableName, value) {
-  element.style.setProperty(variableName, value);
-}
-
-function clearTiltVariables(element) {
-  element.style.removeProperty('--tx');
-  element.style.removeProperty('--ty');
-}
-
-function applyTiltFromMouse(element, event, maxTiltDegrees) {
-  const rect = element.getBoundingClientRect();
-  const relativeX = (event.clientX - (rect.left + rect.width / 2)) / (rect.width / 2);
-  const relativeY = (event.clientY - (rect.top + rect.height / 2)) / (rect.height / 2);
-  const tiltY = clampValue(relativeX, -1, 1) * maxTiltDegrees;
-  const tiltX = clampValue(-relativeY, -1, 1) * maxTiltDegrees;
-  setCssVariable(element, '--tx', `${tiltX.toFixed(2)}deg`);
-  setCssVariable(element, '--ty', `${tiltY.toFixed(2)}deg`);
-}
-
-function enableStageTiltEffect() {
-  const stageElement = document.querySelector('.stage');
-  const canvasElement = document.getElementById('canvas');
-  if (!stageElement || !canvasElement) return;
-
-  stageElement.addEventListener('mousemove', (event) =>
-    applyTiltFromMouse(stageElement, event, 6)
-  );
-  stageElement.addEventListener('mouseleave', () =>
-    clearTiltVariables(stageElement)
-  );
-}
-
-function createSparkEffects(buttonElement) {
-  if (buttonElement.querySelector('.sparks')) return;
-  const sparkContainer = document.createElement('div');
-  sparkContainer.className = 'sparks';
-
-  for (let i = 0; i < 10; i++) {
-    const sparkDot = document.createElement('i');
-    sparkDot.style.left = `${10 + Math.random() * 80}%`;
-    sparkDot.style.top = `${40 + Math.random() * 40}%`;
-    sparkContainer.appendChild(sparkDot);
-  }
-  buttonElement.appendChild(sparkContainer);
-}
-
-function enableButtonTiltEffect(buttonElement) {
-  buttonElement.addEventListener('mousemove', (event) =>
-    applyTiltFromMouse(buttonElement, event, 10)
-  );
-  buttonElement.addEventListener('mouseleave', () =>
-    clearTiltVariables(buttonElement)
-  );
-}
-
-function initializeGameButtons() {
-  const gameButtons = document.querySelectorAll('.game-btn');
-  gameButtons.forEach((buttonElement) => {
-    createSparkEffects(buttonElement);
-    enableButtonTiltEffect(buttonElement);
-  });
-}
-
-function createConfettiBurst(targetElement) {
-  const confettiLayer = document.createElement('div');
-  confettiLayer.style.cssText =
-    'position:absolute;inset:0;pointer-events:none;overflow:visible';
-  if (getComputedStyle(targetElement).position === 'static')
-    targetElement.style.position = 'relative';
-  targetElement.appendChild(confettiLayer);
-
-  for (let i = 0; i < 20; i++) {
-    const confettiPiece = document.createElement('span');
-    const size = 4 + Math.random() * 6;
-    confettiPiece.style.cssText = `
-      position:absolute;left:50%;top:50%;width:${size}px;height:${size}px;
-      background:hsl(${Math.random() * 360},90%,60%);
-      border-radius:${Math.random() > 0.5 ? '50%' : '2px'};
-      opacity:0.9;transform:translate(-50%,-50%);
-      transition:transform 600ms cubic-bezier(.2,.8,.2,1),opacity 700ms;
-    `;
-    confettiLayer.appendChild(confettiPiece);
-
-    requestAnimationFrame(() => {
-      const moveX = (Math.random() * 2 - 1) * 80;
-      const moveY = -80 - Math.random() * 80;
-      confettiPiece.style.transform = `translate(${moveX}px, ${moveY}px) rotate(${Math.random() * 720}deg)`;
-      confettiPiece.style.opacity = '0';
-    });
-  }
-  setTimeout(() => confettiLayer.remove(), 750);
-}
-
-function shakeCanvas() {
-  const canvasElement = document.getElementById('canvas');
-  if (!canvasElement) return;
-  canvasElement.classList.add('shake');
-  setTimeout(() => canvasElement.classList.remove('shake'), 420);
-}
-
-function addClickEffectsToButtons() {
-  const gameButtons = document.querySelectorAll('.game-btn');
-  gameButtons.forEach((buttonElement) => {
-    buttonElement.addEventListener('click', () => {
-      createConfettiBurst(buttonElement);
-      shakeCanvas();
-    });
-  });
-}
-
-function createSingleDustParticle(dustContainer) {
-  const dustParticle = document.createElement('i');
-  dustParticle.className = 'd';
-  dustParticle.style.left = `${Math.random() * 100}vw`;
-  dustParticle.style.setProperty('--x', `${Math.random() * 60 - 30}px`);
-  dustParticle.style.animationDelay = `${Math.random() * 8}s`;
-  dustParticle.style.animationDuration = `${6 + Math.random() * 6}s`;
-  dustContainer.appendChild(dustParticle);
-}
-
-function initializeDustParticles() {
-  const dustContainer = document.getElementById('dust');
-  if (!dustContainer) return;
-  for (let i = 0; i < 60; i++) createSingleDustParticle(dustContainer);
-}
-
-function wrapTitleLettersInSpans(titleElement) {
-  if (!titleElement || titleElement.querySelector('.title-char')) return;
-  const originalText = titleElement.textContent;
-  titleElement.textContent = '';
-  for (const letter of originalText) {
-    const spanElement = document.createElement('span');
-    spanElement.className = 'title-char';
-    spanElement.textContent = letter;
-    titleElement.appendChild(spanElement);
-  }
-}
-
-function startTitleLetterPing() {
-  const titleElement = document.getElementById('title');
-  if (!titleElement) return;
-  wrapTitleLettersInSpans(titleElement);
-  const letters = Array.from(titleElement.querySelectorAll('.title-char'));
-  if (!letters.length) return;
-
-  if (window.__titlePing) clearInterval(window.__titlePing);
-  let currentIndex = 0;
-  let direction = 1;
-
-  window.__titlePing = setInterval(() => {
-    const currentLetter = letters[currentIndex];
-    if (currentLetter) {
-      currentLetter.classList.remove('pop');
-      void currentLetter.offsetWidth;
-      currentLetter.classList.add('pop');
-    }
-    currentIndex += direction;
-    if (currentIndex >= letters.length - 1 || currentIndex <= 0) direction *= -1;
-  }, 95);
-}
-
-function initializeUiEffects() {
-  enableStageTiltEffect();
-  initializeGameButtons();
-  addClickEffectsToButtons();
-  initializeDustParticles();
-  startTitleLetterPing();
-}
-
-document.addEventListener('DOMContentLoaded', initializeUiEffects);
-

@@ -1,8 +1,0 @@
-.d-none { display: none !important; }
-.hidden { display: none !important; }
-
-@property --h {
-  syntax: '<number>';
-  inherits: false;
-  initial-value: 0;
-}
