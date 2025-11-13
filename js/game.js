@@ -15,10 +15,24 @@ const keyMap = {
   68: "D",
 };
 
+const menuMusic = new Audio('audio/awesomeness.wav');
+menuMusic.loop = true;
+menuMusic.volume = 0.4; 
+
+function playMenuMusic() {
+  menuMusic.currentTime = 0;
+  menuMusic.play();
+}
+
+function stopMenuMusic() {
+  menuMusic.pause();
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initializeCanvas(); 
   drawStartScreenImage(); 
   initializeGameControls();
+  playMenuMusic();
 });
 
 window.addEventListener("keydown", (e) => updateKeyboardState(e, true));
