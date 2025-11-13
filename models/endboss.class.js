@@ -49,6 +49,12 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
+  baseSpeed = 0.3;      
+  enragedSpeed = 0.9;    
+  hitsTaken = 0;        
+  isEnraged = false;     
+  isEnragedIntroPlaying = false; 
+
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
@@ -56,10 +62,13 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_DEAD);
+
     this.x = 2500;
-    this.speed = 0.3;
+
+    this.speed = this.baseSpeed; 
     this.maxHealth = 5;
     this.health = this.maxHealth;
+
     this.animate();
   }
 
@@ -74,6 +83,8 @@ class Endboss extends MovableObject {
 
   getCurrentAnimationState() {
     if (this.health <= 0) return "dead";
+    if (this.isEnragedIntroPlaying) return "enraged_intro";
+    if (this.isEnraged) return "enraged_chase";
     return this.isCharacterNearby();
   }
 
@@ -85,14 +96,31 @@ class Endboss extends MovableObject {
     const path = this.IMAGES_DEAD[i];
     this.img = this.imageCache[path];
   }
-
+  
   takeDamage(damage = 1) {
     this.health -= damage;
+    this.hitsTaken++;
+    if (
+      !this.isEnraged &&
+      (this.hitsTaken >= 2 || this.health <= this.maxHealth * 0.75)
+    ) {
+      this.startEnrage();
+    }
     if (this.health <= 0) {
       this.health = 0;
       this.die();
-      this.world?.handleGameOver(true); 
+      this.world?.handleGameOver(true);
     }
+  }
+
+  startEnrage() {
+    this.isEnraged = true;
+    this.isEnragedIntroPlaying = true;
+    this.speed = 0;
+
+    setTimeout(() => {
+      this.isEnragedIntroPlaying = false;
+    }, 1500); 
   }
 
   die() {
@@ -102,7 +130,26 @@ class Endboss extends MovableObject {
 
   animate() {
     setStopableIntervall(() => {
-      if (this.health > 0) {
+      if (this.health <= 0) return;
+      if (this.isEnragedIntroPlaying) {
+        return;
+      }
+
+      const char = this.world?.character;
+
+      if (this.isEnraged && char) {
+        this.speed = this.enragedSpeed;
+
+        if (char.x < this.x) {
+          this.otherDirection = false;
+          this.moveLeft();
+        } else {
+          this.otherDirection = true;
+          this.moveRight();
+        }
+      } else {
+        this.speed = this.baseSpeed;
+        this.otherDirection = false;
         this.moveLeft();
       }
     }, 1000 / 60);
@@ -113,13 +160,19 @@ class Endboss extends MovableObject {
       if (state === "dead") {
         this.playDeathAnimation();
         return;
-      }if (state === "alert") {
+      }
+
+      if (state === "enraged_intro") {
+        this.playAnimation(this.IMAGES_ALERT);
+      } else if (state === "enraged_chase") {
+        this.playAnimation(this.IMAGES_ATTACK);
+      } else if (state === "alert") {
         this.playAnimation(this.IMAGES_ALERT);
       } else if (state === "walking") {
         this.playAnimation(this.IMAGES_WALKING);
       } else if (state === "attack") {
         this.playAnimation(this.IMAGES_ATTACK);
       }
-    }, 200);
+    }, 150);
   }
 }
