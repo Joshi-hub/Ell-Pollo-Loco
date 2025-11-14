@@ -7,7 +7,7 @@ class Chicken extends MovableObject {
     hitboxOffsetY = 10;
     hitboxWidth = this.width - 20;
     hitboxHeight = this.height - 20;
-
+    deathSound = new Audio('audio/chicken-dead.mp3');
     isDead = false;
 
     IMAGES_WALKING = [
@@ -28,6 +28,12 @@ class Chicken extends MovableObject {
         this.speed = 0.15 + Math.random() * 0.3;
         this.animate();
     }
+
+    playSound(sound) {
+        if (!soundEnabled) return;
+        sound.currentTime = 0;
+        sound.play().catch(() => {});
+    }    
 
     die() {
         if (this.isDead) return;

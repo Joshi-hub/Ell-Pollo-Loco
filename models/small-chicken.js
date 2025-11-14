@@ -7,7 +7,7 @@ class SmallChicken extends MovableObject {
     hitboxOffsetY = 8;
     hitboxWidth = this.width - 16;
     hitboxHeight = this.height - 16;
-
+    deathSound = new Audio('audio/chicken-dead.mp3');
     isDead = false;
 
     IMAGES_WALKING = [
@@ -27,6 +27,12 @@ class SmallChicken extends MovableObject {
         this.setRandomSpeed();
         this.animate();
     }
+
+    playSound(sound) {
+        if (!soundEnabled) return;
+        sound.currentTime = 0;
+        sound.play().catch(() => {});
+    }   
 
     setupImages() {
         this.loadImages(this.IMAGES_WALKING);

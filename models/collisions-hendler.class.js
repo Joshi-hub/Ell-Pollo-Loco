@@ -60,18 +60,20 @@ class CollisionHandler {
   }
 
   killEnemyByStomp(char, enemy, now) {
+    if (enemy.deathSound && typeof enemy.playSound === 'function') {
+        enemy.playSound(enemy.deathSound);
+    }
     enemy._deadByStomp = true;
     enemy.playAnimation?.(enemy.IMAGES_DEAD || []);
     char.speedY = 25;
     char._stompGraceUntil = now + 120;
-
     setTimeout(() => {
-      const i = this.world.level.enemies.indexOf(enemy);
-      if (i !== -1) {
-        this.world.level.enemies.splice(i, 1);
-      }
+        const i = this.world.level.enemies.indexOf(enemy);
+        if (i !== -1) {
+            this.world.level.enemies.splice(i, 1);
+        }
     }, 100);
-  }
+}
 
   handlePlayerDamage(enemy) {
     const char = this.world.character;
