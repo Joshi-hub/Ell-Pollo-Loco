@@ -63,10 +63,12 @@ class CollisionHandler {
     const coinsToRemove = [];
     this.world.level.coins.forEach((coin, i) => {
       if (this.world.character.isColliding(coin)) {
+        coin.playSound();
         coinsToRemove.push(i);
         this.increaseCoinAmount();
       }
     });
+  
     for (let i = coinsToRemove.length - 1; i >= 0; i--) {
       this.world.level.coins.splice(coinsToRemove[i], 1);
     }
