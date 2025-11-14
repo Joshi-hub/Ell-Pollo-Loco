@@ -100,16 +100,12 @@ class Endboss extends MovableObject {
   takeDamage(damage = 1) {
     this.health -= damage;
     this.hitsTaken++;
-    if (
-      !this.isEnraged &&
-      (this.hitsTaken >= 2 || this.health <= this.maxHealth * 0.75)
-    ) {
+    if (!this.isEnraged &&(this.hitsTaken >= 2 || this.health <= this.maxHealth * 0.75)) {
       this.startEnrage();
     }
     if (this.health <= 0) {
       this.health = 0;
       this.die();
-      this.world?.handleGameOver(true);
     }
   }
 

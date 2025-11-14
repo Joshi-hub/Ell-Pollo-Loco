@@ -2,6 +2,7 @@ class CollisionHandler {
   constructor(world) {
     this.world = world;
     this.deathTimeoutSet = false;
+    this.winTimeoutSet = false;
   }
 
   checkAllCollisions() {
@@ -188,9 +189,17 @@ class CollisionHandler {
     this.world.endbossStatusBar.updateStatusBar();
     flask.triggerImpact(enemy);
     if (enemy.health <= 0) {
-      this.world.handleGameOver(true);
+      this.handleEndbossDefeat();
     }
     this.scheduleFlaskRemoval(flask, flaskIndex, flasksToRemove);
+  }  
+
+  handleEndbossDefeat() {
+    if (this.winTimeoutSet) return;
+    this.winTimeoutSet = true;
+    setTimeout(() => {
+      this.world.handleGameOver(true);
+    }, 1500);
   }
 
   scheduleFlaskRemoval(flask, flaskIndex, flasksToRemove) {
