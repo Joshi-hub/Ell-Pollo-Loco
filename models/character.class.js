@@ -10,6 +10,12 @@ class Character extends MovableObject {
   hitboxWidth = this.width - 30;
   hitboxHeight = this.height - 120;
 
+  jumpSound = new Audio('audio/jump.wav');
+  hurtSound = new Audio('audio/damage.wav');
+  deadSound = new Audio('audio/01._death_groan_male.wav');
+
+  hasPlayedDeathSound = false;
+
   IMAGES_WALKING = [
     "img/2_character_pepe/2_walk/W-21.png",
     "img/2_character_pepe/2_walk/W-22.png",
@@ -85,22 +91,21 @@ class Character extends MovableObject {
     this.animate();
   }
 
-  getHit(hitFromRight, damage = 1) {
-    if (this.isDead?.()) return;
+  playSound(sound) {
+    if (!soundEnabled) return;
+    sound.currentTime = 0;
+    sound.play().catch(() => {});
+  }
 
-    this.health = Math.max(0, this.health - damage);
-    this.lastHit = Date.now();
-
-    this.playHurtAnimation?.(hitFromRight);
-
-    if (this.health <= 0) {
-      this.die();
-      this.world?.handleGameOver?.(this, false);
+  hit() {
+    this.playSound(this.hurtSound);
+    if (super.hit) {
+      super.hit();
     }
   }
 
   isDead() {
-    return this.health <= 0;
+    return this.energy <= 0;
   }
 
   die() {
@@ -112,33 +117,46 @@ class Character extends MovableObject {
   animate() {
     this.isIdle = 0;
     setStopableIntervall(() => {
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
-        this.moveRight();
-        this.otherDirection = false;
-      }
-      if (this.world.keyboard.LEFT && this.x > 0) {
-        this.moveLeft();
-        this.otherDirection = true;
-      }
-      if (this.world.keyboard.SPACE && !this.isAboveGround()) {
-        this.jump();
-      }
-      this.world.camera_x = -this.x + 100;
+      this.handleMovementTick();
     }, 1000 / 60);
 
     setStopableIntervall(() => {
-      if (this.isDead()) {
-        this.isDeadHanlder();
-      } else if (this.isHurt()) {
-        this.isHurtHandler();
-      } else if (this.isAboveGround()) {
-        this.isJumpingHandler();
-      } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        this.isWalkingHandler();
-      } else {
-        this.checkIdleStatus();
-      }
+      this.handleStateTick();
     }, 100);
+  }
+  
+  handleMovementTick() {
+    const world = this.world;
+    if (!world || !world.keyboard || !world.level) return;
+    if (world.keyboard.RIGHT && this.x < world.level.level_end_x) {
+      this.moveRight();
+      this.otherDirection = false;
+    }
+    if (world.keyboard.LEFT && this.x > 0) {
+      this.moveLeft();
+      this.otherDirection = true;
+    }
+    if (world.keyboard.SPACE && !this.isAboveGround()) {
+      this.playSound(this.jumpSound);
+      this.jump();
+    }
+    world.camera_x = -this.x + 100;
+  }
+  
+  handleStateTick() {
+    const world = this.world;
+    if (!world || !world.keyboard) return;
+    if (this.isDead()) {
+      this.isDeadHanlder();
+    } else if (this.isHurt()) {
+      this.isHurtHandler();
+    } else if (this.isAboveGround()) {
+      this.isJumpingHandler();
+    } else if (world.keyboard.RIGHT || world.keyboard.LEFT) {
+      this.isWalkingHandler();
+    } else {
+      this.checkIdleStatus();
+    }
   }
 
   resetIsIdle() {
@@ -155,6 +173,10 @@ class Character extends MovableObject {
   }
 
   isDeadHanlder() {
+    if (!this.hasPlayedDeathSound) {
+      this.playSound(this.deadSound);
+      this.hasPlayedDeathSound = true;
+    }
     this.playAnimation(this.IMAGES_DEAD);
     this.resetIsIdle();
   }
