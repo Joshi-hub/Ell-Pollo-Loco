@@ -11,6 +11,8 @@ class World {
   throwableObjects = [];
   bottleAmount = 0;
   coinAmount = 0;
+  winSound = new Audio('audio/win.mp3');
+  gameOverSound = new Audio('audio/gameover2.ogg');
 
   constructor(canvas, keyboard, level) {
     this.ctx = canvas.getContext("2d");
@@ -40,7 +42,7 @@ class World {
     setInterval(() => {
       this.collisionHandler.checkAllCollisions();
       this.checkThrowObjects();
-    }, 1000 / 60); 
+    }, 1000 / 60);
   }
 
   checkThrowObjects() {
@@ -133,10 +135,8 @@ class World {
     if (mo.otherDirection) {
       this.flipImage(mo);
     }
-
     mo.draw(this.ctx);
     mo.drawBorder(this.ctx);
-
     if (mo.otherDirection) {
       this.flipImageBack(mo);
     }
@@ -154,19 +154,50 @@ class World {
     this.ctx.restore();
   }
 
+  playWinSound() {
+    if (typeof soundEnabled !== 'undefined' && !soundEnabled) return;
+    if (!this.winSound) return;
+    this.winSound.currentTime = 0;
+    this.winSound.play().catch(() => {});
+  }
+
+  playGameOverSound() {
+    if (typeof soundEnabled !== 'undefined' && !soundEnabled) return;
+    if (!this.gameOverSound) return;
+    this.gameOverSound.currentTime = 0;
+    this.gameOverSound.play().catch(() => {});
+  }
+
   handleGameOver(isWin = false) {
+    this.stopAllAnimations();
+    this.setGameResult(isWin);
+    this.playEndMusic();
+    this.updateEndScreens();
+  }
+  
+  stopAllAnimations() {
     this.character?.stopAnimation?.();
     this.level?.enemies?.forEach((e) => e?.stopAnimation?.());
+  }
   
+  setGameResult(isWin) {
     this.isGameFinished = true;
     this.isGameWon = !!isWin;
+  }
   
+  playEndMusic() {
+    if (this.isGameWon) {
+      this.playWinSound();
+    } else {
+      this.playGameOverSound();
+    }
+  }
+  
+  updateEndScreens() {
     const lose = document.getElementById("game-over-screen");
     const win = document.getElementById("you-won-screen");
-  
     const canvas = document.getElementById("canvas");
-    canvas.classList.add("d-none");
-  
+    canvas?.classList.add("d-none");
     if (this.isGameWon) {
       win?.classList.remove("d-none");
       lose?.classList.add("d-none");
@@ -174,5 +205,5 @@ class World {
       lose?.classList.remove("d-none");
       win?.classList.add("d-none");
     }
-  }
-}    
+  }  
+}
