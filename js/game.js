@@ -5,6 +5,8 @@ let keyboard = new Keyboard();
 let startBtn;
 let startRef;
 let intervallIds = [];
+let soundEnabled = true; 
+let menuMusicInitialized = false;
 
 const keyMap = {
   39: "RIGHT",
@@ -20,19 +22,49 @@ menuMusic.loop = true;
 menuMusic.volume = 0.4; 
 
 function playMenuMusic() {
+  if (!soundEnabled) return;        
   menuMusic.currentTime = 0;
-  menuMusic.play();
+  menuMusic.play().catch((err) => {
+    console.warn('Konnte Musik nicht abspielen:', err);
+  });
 }
 
 function stopMenuMusic() {
   menuMusic.pause();
 }
 
+function initMenuMusicOnce(e) {
+  if (menuMusicInitialized) return;
+  menuMusicInitialized = true;
+  playMenuMusic();
+}
+
+document.addEventListener("click", initMenuMusicOnce, { once: true });
+
+function toggleSound() {
+  soundEnabled = !soundEnabled;
+
+  const btn = document.getElementById("sound-btn");
+  if (btn) {
+    btn.textContent = soundEnabled ? "🔊" : "🔇";
+  }
+
+  menuMusic.muted = !soundEnabled;
+  
+  if (world && world.character && world.character.sound) {
+    world.character.sound.muted = !soundEnabled;
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   initializeCanvas(); 
   drawStartScreenImage(); 
   initializeGameControls();
-  playMenuMusic();
+
+  const soundBtn = document.getElementById("sound-btn");
+  if (soundBtn) {
+    soundBtn.addEventListener("click", toggleSound);
+  }
 });
 
 window.addEventListener("keydown", (e) => updateKeyboardState(e, true));

@@ -91,3 +91,28 @@
 .fullscreen-btn:active {
   transform: scale(0.95);
 }
+
+.sound-btn {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 1000;
+  background: rgba(244, 228, 188, 0.95);
+  border: 3px solid var(--btn-brown);
+  border-radius: 10px;
+  font-size: 26px;
+  font-weight: bold;
+  color: var(--btn-brown);
+  cursor: pointer;
+  padding: 8px 14px;
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s ease;
+}
+
+.sound-btn:hover {
+  transform: scale(1.1);
+}
+
+.sound-btn:active {
+  transform: scale(0.95);
+}
