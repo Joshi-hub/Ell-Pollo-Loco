@@ -52,11 +52,11 @@
     height: auto;
     z-index: 1;
     pointer-events: none;
-  }
+  }  
   
   .tw1 {
     left: -150px;
-    animation: roll1 14s linear infinite alternate;
+    animation: roll1 14s linear infinite;
   }
   
   @keyframes roll1 {
@@ -64,14 +64,14 @@
     25%  { transform: translateX(25vw) translateY(-60px) rotate(450deg); }
     50%  { transform: translateX(50vw) translateY(0) rotate(900deg); }
     75%  { transform: translateX(75vw) translateY(-60px) rotate(1350deg); }
-    100% { transform: translateX(100vw) translateY(0) rotate(1800deg); }
-  }
+    100% { transform: translateX(130vw) translateY(0) rotate(1800deg); }
+  }  
   
   .tw2 {
     left: -200px;
-    bottom: 400px; 
+    bottom: 400px;
     width: 80px;
-    animation: roll2 12s linear infinite alternate;
+    animation: roll2 18s linear infinite;
   }
   
   @keyframes roll2 {
@@ -79,24 +79,21 @@
     20%  { transform: translateX(20vw) translateY(-90px) rotate(360deg); }
     40%  { transform: translateX(40vw) translateY(0) rotate(720deg); }
     60%  { transform: translateX(60vw) translateY(-90px) rotate(1080deg); }
-    80%  { transform: translateX(80vw) translateY(0) rotate(1440deg); }
-    100% { transform: translateX(100vw) translateY(-90px) rotate(1800deg); }
-  }
+    100% { transform: translateX(130vw) translateY(0) rotate(1440deg); }
+  }  
   
   .tw3 {
     left: -100px;
-    bottom: 300px; 
-    width: 90px;  
-    animation: roll3 10s linear infinite alternate;
+    bottom: 300px;
+    width: 90px;
+    animation: roll3 12s linear infinite;
   }
   
   @keyframes roll3 {
     0%   { transform: translateX(0) translateY(0) rotate(0deg); }
-    15%  { transform: translateX(15vw) translateY(-50px) rotate(360deg); }
-    30%  { transform: translateX(30vw) translateY(0) rotate(720deg); }
-    45%  { transform: translateX(45vw) translateY(-70px) rotate(1080deg); }
-    60%  { transform: translateX(60vw) translateY(0) rotate(1440deg); }
-    100% { transform: translateX(100vw) translateY(-50px) rotate(1800deg); }
+    25%  { transform: translateX(30vw) translateY(-50px) rotate(540deg); }
+    50%  { transform: translateX(60vw) translateY(0) rotate(1080deg); }
+    75%  { transform: translateX(90vw) translateY(-50px) rotate(1620deg); }
+    100% { transform: translateX(130vw) translateY(0) rotate(2160deg); }
   }
-  
-  
+   

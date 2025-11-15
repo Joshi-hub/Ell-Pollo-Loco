@@ -17,7 +17,7 @@ const keyMap = {
   68: "D",
 };
 
-const menuMusic = new Audio('audio/awesomeness.wav');
+const menuMusic = new Audio('audio/awesomeness.mp3');
 menuMusic.loop = true;
 menuMusic.volume = 0.4; 
 
@@ -25,7 +25,6 @@ function playMenuMusic() {
   if (!soundEnabled) return;        
   menuMusic.currentTime = 0;
   menuMusic.play().catch((err) => {
-    console.warn('Konnte Musik nicht abspielen:', err);
   });
 }
 
