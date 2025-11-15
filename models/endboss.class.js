@@ -49,8 +49,8 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
-  baseSpeed = 0.3;      
-  enragedSpeed = 0.9;    
+  baseSpeed = 0.6;      
+  enragedSpeed = 2.5;    
   hitsTaken = 0;        
   isEnraged = false;     
   isEnragedIntroPlaying = false; 
@@ -125,50 +125,57 @@ class Endboss extends MovableObject {
   }
 
   animate() {
+    this.startMovementLoop();
+    this.startAnimationLoop();
+  }
+  
+  startMovementLoop() {
     setStopableIntervall(() => {
       if (this.health <= 0) return;
-      if (this.isEnragedIntroPlaying) {
-        return;
-      }
-
-      const char = this.world?.character;
-
-      if (this.isEnraged && char) {
-        this.speed = this.enragedSpeed;
-
-        if (char.x < this.x) {
-          this.otherDirection = false;
-          this.moveLeft();
-        } else {
-          this.otherDirection = true;
-          this.moveRight();
-        }
-      } else {
-        this.speed = this.baseSpeed;
+      if (this.isEnragedIntroPlaying) return;
+      this.updateMovement();
+    }, 1000 / 60);
+  }
+  
+  updateMovement() {
+    const char = this.world?.character;
+    if (this.isEnraged && char) {
+      this.speed = this.enragedSpeed;
+      if (char.x < this.x) {
         this.otherDirection = false;
         this.moveLeft();
+      } else {
+        this.otherDirection = true;
+        this.moveRight();
       }
-    }, 1000 / 60);
-
+    } else {
+      this.speed = this.baseSpeed;
+      this.otherDirection = false;
+      this.moveLeft();
+    }
+  }
+  
+  startAnimationLoop() {
     setStopableIntervall(() => {
       const state = this.getCurrentAnimationState();
-
-      if (state === "dead") {
-        this.playDeathAnimation();
-        return;
-      }
-
-      if (state === "enraged_intro") {
-        this.playAnimation(this.IMAGES_ALERT);
-      } else if (state === "enraged_chase") {
-        this.playAnimation(this.IMAGES_ATTACK);
-      } else if (state === "alert") {
-        this.playAnimation(this.IMAGES_ALERT);
-      } else if (state === "walking") {
-        this.playAnimation(this.IMAGES_WALKING);
-      } else if (state === "attack") {
-        this.playAnimation(this.IMAGES_ATTACK);
+      if (state === "dead") {this.playDeathAnimation();return;
+     }
+      const images = this.getImagesForState(state);
+      if (images) {
+        this.playAnimation(images);
       }
     }, 150);
   }
+
+  getImagesForState(state) {
+    const stateToImages = {
+      enraged_intro: this.IMAGES_ALERT,
+      enraged_chase: this.IMAGES_ATTACK,
+      alert: this.IMAGES_ALERT,
+      walking: this.IMAGES_WALKING,
+      attack: this.IMAGES_ATTACK,
+    };
+    return stateToImages[state] || null;
+  }
+  
 }

@@ -181,16 +181,6 @@ class Character extends MovableObject {
     this.resetIsIdle();
   }
 
-  isDeadAnimation() {
-    let imgIndex = 0;
-    setStopableIntervall(() => {
-      this.IMAGES_DEAD.forEach((element) => {
-        imgIndex++;
-        console.log(imgIndex);
-      });
-    }, 10000);
-  }
-
   isHurtHandler() {
     this.playAnimation(this.IMAGES_HURT);
     this.resetIsIdle();
