@@ -238,6 +238,15 @@ function startTitleRipples() {
 wrapTitleText();
 stopAnimationAfterEnd();
 
+function toggleFullscreen() {
+  const root = document.documentElement; 
+  if (!document.fullscreenElement) {
+    enterFullscreen(root);
+  } else {
+    exitFullscreen();
+  }
+}
+
 function enterFullscreen(element) {
   if (element.requestFullscreen) {
     element.requestFullscreen();
@@ -253,15 +262,6 @@ function exitFullscreen() {
     document.exitFullscreen();
   } else if (document.webkitExitFullscreen) {
     document.webkitExitFullscreen();
-  }
-}
-
-function toggleFullscreen() {
-  const canvas = document.getElementById("canvas");
-  if (!document.fullscreenElement) {
-    enterFullscreen(canvas);
-  } else {
-    exitFullscreen();
   }
 }
 
