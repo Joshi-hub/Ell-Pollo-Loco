@@ -3,26 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google" content="notranslate">
+    <meta name="google" content="notranslate" />
     <title>El pollo loco</title>
-    <link rel="stylesheet" href="css/base.css">
-    <link rel="stylesheet" href="css/hero.css">
-    <link rel="stylesheet" href="css/stage.css">
-    <link rel="stylesheet" href="css/button.css">
-    <link rel="stylesheet" href="css/overlay.css">
-    <link rel="stylesheet" href="css/media.css">
-    <link rel="icon" type="image/png" href="img/fav.png">
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/hero.css" />
+    <link rel="stylesheet" href="css/stage.css" />
+    <link rel="stylesheet" href="css/button.css" />
+    <link rel="stylesheet" href="css/overlay.css" />
+    <link rel="stylesheet" href="css/media.css" />
+    <link rel="icon" type="image/png" href="img/fav.png" />
   </head>
   <body>
+    <img class="tumbleweed tw1" src="img/tumpleweed.png" alt="tumbleweed" />
+    <img class="tumbleweed tw2" src="img/tumpleweed.png" alt="tumbleweed" />
+    <img class="tumbleweed tw3" src="img/tumpleweed.png" alt="tumbleweed" />
+
     <div class="hero">
       <h1 id="title">El pollo loco</h1>
     </div>
 
     <div id="stage" class="stage">
       <canvas id="canvas" width="720" height="480"></canvas>
-      <button id="fullscreen-btn" class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
+      <button
+        id="fullscreen-btn"
+        class="fullscreen-btn"
+        onclick="toggleFullscreen()"
+      >
+        ⛶
+      </button>
       <button id="sound-btn" class="sound-btn">🔊</button>
-    
+
       <div id="start-game" class="game-overlay">
         <div class="start-content">
           <div class="button-container">
@@ -31,7 +41,7 @@
           </div>
         </div>
       </div>
-    
+
       <div id="help-screen" class="game-overlay d-none">
         <div class="help-content">
           <div class="controls-grid">
@@ -52,7 +62,7 @@
               <span class="action">Throw Bottle</span>
             </div>
           </div>
-    
+
           <div class="help-buttons">
             <button id="back-to-menu-btn" class="game-btn help-btn">
               BACK TO MENU
@@ -60,25 +70,24 @@
           </div>
         </div>
       </div>
-    
+
       <div id="game-over-screen" class="overlay d-none">
         <div class="game-over-content">
-          <img src="./img/You won, you lost/You lost.png" alt="Game Over">
+          <img src="./img/You won, you lost/You lost.png" alt="Game Over" />
           <button id="restart-btn" class="game-btn">Play Again</button>
           <button id="menu-btn" class="game-btn">Main Menu</button>
         </div>
       </div>
-    
+
       <div id="you-won-screen" class="overlay d-none">
         <div class="you-won-content">
-          <img src="./img/You won, you lost/You won A.png" alt="You Won">
+          <img src="./img/You won, you lost/You won A.png" alt="You Won" />
           <button id="restart-won-btn" class="game-btn">Play Again</button>
         </div>
       </div>
-    </div> 
-    
+    </div>
+
     <div id="portrait-mode" class="d-none">Please turn your device.</div>
-    
 
     <script src="models/drawable-object.clas.js"></script>
     <script src="models/moveble-object.class.js"></script>

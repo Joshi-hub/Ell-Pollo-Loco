@@ -5,6 +5,7 @@
   aspect-ratio: 720/480;
   height: auto;
   overflow: hidden; 
+  z-index: 5;
 }
 
 .stage > canvas,
