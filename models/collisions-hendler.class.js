@@ -136,6 +136,7 @@ class CollisionHandler {
     const bottlesToRemove = [];
     this.world.level.bottles.forEach((bottle, i) => {
       if (this.world.character.isColliding(bottle)) {
+        bottle.playSound?.(bottle.bottleTouch);
         bottlesToRemove.push(i);
         this.increaseBottleAmount();
       }
@@ -185,6 +186,9 @@ class CollisionHandler {
   }
 
   handleFlaskEndbossHit(flask, flaskIndex, enemy, flasksToRemove) {
+    if (typeof flask.playSound === 'function' && flask.bottleBreakingSound) {
+      flask.playSound(flask.bottleBreakingSound);
+    }
     enemy.takeDamage();
     this.world.endbossStatusBar.updateStatusBar();
     flask.triggerImpact(enemy);
@@ -192,7 +196,7 @@ class CollisionHandler {
       this.handleEndbossDefeat();
     }
     this.scheduleFlaskRemoval(flask, flaskIndex, flasksToRemove);
-  }  
+  }
 
   handleEndbossDefeat() {
     if (this.winTimeoutSet) return;
