@@ -1,15 +1,20 @@
 .stage {
+  position: relative; 
   display: grid;
   width: min(100vw, var(--game-width));
   aspect-ratio: 720/480;
   height: auto;
+  overflow: hidden; 
 }
+
 .stage > canvas,
-.stage > .game-overlay {
+.stage > .game-overlay,
+.stage > .overlay {
   grid-area: 1 / 1;
   width: 100%;
   height: 100%;
 }
+
 canvas {
   display: block;
   border-radius: 16px;
@@ -17,6 +22,7 @@ canvas {
   box-shadow: 0 0 40px rgba(255, 215, 0, 0.25);
   animation: pulseCanvas 4s ease-in-out infinite;
 }
+
 @keyframes pulseCanvas {
   0%,
   100% {
@@ -26,13 +32,35 @@ canvas {
     box-shadow: 0 0 60px rgba(255, 215, 0, 0.5);
   }
 }
+
 .stage:hover #canvas {
   transform: rotateX(2deg) !important;
   transition: none !important;
 }
+
 .stage::after {
   content: none !important;
 }
+
 .shake {
   animation: none !important;
+}
+
+.game-over-content,
+.you-won-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.game-over-content img,
+.you-won-content img {
+  max-width: 80%;    
+  max-height: 60%;   
+  height: auto;      
+  object-fit: contain;
+  display: block;
 }
