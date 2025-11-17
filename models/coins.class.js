@@ -21,7 +21,7 @@ class Coin extends DrawableObjects {
     }
 
     playSound() {
-        if (!soundEnabled) return;      // Respektiert Sound-Button
+        if (!soundEnabled) return;    
         this.coinSound.currentTime = 0; 
         this.coinSound.play().catch(()=>{});
     }    

@@ -62,19 +62,15 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_DEAD);
-
     this.x = 2500;
-
     this.speed = this.baseSpeed; 
     this.maxHealth = 5;
     this.health = this.maxHealth;
-
     this.animate();
   }
 
   isCharacterNearby() {
     if (!this.world || !this.world.character) return "walking";
-
     const distance = Math.abs(this.world.character.x - this.x);
     if (distance < 200) return "attack";
     if (distance < 400) return "alert";
@@ -89,9 +85,7 @@ class Endboss extends MovableObject {
   }
 
   playDeathAnimation() {
-    if (this.currentImage < this.IMAGES_DEAD.length - 1) {
-      this.currentImage++;
-    }
+    if (this.currentImage < this.IMAGES_DEAD.length - 1) this.currentImage++;
     const i = Math.min(this.currentImage, this.IMAGES_DEAD.length - 1);
     const path = this.IMAGES_DEAD[i];
     this.img = this.imageCache[path];
@@ -100,9 +94,7 @@ class Endboss extends MovableObject {
   takeDamage(damage = 1) {
     this.health -= damage;
     this.hitsTaken++;
-    if (!this.isEnraged &&(this.hitsTaken >= 2 || this.health <= this.maxHealth * 0.75)) {
-      this.startEnrage();
-    }
+    if (!this.isEnraged &&(this.hitsTaken >= 2 || this.health <= this.maxHealth * 0.75)) this.startEnrage();
     if (this.health <= 0) {
       this.health = 0;
       this.die();
@@ -158,8 +150,7 @@ class Endboss extends MovableObject {
   startAnimationLoop() {
     setStopableIntervall(() => {
       const state = this.getCurrentAnimationState();
-      if (state === "dead") {this.playDeathAnimation();return;
-     }
+      if (state === "dead") {this.playDeathAnimation();return;}
       const images = this.getImagesForState(state);
       if (images) {
         this.playAnimation(images);
