@@ -39,6 +39,7 @@ body {
   background-size: cover;
   font-family: "zabars", Arial, Helvetica, sans-serif;
   line-height: 1.25;
+  overflow: hidden; 
 }
 
 body.no-scroll {

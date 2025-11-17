@@ -59,8 +59,3 @@
     transform: translateY(-8px) rotate(-0.3deg) scale(1.01);
   }
 }
-@media (max-height: 480px) {
-  h1 {
-    display: block !important;
-  }
-}

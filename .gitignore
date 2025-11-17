@@ -1,0 +1,24 @@
+# ===== System Files =====
+.DS_Store
+Thumbs.db
+
+# ===== Editor Folders =====
+.vscode/
+.idea/
+
+# ===== Logs =====
+*.log
+
+# ===== Temporary / Backup Files =====
+*.tmp
+*.temp
+*.bak
+*.old
+*.orig
+
+# ===== Cache Files =====
+.cache/
+*.cache
+
+# ===== Trash =====
+.Trash/

@@ -21,3 +21,114 @@
     padding: 40px;
   }
 }
+
+@media screen and (orientation: landscape) and (max-width: 1200px) {
+  .main-menu {
+    padding-top: 20px;
+  }
+
+  .menu-shield {
+    max-width: 1100px;
+  }
+
+  .menu-content {
+    inset: 30% 10% 15% 10%;
+    gap: 60px;
+  }
+
+  .menu-main-title {
+    font-size: 52px;
+  }
+
+  .button-container .game-btn {
+    font-size: 22px;
+    padding: 16px 32px;
+    min-width: 220px;
+  }
+
+  .fullscreen-btn,
+  .sound-btn {
+    top: -50px;
+    font-size: 22px;
+  }
+}
+
+@media screen and (orientation: landscape) and (max-width: 900px) {
+  .menu-shield {
+    max-width: 900px;
+  }
+
+  .menu-content {
+    inset: 28% 8% 12% 8%;
+    gap: 40px;
+  }
+
+  .menu-main-title {
+    font-size: 42px;
+  }
+
+  .button-container {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .button-container .game-btn {
+    font-size: 20px;
+    padding: 14px 28px;
+    min-width: 200px;
+  }
+
+  .fullscreen-btn,
+  .sound-btn {
+    top: -40px;
+    font-size: 20px;
+    padding: 6px 10px;
+  }
+
+  .menu-help {
+    inset: 20% 8% 20% 8%;
+    padding: 20px;
+  }
+}
+
+@media screen and (orientation: landscape) and (max-width: 700px) {
+  .menu-shield {
+    max-width: 650px;
+  }
+
+  .menu-content {
+    inset: 26% 6% 10% 6%;
+    gap: 28px;
+  }
+
+  .menu-main-title {
+    font-size: 34px;
+  }
+
+  .button-container .game-btn {
+    font-size: 18px;
+    padding: 10px 20px;
+    min-width: 160px;
+  }
+
+  .fullscreen-btn,
+  .sound-btn {
+    top: -30px;
+    font-size: 18px;
+  }
+
+  .menu-help {
+    inset: 22% 6% 22% 6%;
+    padding: 16px;
+  }
+
+  .controls-grid .control-item {
+    padding: 10px 14px;
+  }
+
+  .controls-grid .key,
+  .controls-grid .action {
+    font-size: 15px;
+  }
+}
