@@ -1,3 +1,7 @@
+/**
+ * Represents a cloud in the background that slowly moves from right to left.
+ * Clouds add atmospheric depth to the level and spawn at random positions.
+ */
 class Cloud extends MovableObject {
     y = 20;
     height = 300;
@@ -8,6 +12,9 @@ class Cloud extends MovableObject {
         'img/5_background/layers/4_clouds/2.png'
     ];
 
+    /**
+     * Creates a cloud at a random position with a random cloud sprite.
+     */
     constructor() {
         super();
         let randomNumber = Math.floor(Math.random() * 2);
@@ -17,6 +24,10 @@ class Cloud extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Starts the cloud movement animation.
+     * Clouds move slowly to the left at a fixed interval.
+     */
     animate() {
         setStopableIntervall(() => {
             this.moveLeft();
