@@ -37,7 +37,6 @@ function initMenuMusicOnce(e) {
   playMenuMusic();
 }
 
-// Menü-Musik einmal nach erstem Klick starten
 document.addEventListener("click", initMenuMusicOnce, { once: true });
 
 function toggleSound() {
@@ -47,16 +46,13 @@ function toggleSound() {
   if (btn) {
     btn.textContent = soundEnabled ? "🔊" : "🔇";
   }
-
   menuMusic.muted = !soundEnabled;
-
   if (world && world.character && world.character.sound) {
     world.character.sound.muted = !soundEnabled;
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  // Canvas NICHT sofort initialisieren, nur Menüsteuerung
   initializeGameControls();
 
   const soundBtn = document.getElementById("sound-btn");
@@ -75,10 +71,8 @@ function initializeCanvas() {
   ctx = canvas.getContext("2d");
 }
 
-// Kann bleiben, wird aktuell nicht mehr gebraucht
 function drawStartScreenImage() {
   if (!ctx || !canvas) return;
-
   const img = new Image();
   img.src = "img/9_intro_outro_screens/start/startscreen_1.png";
   img.onload = () => {
@@ -97,9 +91,7 @@ function initializeGameControls() {
 }
 
 function setupElementReferences() {
-  // Start-Button im Schild-Menü
   startBtn = document.getElementById("play-btn");
-  // Referenz auf das Hauptmenü (Schild)
   startRef = document.getElementById("main-menu");
 }
 
@@ -132,25 +124,21 @@ function handleStartButtonClick() {
 
 function hideStartScreen() {
   if (startRef) {
-    startRef.classList.add("d-none"); // Hauptmenü-Schild ausblenden
+    startRef.classList.add("d-none"); 
   }
 }
 
 function loadGame() {
-  // Stage & Canvas sichtbar machen
   const stage = document.getElementById("stage");
   const canvasElement = document.getElementById("canvas");
-
   if (stage) {
     stage.classList.remove("d-none");
   }
   if (canvasElement) {
     canvasElement.classList.remove("d-none");
   }
-
-  // Canvas initialisieren & Spiel starten
   initializeCanvas();
-  startGame();      // kommt aus deiner World/Game-Logik
+  startGame();     
   createGameWorld();
 }
 
@@ -158,12 +146,10 @@ function createGameWorld() {
   world = new World(canvas, keyboard, level1);
 }
 
-// Hilfe im Schild-Menü anzeigen
 function showHelpScreen() {
   showElementById("menu-help");
 }
 
-// Hilfe im Schild-Menü wieder ausblenden
 function hideHelpScreen() {
   hideElementById("menu-help");
 }
