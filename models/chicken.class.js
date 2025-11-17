@@ -1,8 +1,13 @@
+/**
+ * Represents a standard chicken enemy in the game.
+ * 
+ * Chickens walk from right to left and damage the player upon contact.
+ * They can be defeated by jumping on them ("stomp kill").
+ */
 class Chicken extends MovableObject {
     y = 370;
     height = 60;
     width = 60;
-
     hitboxOffsetX = 10;
     hitboxOffsetY = 10;
     hitboxWidth = this.width - 20;
@@ -20,6 +25,9 @@ class Chicken extends MovableObject {
         'img/3_enemies_chicken/chicken_normal/2_dead/dead.png'
     ];
 
+    /**
+     * Creates a new chicken enemy with random speed and random X-position.
+     */
     constructor() {
         super().loadImage(this.IMAGES_WALKING[0]);
         this.loadImages(this.IMAGES_WALKING);
@@ -29,12 +37,21 @@ class Chicken extends MovableObject {
         this.animate();
     }
 
+    /**
+     * Plays a sound effect if global sound is enabled.
+     * 
+     * @param {HTMLAudioElement} sound - Audio to play.
+     */
     playSound(sound) {
         if (!soundEnabled) return;
         sound.currentTime = 0;
         sound.play().catch(() => {});
-    }    
+    }
 
+    /**
+     * Kills the chicken and switches sprite to its dead image.
+     * Prevents repeated trigger when called multiple times.
+     */
     die() {
         if (this.isDead) return;
         this.isDead = true;
@@ -43,11 +60,14 @@ class Chicken extends MovableObject {
         this.loadImage(this.IMAGES_DEAD[0]);
     }
 
+    /**
+     * Handles both movement and animation loops.
+     * Chickens walk continuously until dead.
+     */
     animate() {
         setStopableIntervall(() => {
             if (!this.isDead) this.moveLeft();
         }, 1000 / 60);
-
         setStopableIntervall(() => {
             if (!this.isDead) {
                 this.playAnimation(this.IMAGES_WALKING);
