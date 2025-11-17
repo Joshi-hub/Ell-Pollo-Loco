@@ -3,6 +3,7 @@
   flex-direction: row;
   gap: 20px;
   flex-wrap: wrap;
+  padding: 20px;
 }
 .game-btn {
   font-family: "zabars", Arial, Helvetica, sans-serif;
@@ -70,13 +71,13 @@
 
 .fullscreen-btn {
   position: absolute;
-  top: 20px;
-  right: 10px;
-  z-index: 1000;
+  top: -70px;             
+  right: 350px;
+  z-index: 10;
   background: rgba(244, 228, 188, 0.95);
   border: 3px solid var(--btn-brown);
   border-radius: 10px;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   color: var(--btn-brown);
   cursor: pointer;
@@ -94,14 +95,13 @@
 
 .sound-btn {
   position: absolute;
-  top: 20px;
-  right: 640px;   
-  left: auto;    
-  z-index: 1000;
+  top: -70px;
+  left: 350px;
+  z-index: 10;
   background: rgba(244, 228, 188, 0.95);
   border: 3px solid var(--btn-brown);
   border-radius: 10px;
-  font-size: 28px;
+  font-size: 24px;
   font-weight: bold;
   color: var(--btn-brown);
   cursor: pointer;

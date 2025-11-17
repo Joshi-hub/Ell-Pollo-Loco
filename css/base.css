@@ -1,99 +1,216 @@
 :root {
-    --game-width: 720px;
-    --game-height: 480px;
-    --btn-brown: #5a3a16;
-    --btn-beige: #f4e4bc;
-    --btn-beige-dark: #e2d2a3;
-    --btn-beige-light: #fff1ce;
-    --btn-green: #2f9e44;
-    --btn-green-dark: #2a8c3d;
-    --btn-green-light: #3fbf58;
-    --btn-green-border: #1f6f2f;
-    --btn-red: #c92a2a;
-    --btn-red-dark: #a51111;
-    --btn-red-light: #e03b3b;
-    --btn-red-border: #7e0d0d;
-    --shadow-text: 0 1px 0 #000;
-    --shadow-btn: 0 6px 0 rgba(0, 0, 0, 0.25);
-    --shadow-btn-hover: 0 8px 0 rgba(0, 0, 0, 0.25);
-    --shadow-btn-active: 0 3px 0 rgba(0, 0, 0, 0.35);
-    --title-color: #5a0000;
-    --title-outline: #000000;
-    --depth: 800px;
-  }
-  @font-face {
-    font-family: "zabars";
-    src: url("../fonts/zabars.ttf") format("truetype");
-  }
-  
-  html { font-size: 16px; }
-  body {
-    display: grid;
-    place-items: center;
-    min-height: 100vh;
-    margin: 0;
-    background: url("../img/5_background/desert-5112222_1920.png") no-repeat center center fixed;
-    background-size: cover;
-    font-family: "zabars", Arial, Helvetica, sans-serif;
-    line-height: 1.25;
-  }
+  --game-width: 720px;
+  --game-height: 480px;
+  --btn-brown: #5a3a16;
+  --btn-beige: #f4e4bc;
+  --btn-beige-dark: #e2d2a3;
+  --btn-beige-light: #fff1ce;
+  --btn-green: #2f9e44;
+  --btn-green-dark: #2a8c3d;
+  --btn-green-light: #3fbf58;
+  --btn-green-border: #1f6f2f;
+  --btn-red: #c92a2a;
+  --btn-red-dark: #a51111;
+  --btn-red-light: #e03b3b;
+  --btn-red-border: #7e0d0d;
+  --shadow-text: 0 1px 0 #000;
+  --shadow-btn: 0 6px 0 rgba(0, 0, 0, 0.25);
+  --shadow-btn-hover: 0 8px 0 rgba(0, 0, 0, 0.25);
+  --shadow-btn-active: 0 3px 0 rgba(0, 0, 0, 0.35);
+  --title-color: #5a0000;
+  --title-outline: #000000;
+  --depth: 800px;
+}
+@font-face {
+  font-family: "zabars";
+  src: url("../fonts/zabars.ttf") format("truetype");
+}
 
-  body.no-scroll {
-    overflow: hidden;
-  }  
+html {
+  font-size: 16px;
+}
+body {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  margin: 0;
+  background: url("../img/5_background/desert-5112222_1920.png") no-repeat
+    center center fixed;
+  background-size: cover;
+  font-family: "zabars", Arial, Helvetica, sans-serif;
+  line-height: 1.25;
+}
 
-  .d-none { display: none !important; }
-  .hidden { display: none !important; }
+body.no-scroll {
+  overflow: hidden;
+}
 
-  .tumbleweed {
-    position: fixed;
-    bottom: 40px;
-    width: 120px;
-    height: auto;
-    z-index: 1;
-    pointer-events: none;
-  }  
-  
-  .tw1 {
-    left: -150px;
-    animation: roll1 14s linear infinite;
+.d-none {
+  display: none !important;
+}
+.hidden {
+  display: none !important;
+}
+
+.tumbleweed {
+  position: fixed;
+  bottom: 40px;
+  width: 120px;
+  height: auto;
+  pointer-events: none;
+}
+
+.tw1 {
+  left: -150px;
+  animation: roll1 14s linear infinite;
+}
+
+@keyframes roll1 {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
   }
-  
-  @keyframes roll1 {
-    0%   { transform: translateX(0) translateY(0) rotate(0deg); }
-    25%  { transform: translateX(25vw) translateY(-60px) rotate(450deg); }
-    50%  { transform: translateX(50vw) translateY(0) rotate(900deg); }
-    75%  { transform: translateX(75vw) translateY(-60px) rotate(1350deg); }
-    100% { transform: translateX(130vw) translateY(0) rotate(1800deg); }
-  }  
-  
-  .tw2 {
-    left: -200px;
-    bottom: 400px;
-    width: 80px;
-    animation: roll2 18s linear infinite;
+  25% {
+    transform: translateX(25vw) translateY(-60px) rotate(450deg);
   }
-  
-  @keyframes roll2 {
-    0%   { transform: translateX(0) translateY(0) rotate(0deg); }
-    20%  { transform: translateX(20vw) translateY(-90px) rotate(360deg); }
-    40%  { transform: translateX(40vw) translateY(0) rotate(720deg); }
-    60%  { transform: translateX(60vw) translateY(-90px) rotate(1080deg); }
-    100% { transform: translateX(130vw) translateY(0) rotate(1440deg); }
-  }  
-  
-  .tw3 {
-    left: -100px;
-    bottom: 300px;
-    width: 90px;
-    animation: roll3 12s linear infinite;
+  50% {
+    transform: translateX(50vw) translateY(0) rotate(900deg);
   }
-  
-  @keyframes roll3 {
-    0%   { transform: translateX(0) translateY(0) rotate(0deg); }
-    25%  { transform: translateX(30vw) translateY(-50px) rotate(540deg); }
-    50%  { transform: translateX(60vw) translateY(0) rotate(1080deg); }
-    75%  { transform: translateX(90vw) translateY(-50px) rotate(1620deg); }
-    100% { transform: translateX(130vw) translateY(0) rotate(2160deg); }
+  75% {
+    transform: translateX(75vw) translateY(-60px) rotate(1350deg);
   }
-   
+  100% {
+    transform: translateX(130vw) translateY(0) rotate(1800deg);
+  }
+}
+
+.tw2 {
+  left: -200px;
+  bottom: 400px;
+  width: 80px;
+  animation: roll2 18s linear infinite;
+}
+
+@keyframes roll2 {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  20% {
+    transform: translateX(20vw) translateY(-90px) rotate(360deg);
+  }
+  40% {
+    transform: translateX(40vw) translateY(0) rotate(720deg);
+  }
+  60% {
+    transform: translateX(60vw) translateY(-90px) rotate(1080deg);
+  }
+  100% {
+    transform: translateX(130vw) translateY(0) rotate(1440deg);
+  }
+}
+
+.tw3 {
+  left: -100px;
+  bottom: 300px;
+  width: 90px;
+  animation: roll3 12s linear infinite;
+}
+
+@keyframes roll3 {
+  0% {
+    transform: translateX(0) translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateX(30vw) translateY(-50px) rotate(540deg);
+  }
+  50% {
+    transform: translateX(60vw) translateY(0) rotate(1080deg);
+  }
+  75% {
+    transform: translateX(90vw) translateY(-50px) rotate(1620deg);
+  }
+  100% {
+    transform: translateX(130vw) translateY(0) rotate(2160deg);
+  }
+}
+
+.main-menu {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 0 auto;
+  padding-top: 0;
+  transform: translateY(-40px);
+}
+
+.menu-shield {
+  position: relative;
+  width: 100%; 
+  max-width: 1400px; 
+}
+
+.menu-shield-img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.menu-content {
+  position: absolute;
+  inset: 40% 10% 15% 10%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 100px;
+  text-align: center;
+  transform: translateY(5px); 
+}
+
+.menu-title {
+  font-size: 48px;
+  color: var(--btn-beige-light);
+  margin: 0;
+  text-shadow: var(--shadow-text);
+}
+
+.menu-text {
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 20px;
+  margin: 0 0 12px;
+  color: #f8e9c5;
+}
+
+.button-container .game-btn {
+  font-size: 26px;
+  padding: 18px 40px;
+  min-width: 260px;
+}
+
+.menu-help {
+  position: absolute;               
+  margin: 0;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  background: rgba(0, 0, 0, 0.6);  
+  border-radius: 14px;
+  border: 2px solid #f4e4bc;
+  z-index: 20; 
+  padding: 30px;
+  top: -100px; 
+  width: 500px;
+
+}
+
+.menu-help .controls-grid {
+  width: 100%;
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.menu-help .help-buttons {
+  justify-content: center;
+}

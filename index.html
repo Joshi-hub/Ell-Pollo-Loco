@@ -18,52 +18,53 @@
     <img class="tumbleweed tw2" src="img/tumpleweed.png" alt="tumbleweed" />
     <img class="tumbleweed tw3" src="img/tumpleweed.png" alt="tumbleweed" />
 
-    <div class="hero">
-      <h1 id="title">El pollo loco</h1>
+    <div id="main-menu" class="main-menu">
+      <div class="menu-shield">
+        <img src="img/shild.png" alt="Hauptmenü-Schild" class="menu-shield-img" />
+        <div class="menu-content">
+          <div id="menu-main" class="menu-main">
+            <button id="fullscreen-btn" class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
+            <button id="sound-btn" class="sound-btn">🔊</button>
+            <h1 id="title" class="menu-main-title">El pollo loco</h1>
+            <div class="button-container">
+              <button id="play-btn" class="game-btn start-btn">SPIEL STARTEN</button>
+              <button id="help-btn" class="game-btn help-btn">STEUERUNG</button>
+            </div>
+          </div>
+        
+          <div id="menu-help" class="menu-help d-none">
+            <div class="controls-grid">
+              <div class="control-item">
+                <span class="key">←</span>
+                <span class="action">Nach links laufen</span>
+              </div>
+              <div class="control-item">
+                <span class="key">→</span>
+                <span class="action">Nach rechts laufen</span>
+              </div>
+              <div class="control-item">
+                <span class="key">SPACE</span>
+                <span class="action">Springen</span>
+              </div>
+              <div class="control-item">
+                <span class="key">D</span>
+                <span class="action">Flasche werfen</span>
+              </div>
+            </div>
+        
+            <div class="help-buttons">
+              <button id="back-to-menu-btn" class="game-btn help-btn">
+                ZURÜCK
+              </button>
+            </div>
+          </div>
+        </div>
+        
+      </div>
     </div>
 
-    <div id="stage" class="stage">
-      <canvas id="canvas" width="720" height="480"></canvas>
-      <button id="fullscreen-btn" class="fullscreen-btn"onclick="toggleFullscreen()">⛶</button>
-      <button id="sound-btn" class="sound-btn">🔊</button>
-
-      <div id="start-game" class="game-overlay">
-        <div class="start-content">
-          <div class="button-container">
-            <button id="play-btn" class="game-btn start-btn">START GAME</button>
-            <button id="help-btn" class="game-btn help-btn">HELP</button>
-          </div>
-        </div>
-      </div>
-
-      <div id="help-screen" class="game-overlay d-none">
-        <div class="help-content">
-          <div class="controls-grid">
-            <div class="control-item">
-              <span class="key">←</span>
-              <span class="action">Move Left</span>
-            </div>
-            <div class="control-item">
-              <span class="key">→</span>
-              <span class="action">Move Right</span>
-            </div>
-            <div class="control-item">
-              <span class="key">SPACE</span>
-              <span class="action">Jump</span>
-            </div>
-            <div class="control-item">
-              <span class="key">D</span>
-              <span class="action">Throw Bottle</span>
-            </div>
-          </div>
-
-          <div class="help-buttons">
-            <button id="back-to-menu-btn" class="game-btn help-btn">
-              BACK TO MENU
-            </button>
-          </div>
-        </div>
-      </div>
+    <div id="stage" class="stage d-none">
+      <canvas id="canvas" width="720" height="480" class="d-none"></canvas>
 
       <div id="game-over-screen" class="overlay d-none">
         <div class="game-over-content">

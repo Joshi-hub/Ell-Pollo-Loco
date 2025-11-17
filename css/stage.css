@@ -58,10 +58,8 @@ canvas {
 }
 
 .game-over-content img,
-.you-won-content img {
-  max-width: 80%;    
-  max-height: 60%;   
-  height: auto;      
+.you-won-content img {  
+  height: 250px;      
   object-fit: contain;
   display: block;
 }

@@ -5,7 +5,7 @@ let keyboard = new Keyboard();
 let startBtn;
 let startRef;
 let intervallIds = [];
-let soundEnabled = true; 
+let soundEnabled = true;
 let menuMusicInitialized = false;
 
 const keyMap = {
@@ -19,13 +19,12 @@ const keyMap = {
 
 const menuMusic = new Audio('audio/awesomeness.mp3');
 menuMusic.loop = true;
-menuMusic.volume = 0.4; 
+menuMusic.volume = 0.4;
 
 function playMenuMusic() {
-  if (!soundEnabled) return;        
+  if (!soundEnabled) return;
   menuMusic.currentTime = 0;
-  menuMusic.play().catch((err) => {
-  });
+  menuMusic.play().catch((err) => {});
 }
 
 function stopMenuMusic() {
@@ -38,6 +37,7 @@ function initMenuMusicOnce(e) {
   playMenuMusic();
 }
 
+// Menü-Musik einmal nach erstem Klick starten
 document.addEventListener("click", initMenuMusicOnce, { once: true });
 
 function toggleSound() {
@@ -49,15 +49,14 @@ function toggleSound() {
   }
 
   menuMusic.muted = !soundEnabled;
-  
+
   if (world && world.character && world.character.sound) {
     world.character.sound.muted = !soundEnabled;
   }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-  initializeCanvas(); 
-  drawStartScreenImage(); 
+  // Canvas NICHT sofort initialisieren, nur Menüsteuerung
   initializeGameControls();
 
   const soundBtn = document.getElementById("sound-btn");
@@ -71,10 +70,12 @@ window.addEventListener("keyup", (e) => updateKeyboardState(e, false));
 
 function initializeCanvas() {
   canvas = document.getElementById("canvas");
+  if (!canvas) return;
   canvas.classList.remove("d-none");
   ctx = canvas.getContext("2d");
 }
 
+// Kann bleiben, wird aktuell nicht mehr gebraucht
 function drawStartScreenImage() {
   if (!ctx || !canvas) return;
 
@@ -90,25 +91,33 @@ function drawStartScreenImage() {
   };
 }
 
-
 function initializeGameControls() {
   setupElementReferences();
   attachEventListeners();
 }
 
 function setupElementReferences() {
+  // Start-Button im Schild-Menü
   startBtn = document.getElementById("play-btn");
-  startRef = document.getElementById("start-game");
+  // Referenz auf das Hauptmenü (Schild)
+  startRef = document.getElementById("main-menu");
 }
 
 function attachEventListeners() {
   const helpBtn = document.getElementById("help-btn");
   const backToMenuBtn = document.getElementById("back-to-menu-btn");
 
-  startBtn.addEventListener("click", handleStartButtonClick);
-  helpBtn.addEventListener("click", showHelpScreen);
-  backToMenuBtn.addEventListener("click", hideHelpScreen);
+  if (startBtn) {
+    startBtn.addEventListener("click", handleStartButtonClick);
+  }
+  if (helpBtn) {
+    helpBtn.addEventListener("click", showHelpScreen);
+  }
+  if (backToMenuBtn) {
+    backToMenuBtn.addEventListener("click", hideHelpScreen);
+  }
 }
+
 
 function updateKeyboardState(e, isPressed) {
   if (keyMap[e.keyCode]) {
@@ -122,27 +131,41 @@ function handleStartButtonClick() {
 }
 
 function hideStartScreen() {
-  startRef.classList.add("d-none");
+  if (startRef) {
+    startRef.classList.add("d-none"); // Hauptmenü-Schild ausblenden
+  }
 }
 
 function loadGame() {
+  // Stage & Canvas sichtbar machen
+  const stage = document.getElementById("stage");
+  const canvasElement = document.getElementById("canvas");
+
+  if (stage) {
+    stage.classList.remove("d-none");
+  }
+  if (canvasElement) {
+    canvasElement.classList.remove("d-none");
+  }
+
+  // Canvas initialisieren & Spiel starten
   initializeCanvas();
-  startGame(); 
-  createGameWorld(); 
+  startGame();      // kommt aus deiner World/Game-Logik
+  createGameWorld();
 }
 
 function createGameWorld() {
   world = new World(canvas, keyboard, level1);
 }
 
+// Hilfe im Schild-Menü anzeigen
 function showHelpScreen() {
-  hideElementById("start-game");
-  showElementById("help-screen");
+  showElementById("menu-help");
 }
 
+// Hilfe im Schild-Menü wieder ausblenden
 function hideHelpScreen() {
-  hideElementById("help-screen");
-  showElementById("start-game");
+  hideElementById("menu-help");
 }
 
 function toggleScreenContent(hideId, showId) {
@@ -238,7 +261,7 @@ wrapTitleText();
 stopAnimationAfterEnd();
 
 function toggleFullscreen() {
-  const root = document.documentElement; 
+  const root = document.documentElement;
   if (!document.fullscreenElement) {
     enterFullscreen(root);
   } else {
