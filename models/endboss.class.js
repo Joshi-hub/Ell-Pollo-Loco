@@ -8,6 +8,12 @@ class Endboss extends MovableObject {
   hitboxWidth = this.width - 20;
   hitboxHeight = this.height - 20;
 
+  baseSpeed = 0.6;      
+  enragedSpeed = 3.5;    
+  hitsTaken = 0;        
+  isEnraged = false;     
+  isEnragedIntroPlaying = false; 
+
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
     "img/4_enemie_boss_chicken/1_walk/G2.png",
@@ -48,12 +54,6 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/5_dead/G25.png",
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
-
-  baseSpeed = 0.6;      
-  enragedSpeed = 2.5;    
-  hitsTaken = 0;        
-  isEnraged = false;     
-  isEnragedIntroPlaying = false; 
 
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);

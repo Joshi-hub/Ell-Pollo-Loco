@@ -20,7 +20,7 @@ class World {
     this.keyboard = keyboard;
     this.level = level;
     this.lastThrowTime = 0;
-    this.throwCooldown = 300;
+    this.throwCooldown = 1500;
     this.collisionHandler = new CollisionHandler(this);
     this.setWorld();
     const boss = this.getEndboss();
