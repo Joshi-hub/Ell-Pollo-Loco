@@ -1,3 +1,9 @@
+/**
+ * Represents the bottle status bar in the HUD.
+ * 
+ * Displays the number of collected bottles in 6 stages
+ * (0%, 20%, 40%, 60%, 80%, 100%).
+ */
 class BottleStatusBar extends StatusBar {
     IMAGES = [
         'img/7_statusbars/1_statusbar/3_statusbar_bottle/green/0.png',
@@ -10,6 +16,10 @@ class BottleStatusBar extends StatusBar {
 
     percentage = 0;
 
+    /**
+     * Creates a new bottle status bar,
+     * loads all images and initializes size & position on screen.
+     */
     constructor() {
         super().loadImage(this.IMAGES[0]);
         this.loadImages(this.IMAGES);
@@ -20,9 +30,14 @@ class BottleStatusBar extends StatusBar {
         this.setPercentage(this.percentage);
     }
 
+    /**
+     * Updates the status bar appearance based on the given percentage.
+     * 
+     * @param {number} percentage - Value from 0 to 100.
+     */
     setPercentage(percentage) {
         this.percentage = percentage;
-        let path = this.IMAGES[this.resolveImageIndex()];
+        const path = this.IMAGES[this.resolveImageIndex()];
         this.img = this.imageCache[path];
     }
 }
