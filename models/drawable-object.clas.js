@@ -40,13 +40,6 @@ class DrawableObjects {
     }
 
     drawBorder(ctx) {
-        const { x, y, width, height } = this.getHitbox ? this.getHitbox() : this;
-        if (!(this instanceof Character)) {
-            // ctx.beginPath();
-            // ctx.strokeStyle = 'magenta';
-            // ctx.lineWidth = 2;
-            // ctx.rect(x, y, width, height);
-            // ctx.stroke();
-        }
+        const { x, y, width, height } = this.getHitbox ? this.getHitbox() : this;        
     }
 }

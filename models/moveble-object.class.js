@@ -26,12 +26,8 @@ class MovableObject extends DrawableObjects {
     isColliding(movableObject) {
         const myHitbox = this.getHitbox();
         const otherHitbox = movableObject.getHitbox();
-        const horizontallyOverlaps =
-            myHitbox.x < otherHitbox.x + otherHitbox.width &&
-            myHitbox.x + myHitbox.width > otherHitbox.x;
-        const verticallyOverlaps =
-            myHitbox.y < otherHitbox.y + otherHitbox.height &&
-            myHitbox.y + myHitbox.height > otherHitbox.y;
+        const horizontallyOverlaps = myHitbox.x < otherHitbox.x + otherHitbox.width && myHitbox.x + myHitbox.width > otherHitbox.x;
+        const verticallyOverlaps = myHitbox.y < otherHitbox.y + otherHitbox.height && myHitbox.y + myHitbox.height > otherHitbox.y;
         return horizontallyOverlaps && verticallyOverlaps;
     }
 
@@ -70,6 +66,6 @@ class MovableObject extends DrawableObjects {
     isHurt() {
         let timePassed = new Date().getTime() - this.lastHit;
         timePassed = timePassed / 1000;
-        return timePassed < 1;
-    }
+        return timePassed < 0.5; 
+      }      
 }

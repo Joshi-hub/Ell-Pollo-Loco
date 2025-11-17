@@ -113,10 +113,8 @@ class CollisionHandler {
     }
     enemy._deadByStomp = true;
     enemy.playAnimation?.(enemy.IMAGES_DEAD || []);
-
     char.speedY = 25;
     char._stompGraceUntil = now + 120;
-
     setTimeout(() => {
       const i = this.world.level.enemies.indexOf(enemy);
       if (i !== -1) {
@@ -147,8 +145,14 @@ class CollisionHandler {
    * @returns {boolean}
    */
   shouldSkipDamage(char) {
-    return char.isDead?.() || char.isHurt?.();
+  if (char.isDead?.()) return true;
+  const now = Date.now();
+  const damageCooldown = 100; 
+  if (char.lastHit && now - char.lastHit < damageCooldown) {
+    return true;
   }
+  return false;
+}
 
   /**
    * Applies damage taken from the Endboss.
