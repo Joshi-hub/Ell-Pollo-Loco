@@ -77,7 +77,6 @@ function initSettingsControls() {
       setMusicVolumeFromPercent(value);
     });
   }
-
   if (fullscreenButton) {
     fullscreenButton.addEventListener("click", toggleFullscreen);
   }
@@ -86,7 +85,6 @@ function initSettingsControls() {
 function setMusicVolumeFromPercent(percent) {
   musicVolume = percent / 100;
   menuMusic.volume = musicVolume;
-
   if (!world || !world.character || !world.character.sound) return;
   world.character.sound.volume = musicVolume;
 }
@@ -257,68 +255,14 @@ function createTitleChar(character, index) {
   const titleCharElement = document.createElement("span");
   titleCharElement.className = "title-char enter";
   titleCharElement.style.setProperty("--i", index);
-  titleCharElement.textContent =
-    character === " " ? "\u00A0" : character;
+  if (character === " ") {titleCharElement.textContent = "\u00A0";
+  } else {
+    titleCharElement.textContent = character;
+  }
   return titleCharElement;
 }
 
-function stopAnimationAfterEnd() {
-  const lastCharacterElement = titleElement
-    ? titleElement.lastElementChild
-    : null;
-  if (!lastCharacterElement) return;
-  lastCharacterElement.addEventListener(
-    "animationend",
-    onTitleAnimationEnd,
-    { once: true }
-  );
-}
-
-function onTitleAnimationEnd() {
-  if (!titleElement) return;
-  const characterElements =
-    titleElement.querySelectorAll(".title-char");
-  characterElements.forEach((characterElement) => {
-    characterElement.classList.remove("enter");
-    characterElement.style.animation = "";
-    characterElement.classList.add("wave");
-  });
-  startTitleRipples();
-}
-
-function startTitleRipples() {
-  const characterElements = titleElement
-    ? titleElement.querySelectorAll(".title-char")
-    : [];
-  if (!characterElements.length) return;
-  resetTitleRippleInterval();
-  startTitleRippleInterval(characterElements);
-}
-
-function resetTitleRippleInterval() {
-  if (!window.titleRippleIntervalId) return;
-  clearInterval(window.titleRippleIntervalId);
-}
-
-function startTitleRippleInterval(characterElements) {
-  let index = 0;
-  window.titleRippleIntervalId = setInterval(() => {
-    restartRippleAnimation(
-      characterElements[index % characterElements.length]
-    );
-    index++;
-  }, 90);
-}
-
-function restartRippleAnimation(characterElement) {
-  if (!characterElement) return;
-  characterElement.classList.remove("pop");
-  void characterElement.offsetWidth;
-  characterElement.classList.add("pop");
-}
-
 wrapTitleText();
-stopAnimationAfterEnd();
 
 function toggleFullscreen() {
   const documentRootElement = document.documentElement;
