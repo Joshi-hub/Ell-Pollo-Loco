@@ -4,8 +4,6 @@ let keyboard = new Keyboard();
 let intervalIds = [];
 let soundEnabled = true;
 let menuMusicInitialized = false;
-
-// master volume for all music/sounds (0.0 - 1.0)
 let musicVolume = 0.4;
 
 const keyMap = {
@@ -177,12 +175,7 @@ function hideStageAndCanvas() {
   canvasElement.classList.add("d-none");
   const canvasRenderingContext = canvasElement.getContext("2d");
   if (!canvasRenderingContext) return;
-  canvasRenderingContext.clearRect(
-    0,
-    0,
-    canvasElement.width,
-    canvasElement.height
-  );
+  canvasRenderingContext.clearRect(0, 0, canvasElement.width, canvasElement.height);
 }
 
 function clearCanvas() {

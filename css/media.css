@@ -32,7 +32,7 @@
   }
 
   .menu-content {
-    inset: 30% 10% 15% 10%;
+    inset: 31% 10% 15% 10%;
     gap: 60px;
   }
 
@@ -48,7 +48,7 @@
 
   .fullscreen-btn,
   .sound-btn {
-    top: -50px;
+    top: -120px;
     font-size: 22px;
   }
 }
@@ -81,7 +81,7 @@
 
   .fullscreen-btn,
   .sound-btn {
-    top: -40px;
+    top: -30px;
     font-size: 20px;
     padding: 6px 10px;
   }
