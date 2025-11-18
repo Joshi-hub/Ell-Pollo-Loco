@@ -28,12 +28,6 @@ class SmallChicken extends MovableObject {
         this.animate();
     }
 
-    playSound(sound) {
-        if (!soundEnabled) return;
-        sound.currentTime = 0;
-        sound.play().catch(() => {});
-    }   
-
     setupImages() {
         this.loadImages(this.IMAGES_WALKING);
         this.loadImages(this.IMAGES_DEAD);

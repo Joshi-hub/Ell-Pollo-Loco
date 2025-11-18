@@ -29,16 +29,4 @@ class Bottle extends DrawableObjects {
         this.x = Math.floor(250 + (Math.random() * 2000));
         this.y = 380;
     }
-
-    /**
-     * Plays a given sound effect if global sound is enabled.
-     * Safe-call using try/catch to avoid audio playback errors.
-     * 
-     * @param {HTMLAudioElement} sound
-     */
-    playSound(sound) {
-        if (!soundEnabled) return;
-        sound.currentTime = 0;
-        sound.play().catch(() => {});
-    }
 }

@@ -7,6 +7,10 @@ class DrawableObjects {
     height = 150;
     width = 100;
 
+    playSound(sound) {
+        playGameSound(sound);
+      }
+
     loadImage(path) {
         this.img = new Image();
         this.img.src = path;

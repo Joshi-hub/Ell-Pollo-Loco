@@ -15,14 +15,21 @@ const keyMap = {
   68: "D",
 };
 
+function playGameSound(sound) {
+  if (!sound) return;
+  if (typeof soundEnabled !== "undefined" && !soundEnabled) return;
+  sound.currentTime = 0;
+  if (typeof sound.play === "function") {
+    sound.play().catch(() => {});
+  }
+}
+
 const menuMusic = new Audio("audio/awesomeness.mp3");
 menuMusic.loop = true;
 menuMusic.volume = musicVolume;
 
 function playMenuMusic() {
-  if (!soundEnabled) return;
-  menuMusic.currentTime = 0;
-  menuMusic.play().catch(() => {});
+  playGameSound(menuMusic);
 }
 
 function stopMenuMusic() {

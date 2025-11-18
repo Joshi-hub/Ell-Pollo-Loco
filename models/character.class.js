@@ -98,16 +98,6 @@ class Character extends MovableObject {
   }
 
   /**
-   * Plays a sound if global sound is enabled.
-   * @param {HTMLAudioElement} sound 
-   */
-  playSound(sound) {
-    if (!soundEnabled) return;
-    sound.currentTime = 0;
-    sound.play().catch(() => {});
-  }
-
-  /**
    * Called when the character receives damage.
    * Triggers hurt animation & sound.
    */

@@ -17,12 +17,6 @@ class ThrowableObjects extends MovableObject {
         'img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png',
     ];
 
-    playSound(sound) {
-        if (typeof soundEnabled !== 'undefined' && !soundEnabled) return;
-        sound.currentTime = 0;
-        sound.play().catch(() => {});
-    }
-
     constructor(x, y) {
         super().loadImage('img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png');
         this.loadImages(this.IMAGES_BOTTLE_ROTATION);
