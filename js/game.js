@@ -1,10 +1,7 @@
 let canvas;
-let ctx;
 let world;
 let keyboard = new Keyboard();
-let startBtn;
-let startRef;
-let intervallIds = [];
+let intervalIds = [];
 let soundEnabled = true;
 let menuMusicInitialized = false;
 
@@ -17,21 +14,21 @@ const keyMap = {
   68: "D",
 };
 
-const menuMusic = new Audio('audio/awesomeness.mp3');
+const menuMusic = new Audio("audio/awesomeness.mp3");
 menuMusic.loop = true;
 menuMusic.volume = 0.4;
 
 function playMenuMusic() {
   if (!soundEnabled) return;
   menuMusic.currentTime = 0;
-  menuMusic.play().catch((err) => {});
+  menuMusic.play().catch(() => {});
 }
 
 function stopMenuMusic() {
   menuMusic.pause();
 }
 
-function initMenuMusicOnce(e) {
+function initMenuMusicOnce() {
   if (menuMusicInitialized) return;
   menuMusicInitialized = true;
   playMenuMusic();
@@ -41,80 +38,65 @@ document.addEventListener("click", initMenuMusicOnce, { once: true });
 
 function toggleSound() {
   soundEnabled = !soundEnabled;
-
-  const btn = document.getElementById("sound-btn");
-  if (btn) {
-    btn.textContent = soundEnabled ? "🔊" : "🔇";
-  }
+  updateSoundButtonIcon();
   menuMusic.muted = !soundEnabled;
-  if (world && world.character && world.character.sound) {
-    world.character.sound.muted = !soundEnabled;
-  }
+  muteCharacterSoundIfAvailable();
+}
+
+function updateSoundButtonIcon() {
+  const soundButtonElement = document.getElementById("sound-btn");
+  if (!soundButtonElement) return;
+  soundButtonElement.textContent = soundEnabled ? "🔊" : "🔇";
+}
+
+function muteCharacterSoundIfAvailable() {
+  if (!world || !world.character || !world.character.sound) return;
+  world.character.sound.muted = !soundEnabled;
 }
 
 document.addEventListener("DOMContentLoaded", () => {
   initializeGameControls();
-
-  const soundBtn = document.getElementById("sound-btn");
-  if (soundBtn) {
-    soundBtn.addEventListener("click", toggleSound);
-  }
+  initSoundButtonHandler();
+  initOverlayButtons();
 });
 
-window.addEventListener("keydown", (e) => updateKeyboardState(e, true));
-window.addEventListener("keyup", (e) => updateKeyboardState(e, false));
+function initSoundButtonHandler() {
+  addClickHandlerById("sound-btn", toggleSound);
+}
+
+window.addEventListener("keydown", (event) =>
+  updateKeyboardState(event, true)
+);
+window.addEventListener("keyup", (event) =>
+  updateKeyboardState(event, false)
+);
+
+function updateKeyboardState(event, isPressed) {
+  const action = keyMap[event.keyCode];
+  if (!action) return;
+  keyboard[action] = isPressed;
+}
 
 function initializeCanvas() {
   canvas = document.getElementById("canvas");
   if (!canvas) return;
   canvas.classList.remove("d-none");
-  ctx = canvas.getContext("2d");
-}
-
-function drawStartScreenImage() {
-  if (!ctx || !canvas) return;
-  const img = new Image();
-  img.src = "img/9_intro_outro_screens/start/startscreen_1.png";
-  img.onload = () => {
-    const w = canvas.width, h = canvas.height;
-    const scale = Math.max(w / img.width, h / img.height);
-    const newW = img.width * scale, newH = img.height * scale;
-    const posX = (w - newW) / 2, posY = (h - newH) / 2;
-    ctx.clearRect(0, 0, w, h);
-    ctx.drawImage(img, posX, posY, newW, newH);
-  };
 }
 
 function initializeGameControls() {
-  setupElementReferences();
-  attachEventListeners();
+  attachMenuEventListeners();
 }
 
-function setupElementReferences() {
-  startBtn = document.getElementById("play-btn");
-  startRef = document.getElementById("main-menu");
+function attachMenuEventListeners() {
+  addClickHandlerById("play-btn", handleStartButtonClick);
+  addClickHandlerById("help-btn", showHelpScreen);
+  addClickHandlerById("back-to-menu-btn", hideHelpScreen);
 }
 
-function attachEventListeners() {
-  const helpBtn = document.getElementById("help-btn");
-  const backToMenuBtn = document.getElementById("back-to-menu-btn");
-
-  if (startBtn) {
-    startBtn.addEventListener("click", handleStartButtonClick);
-  }
-  if (helpBtn) {
-    helpBtn.addEventListener("click", showHelpScreen);
-  }
-  if (backToMenuBtn) {
-    backToMenuBtn.addEventListener("click", hideHelpScreen);
-  }
-}
-
-
-function updateKeyboardState(e, isPressed) {
-  if (keyMap[e.keyCode]) {
-    keyboard[keyMap[e.keyCode]] = isPressed;
-  }
+function addClickHandlerById(elementId, handler) {
+  const element = document.getElementById(elementId);
+  if (!element) return;
+  element.addEventListener("click", handler);
 }
 
 function handleStartButtonClick() {
@@ -123,23 +105,60 @@ function handleStartButtonClick() {
 }
 
 function hideStartScreen() {
-  if (startRef) {
-    startRef.classList.add("d-none"); 
-  }
+  const mainMenuElement = document.getElementById("main-menu");
+  if (!mainMenuElement) return;
+  mainMenuElement.classList.add("d-none");
 }
 
 function loadGame() {
-  const stage = document.getElementById("stage");
-  const canvasElement = document.getElementById("canvas");
-  if (stage) {
-    stage.classList.remove("d-none");
-  }
-  if (canvasElement) {
-    canvasElement.classList.remove("d-none");
-  }
+  showElementById("stage");
   initializeCanvas();
-  startGame();     
+  stopMenuMusic();
+  startGame();
   createGameWorld();
+}
+
+function restartGame() {
+  hideOverlays();
+  stopGame();
+  clearCanvas();
+  loadGame();
+}
+
+function returnToMainMenu() {
+  stopGame();
+  hideOverlays();
+  hideStageAndCanvas();
+  resetWorld();
+  showElementById("main-menu");
+  playMenuMusic();
+}
+
+function hideOverlays() {
+  hideElementById("game-over-screen");
+  hideElementById("you-won-screen");
+}
+
+function hideStageAndCanvas() {
+  hideElementById("stage");
+  const canvasElement = document.getElementById("canvas");
+  if (!canvasElement) return;
+  canvasElement.classList.add("d-none");
+  const canvasRenderingContext = canvasElement.getContext("2d");
+  if (!canvasRenderingContext) return;
+  canvasRenderingContext.clearRect(0, 0, canvasElement.width, canvasElement.height);
+}
+
+function clearCanvas() {
+  if (!canvas) return;
+  const canvasRenderingContext = canvas.getContext("2d");
+  if (!canvasRenderingContext) return;
+  canvasRenderingContext.clearRect(0, 0, canvas.width, canvas.height);
+}
+
+function resetWorld() {
+  world = null;
+  keyboard = new Keyboard();
 }
 
 function createGameWorld() {
@@ -161,21 +180,19 @@ function toggleScreenContent(hideId, showId) {
 
 function hideElementById(elementId) {
   const element = document.getElementById(elementId);
-  if (element) {
-    element.classList.add("d-none");
-  }
+  if (!element) return;
+  element.classList.add("d-none");
 }
 
 function showElementById(elementId) {
   const element = document.getElementById(elementId);
-  if (element) {
-    element.classList.remove("d-none");
-  }
+  if (!element) return;
+  element.classList.remove("d-none");
 }
 
 function setStopableIntervall(fn, time) {
-  const id = setInterval(fn, time);
-  intervallIds.push(id);
+  const intervalId = setInterval(fn, time);
+  intervalIds.push(intervalId);
 }
 
 function stopGame() {
@@ -184,72 +201,94 @@ function stopGame() {
 }
 
 function clearAllIntervals() {
-  intervallIds.forEach((id) => {
-    clearInterval(id);
-  });
+  intervalIds.forEach((intervalId) => clearInterval(intervalId));
 }
 
 function resetIntervalStorage() {
-  intervallIds = [];
+  intervalIds = [];
 }
 
-const title = document.getElementById("title");
+const titleElement = document.getElementById("title");
 
 function wrapTitleText() {
-  if (!title || title.dataset.wrapped) return;
-  title.dataset.wrapped = "1";
-  const text = title.textContent;
-  title.textContent = "";
-  Array.from(text).forEach((ch, i) => {
-    const s = document.createElement("span");
-    s.className = "title-char enter";
-    s.style.setProperty("--i", i);
-    s.textContent = ch === " " ? "\u00A0" : ch;
-    title.appendChild(s);
+  if (!titleElement || titleElement.dataset.wrapped) return;
+  titleElement.dataset.wrapped = "1";
+  const originalTitleText = titleElement.textContent;
+  titleElement.textContent = "";
+  Array.from(originalTitleText).forEach((character, index) => {
+    titleElement.appendChild(createTitleChar(character, index));
   });
 }
 
+function createTitleChar(character, index) {
+  const titleCharElement = document.createElement("span");
+  titleCharElement.className = "title-char enter";
+  titleCharElement.style.setProperty("--i", index);
+  titleCharElement.textContent =
+    character === " " ? "\u00A0" : character;
+  return titleCharElement;
+}
+
 function stopAnimationAfterEnd() {
-  const last = title ? title.lastElementChild : null;
-  if (!last) return;
-  last.addEventListener(
+  const lastCharacterElement = titleElement
+    ? titleElement.lastElementChild
+    : null;
+  if (!lastCharacterElement) return;
+  lastCharacterElement.addEventListener(
     "animationend",
-    () => {
-      const chars = title.querySelectorAll(".title-char");
-      chars.forEach((el) => {
-        el.classList.remove("enter");
-        el.style.animation = "";
-        el.classList.add("wave");
-      });
-      startTitleRipples();
-    },
+    onTitleAnimationEnd,
     { once: true }
   );
 }
 
+function onTitleAnimationEnd() {
+  if (!titleElement) return;
+  const characterElements =
+    titleElement.querySelectorAll(".title-char");
+  characterElements.forEach((characterElement) => {
+    characterElement.classList.remove("enter");
+    characterElement.style.animation = "";
+    characterElement.classList.add("wave");
+  });
+  startTitleRipples();
+}
+
 function startTitleRipples() {
-  const chars = Array.from(title.querySelectorAll(".title-char"));
-  if (!chars.length) return;
-  let i = 0;
-  if (window.__titleRippleInterval) {
-    clearInterval(window.__titleRippleInterval);
-  }
-  window.__titleRippleInterval = setInterval(() => {
-    const el = chars[i % chars.length];
-    el.classList.remove("pop");
-    void el.offsetWidth;
-    el.classList.add("pop");
-    i++;
+  const characterElements = titleElement
+    ? titleElement.querySelectorAll(".title-char")
+    : [];
+  if (!characterElements.length) return;
+  resetTitleRippleInterval();
+  startTitleRippleInterval(characterElements);
+}
+
+function resetTitleRippleInterval() {
+  if (!window.resetTitleRippleInterval) return;
+  clearInterval(window.resetTitleRippleInterval);
+}
+
+function startTitleRippleInterval(characterElements) {
+  let index = 0;
+  window.resetTitleRippleInterval = setInterval(() => {
+    restartRippleAnimation(characterElements[index % characterElements.length]);
+    index++;
   }, 90);
+}
+
+function restartRippleAnimation(characterElement) {
+  if (!characterElement) return;
+  characterElement.classList.remove("pop");
+  void characterElement.offsetWidth;
+  characterElement.classList.add("pop");
 }
 
 wrapTitleText();
 stopAnimationAfterEnd();
 
 function toggleFullscreen() {
-  const root = document.documentElement;
+  const documentRootElement = document.documentElement;
   if (!document.fullscreenElement) {
-    enterFullscreen(root);
+    enterFullscreen(documentRootElement);
   } else {
     exitFullscreen();
   }
@@ -273,14 +312,9 @@ function exitFullscreen() {
   }
 }
 
-document.getElementById("restart-btn").addEventListener("click", () => {
-  location.reload();
-});
-
-document.getElementById("menu-btn").addEventListener("click", () => {
-  location.reload();
-});
-
-document.getElementById("restart-won-btn").addEventListener("click", () => {
-  location.reload();
-});
+function initOverlayButtons() {
+  addClickHandlerById("restart-btn", restartGame);
+  addClickHandlerById("restart-won-btn", restartGame);
+  addClickHandlerById("menu-btn", returnToMainMenu);
+  addClickHandlerById("menu-won-btn", returnToMainMenu);
+}
