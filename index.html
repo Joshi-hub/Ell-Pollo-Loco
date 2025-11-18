@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google" content="notranslate" />
-    <title>El pollo loco</title>
+    <title>El Pollo Loco</title>
     <link rel="stylesheet" href="css/base.css" />
     <link rel="stylesheet" href="css/hero.css" />
     <link rel="stylesheet" href="css/stage.css" />
@@ -20,48 +20,95 @@
 
     <div id="main-menu" class="main-menu">
       <div class="menu-shield">
-        <img src="img/shild.png" alt="Hauptmenü-Schild" class="menu-shield-img" />
+        <img
+          src="img/shild.png"
+          alt="Main menu sign"
+          class="menu-shield-img"
+        />
         <div class="menu-content">
           <div id="menu-main" class="menu-main">
-            <button id="fullscreen-btn" class="fullscreen-btn" onclick="toggleFullscreen()">⛶</button>
             <button id="sound-btn" class="sound-btn">🔊</button>
-            <h1 id="title" class="menu-main-title">El pollo loco</h1>
+            <h1 id="title" class="menu-main-title">El Pollo Loco</h1>
             <div class="button-container">
-              <button id="play-btn" class="game-btn start-btn">SPIEL STARTEN</button>
-              <button id="help-btn" class="game-btn help-btn">STEUERUNG</button>
+              <button id="play-btn" class="game-btn start-btn">
+                START GAME
+              </button>
+              <button id="help-btn" class="game-btn help-btn">
+                CONTROLS
+              </button>
+              <button id="settings-btn" class="game-btn settings-btn">
+                SETTINGS
+              </button>
             </div>
           </div>
-        
+    
+          <!-- CONTROLS / HELP SCREEN -->
           <div id="menu-help" class="menu-help d-none">
             <div class="controls-grid">
               <div class="control-item">
                 <span class="key">←</span>
-                <span class="action">Nach links laufen</span>
+                <span class="action">Move left</span>
               </div>
               <div class="control-item">
                 <span class="key">→</span>
-                <span class="action">Nach rechts laufen</span>
+                <span class="action">Move right</span>
               </div>
               <div class="control-item">
                 <span class="key">SPACE</span>
-                <span class="action">Springen</span>
+                <span class="action">Jump</span>
               </div>
               <div class="control-item">
                 <span class="key">D</span>
-                <span class="action">Flasche werfen</span>
+                <span class="action">Throw bottle</span>
               </div>
             </div>
-        
+    
             <div class="help-buttons">
               <button id="back-to-menu-btn" class="game-btn help-btn">
-                ZURÜCK
+                BACK
+              </button>
+            </div>
+          </div>
+    
+          <div id="menu-settings" class="menu-settings d-none">
+            <h2 class="menu-section-title">Settings</h2>
+            <section class="settings-section">
+              <h3>Audio</h3>
+              <label for="music-volume-slider">Master volume</label>
+              <input id="music-volume-slider" type="range" min="0" max="100" value="20"/>
+            </section>
+    
+            <section class="settings-section">
+              <h3>Display</h3>
+              <button id="settings-fullscreen-btn" class="game-btn" type="button">Toggle fullscreen</button>
+            </section>
+    
+            <section class="settings-section">
+              <h3>Imprint</h3>
+              <div class="settings-links">
+                <a href="imprint.html" target="_blank">Imprint</a>
+              </div>
+            </section>
+    
+            <section class="settings-section">
+              <h3>Credits</h3>
+              <ul class="credits-list">
+                <li>Game design & development: Joshua</li>
+                <li>Graphics: El Pollo Loco course assets</li>
+                <li>Music & sound: Your audio sources</li>
+              </ul>
+            </section>
+    
+            <div class="help-buttons">
+              <button id="settings-back-btn" class="game-btn">
+                BACK
               </button>
             </div>
           </div>
         </div>
-        
       </div>
     </div>
+    
 
     <div id="stage" class="stage d-none">
       <canvas id="canvas" width="720" height="480" class="d-none"></canvas>
@@ -80,9 +127,10 @@
           <button id="restart-won-btn" class="game-btn">Play Again</button>
           <button id="menu-won-btn" class="game-btn">Main Menu</button>
         </div>
-      </div>      
+      </div>
+    </div>
 
-    <div id="portrait-mode" class="d-none">Please turn your device.</div>
+    <div id="portrait-mode" class="d-none">Please rotate your device.</div>
 
     <script src="models/drawable-object.clas.js"></script>
     <script src="models/moveble-object.class.js"></script>

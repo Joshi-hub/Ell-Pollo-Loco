@@ -187,8 +187,9 @@ body.no-scroll {
   min-width: 260px;
 }
 
-.menu-help {
-  position: absolute;               
+.menu-help,
+.menu-settings {
+  position: absolute;
   margin: 0;
   width: auto;
   display: flex;
@@ -196,14 +197,13 @@ body.no-scroll {
   align-items: center;
   justify-content: center;
   gap: 20px;
-  background: rgba(0, 0, 0, 0.6);  
+  background: rgba(0, 0, 0, 0.6);
   border-radius: 14px;
   border: 2px solid #f4e4bc;
-  z-index: 20; 
+  z-index: 20;
   padding: 30px;
-  top: -100px; 
+  top: -150px;
   width: 500px;
-
 }
 
 .menu-help .controls-grid {

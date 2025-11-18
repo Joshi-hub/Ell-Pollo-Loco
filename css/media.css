@@ -86,7 +86,8 @@
     padding: 6px 10px;
   }
 
-  .menu-help {
+  .menu-help,
+  .menu-settings {
     inset: 20% 8% 20% 8%;
     padding: 20px;
   }
@@ -118,9 +119,10 @@
     font-size: 18px;
   }
 
-  .menu-help {
-    inset: 22% 6% 22% 6%;
-    padding: 16px;
+  .menu-help,
+  .menu-settings {
+    inset: 20% 8% 20% 8%;
+    padding: 20px;
   }
 
   .controls-grid .control-item {

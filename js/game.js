@@ -5,6 +5,9 @@ let intervalIds = [];
 let soundEnabled = true;
 let menuMusicInitialized = false;
 
+// master volume for all music/sounds (0.0 - 1.0)
+let musicVolume = 0.4;
+
 const keyMap = {
   39: "RIGHT",
   37: "LEFT",
@@ -16,7 +19,7 @@ const keyMap = {
 
 const menuMusic = new Audio("audio/awesomeness.mp3");
 menuMusic.loop = true;
-menuMusic.volume = 0.4;
+menuMusic.volume = musicVolume;
 
 function playMenuMusic() {
   if (!soundEnabled) return;
@@ -58,10 +61,36 @@ document.addEventListener("DOMContentLoaded", () => {
   initializeGameControls();
   initSoundButtonHandler();
   initOverlayButtons();
+  initSettingsControls();
 });
 
 function initSoundButtonHandler() {
   addClickHandlerById("sound-btn", toggleSound);
+}
+
+function initSettingsControls() {
+  const musicSlider = document.getElementById("music-volume-slider");
+  const fullscreenButton = document.getElementById("settings-fullscreen-btn");
+
+  if (musicSlider) {
+    musicSlider.value = String(Math.round(musicVolume * 100));
+    musicSlider.addEventListener("input", (event) => {
+      const value = Number(event.target.value);
+      setMusicVolumeFromPercent(value);
+    });
+  }
+
+  if (fullscreenButton) {
+    fullscreenButton.addEventListener("click", toggleFullscreen);
+  }
+}
+
+function setMusicVolumeFromPercent(percent) {
+  musicVolume = percent / 100;
+  menuMusic.volume = musicVolume;
+
+  if (!world || !world.character || !world.character.sound) return;
+  world.character.sound.volume = musicVolume;
 }
 
 window.addEventListener("keydown", (event) =>
@@ -91,6 +120,8 @@ function attachMenuEventListeners() {
   addClickHandlerById("play-btn", handleStartButtonClick);
   addClickHandlerById("help-btn", showHelpScreen);
   addClickHandlerById("back-to-menu-btn", hideHelpScreen);
+  addClickHandlerById("settings-btn", showSettingsScreen);
+  addClickHandlerById("settings-back-btn", hideSettingsScreen);
 }
 
 function addClickHandlerById(elementId, handler) {
@@ -146,7 +177,12 @@ function hideStageAndCanvas() {
   canvasElement.classList.add("d-none");
   const canvasRenderingContext = canvasElement.getContext("2d");
   if (!canvasRenderingContext) return;
-  canvasRenderingContext.clearRect(0, 0, canvasElement.width, canvasElement.height);
+  canvasRenderingContext.clearRect(
+    0,
+    0,
+    canvasElement.width,
+    canvasElement.height
+  );
 }
 
 function clearCanvas() {
@@ -171,6 +207,14 @@ function showHelpScreen() {
 
 function hideHelpScreen() {
   hideElementById("menu-help");
+}
+
+function showSettingsScreen() {
+  showElementById("menu-settings");
+}
+
+function hideSettingsScreen() {
+  hideElementById("menu-settings");
 }
 
 function toggleScreenContent(hideId, showId) {
@@ -263,14 +307,16 @@ function startTitleRipples() {
 }
 
 function resetTitleRippleInterval() {
-  if (!window.resetTitleRippleInterval) return;
-  clearInterval(window.resetTitleRippleInterval);
+  if (!window.titleRippleIntervalId) return;
+  clearInterval(window.titleRippleIntervalId);
 }
 
 function startTitleRippleInterval(characterElements) {
   let index = 0;
-  window.resetTitleRippleInterval = setInterval(() => {
-    restartRippleAnimation(characterElements[index % characterElements.length]);
+  window.titleRippleIntervalId = setInterval(() => {
+    restartRippleAnimation(
+      characterElements[index % characterElements.length]
+    );
     index++;
   }, 90);
 }

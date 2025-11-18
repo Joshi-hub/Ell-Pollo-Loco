@@ -69,34 +69,10 @@
   background: linear-gradient(160deg, var(--btn-red-light), var(--btn-red));
 }
 
-.fullscreen-btn {
-  position: absolute;
-  top: -70px;             
-  right: 350px;
-  z-index: 10;
-  background: rgba(244, 228, 188, 0.95);
-  border: 3px solid var(--btn-brown);
-  border-radius: 10px;
-  font-size: 24px;
-  font-weight: bold;
-  color: var(--btn-brown);
-  cursor: pointer;
-  padding: 8px 14px;
-  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
-  transition: all 0.3s ease, box-shadow 0.4s;
-}
-.fullscreen-btn:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 25px rgba(255, 255, 255, 0.7);
-}
-.fullscreen-btn:active {
-  transform: scale(0.95);
-}
-
 .sound-btn {
   position: absolute;
-  top: -70px;
-  left: 350px;
+  top: -140px;
+  left: 10%;
   z-index: 10;
   background: rgba(244, 228, 188, 0.95);
   border: 3px solid var(--btn-brown);
