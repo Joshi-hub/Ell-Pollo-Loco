@@ -91,12 +91,8 @@ function setMusicVolumeFromPercent(percent) {
   world.character.sound.volume = musicVolume;
 }
 
-window.addEventListener("keydown", (event) =>
-  updateKeyboardState(event, true)
-);
-window.addEventListener("keyup", (event) =>
-  updateKeyboardState(event, false)
-);
+window.addEventListener("keydown", (event) => updateKeyboardState(event, true));
+window.addEventListener("keyup", (event) => updateKeyboardState(event, false));
 
 function updateKeyboardState(event, isPressed) {
   const action = keyMap[event.keyCode];
