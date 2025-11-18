@@ -54,7 +54,6 @@
 }
 .start-btn {
   background: linear-gradient(160deg, var(--btn-green), var(--btn-green-dark));
-  color: #fff;
   border-color: var(--btn-green-border);
 }
 .start-btn:hover {
@@ -62,7 +61,6 @@
 }
 .help-btn {
   background: linear-gradient(160deg, var(--btn-red), var(--btn-red-dark));
-  color: #fff;
   border-color: var(--btn-red-border);
 }
 .help-btn:hover {
