@@ -38,17 +38,6 @@ class Chicken extends MovableObject {
     }
 
     /**
-     * Plays a sound effect if global sound is enabled.
-     * 
-     * @param {HTMLAudioElement} sound - Audio to play.
-     */
-    playSound(sound) {
-        if (!soundEnabled) return;
-        sound.currentTime = 0;
-        sound.play().catch(() => {});
-    }
-
-    /**
      * Kills the chicken and switches sprite to its dead image.
      * Prevents repeated trigger when called multiple times.
      */
