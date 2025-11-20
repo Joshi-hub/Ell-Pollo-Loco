@@ -84,8 +84,7 @@ class CollisionHandler {
     if (isFallingDown && isAboveEnemy) {
       this.killEnemyByStomp(char, enemy, now);
       return;
-    }
-    if (this.hasActiveStompGrace(char, now)) return;
+    } if (this.hasActiveStompGrace(char, now)) return;
     this.handlePlayerDamage(enemy);
   }
 
@@ -290,14 +289,12 @@ class CollisionHandler {
   handleFlaskEndbossHit(flask, flaskIndex, enemy, flasksToRemove) {
     if (typeof flask.playSound === "function" && flask.bottleBreakingSound) {
       flask.playSound(flask.bottleBreakingSound);
-    }
-    enemy.takeDamage();
+    } enemy.takeDamage();
     this.world.endbossStatusBar.updateStatusBar();
     flask.triggerImpact(enemy);
     if (enemy.health <= 0) {
       this.handleEndbossDefeat();
-    }
-    this.scheduleFlaskRemoval(flask, flaskIndex, flasksToRemove);
+    } this.scheduleFlaskRemoval(flask, flaskIndex, flasksToRemove);
   }
 
   /**

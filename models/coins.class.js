@@ -1,3 +1,9 @@
+/**
+ * Represents a collectible coin inside the game world.
+ * A coin loads a random visual frame and places itself at a random
+ * position within the level. When collected by the player, it triggers
+ * a coin pickup sound if sound is enabled.
+ */
 class Coin extends DrawableObjects {
     height = 120;
     width = 120;
@@ -12,6 +18,11 @@ class Coin extends DrawableObjects {
         'img/8_coin/coin_2.png'
     ];
 
+    /**
+     * Constructs a new coin object and assigns:
+     * - a random coin frame (for a slight flicker effect)
+     * - a random X/Y position inside the level bounds
+     */
     constructor() {
         super();
         let randomNumber = Math.floor(Math.random() * 2);
@@ -20,9 +31,13 @@ class Coin extends DrawableObjects {
         this.y = Math.floor(80 + (Math.random() * 260));
     }
 
+    /**
+     * Plays the coin pickup sound.
+     * Sound only plays when global sound is enabled.
+     */
     playSound() {
-        if (!soundEnabled) return;    
-        this.coinSound.currentTime = 0; 
-        this.coinSound.play().catch(()=>{});
-    }    
+        if (!soundEnabled) return;
+        this.coinSound.currentTime = 0;
+        this.coinSound.play().catch(() => {});
+    }
 }
