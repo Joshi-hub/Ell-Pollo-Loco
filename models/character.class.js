@@ -13,9 +13,9 @@ class Character extends MovableObject {
   hitboxOffsetY = 110;
   hitboxWidth = this.width - 30;
   hitboxHeight = this.height - 120;
-  jumpSound = new Audio('audio/jump.wav');
-  hurtSound = new Audio('audio/damage.wav');
-  deadSound = new Audio('audio/01._death_groan_male.wav');
+  jumpSound = new Audio("audio/jump.wav");
+  hurtSound = new Audio("audio/damage.wav");
+  deadSound = new Audio("audio/01._death_groan_male.wav");
   hasPlayedDeathSound = false;
 
   IMAGES_WALKING = [
@@ -101,16 +101,16 @@ class Character extends MovableObject {
    * Called when the character receives damage.
    * Triggers hurt animation & sound.
    */
-   
-    hit() {
-      const now = Date.now();
-      let timePassed = (now - this.lastHit) / 1000;
-      const recentlyHit = timePassed < 0.5;
-      if (!recentlyHit) {
-        this.playSound(this.hurtSound);
-      }
-      if (super.hit) super.hit();
+
+  hit() {
+    const now = Date.now();
+    let timePassed = (now - this.lastHit) / 1000;
+    const recentlyHit = timePassed < 0.5;
+    if (!recentlyHit) {
+      this.playSound(this.hurtSound);
     }
+    if (super.hit) super.hit();
+  }
 
   /**
    * @returns {boolean} True if character has no energy left.
@@ -147,18 +147,48 @@ class Character extends MovableObject {
   handleMovementTick() {
     const world = this.world;
     if (!world || !world.keyboard || !world.level) return;
-    if (world.keyboard.RIGHT && this.x < world.level.level_end_x) {
+    if (this.isDead()) {
+      this.updateCamera(world);
+      return;
+    }
+    this.handleHorizontalInput(world);
+    this.handleJumpInput(world);
+    this.updateCamera(world);
+  }
+
+  /**
+   * Handles left/right movement based on keyboard input.
+   * @param {World} world
+   */
+  handleHorizontalInput(world) {
+    const keyboard = world.keyboard;
+    if (keyboard.RIGHT && this.x < world.level.level_end_x) {
       this.moveRight();
       this.otherDirection = false;
     }
-    if (world.keyboard.LEFT && this.x > 0) {
+    if (keyboard.LEFT && this.x > 0) {
       this.moveLeft();
       this.otherDirection = true;
     }
-    if (world.keyboard.SPACE && !this.isAboveGround()) {
+  }
+
+  /**
+   * Handles jump input.
+   * @param {World} world
+   */
+  handleJumpInput(world) {
+    const keyboard = world.keyboard;
+    if (keyboard.SPACE && !this.isAboveGround()) {
       this.playSound(this.jumpSound);
       this.jump();
     }
+  }
+
+  /**
+   * Updates camera position to follow the character.
+   * @param {World} world
+   */
+  updateCamera(world) {
     world.camera_x = -this.x + 100;
   }
 
@@ -219,9 +249,7 @@ class Character extends MovableObject {
 
   /** Plays jumping animation during upward movement */
   isJumpingHandler() {
-    if (this.speedY > 0) {
-      this.playAnimation(this.IMAGES_JUMPING);
-    }
+    this.playAnimation(this.IMAGES_JUMPING);
     this.resetIsIdle();
   }
 
