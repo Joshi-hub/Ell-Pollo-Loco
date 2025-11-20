@@ -101,10 +101,16 @@ class Character extends MovableObject {
    * Called when the character receives damage.
    * Triggers hurt animation & sound.
    */
-  hit() {
-    this.playSound(this.hurtSound);
-    if (super.hit) super.hit();
-  }
+   
+    hit() {
+      const now = Date.now();
+      let timePassed = (now - this.lastHit) / 1000;
+      const recentlyHit = timePassed < 0.5;
+      if (!recentlyHit) {
+        this.playSound(this.hurtSound);
+      }
+      if (super.hit) super.hit();
+    }
 
   /**
    * @returns {boolean} True if character has no energy left.
