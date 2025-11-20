@@ -76,7 +76,6 @@ function initSoundButtonHandler() {
 function initSettingsControls() {
   const musicSlider = document.getElementById("music-volume-slider");
   const fullscreenButton = document.getElementById("settings-fullscreen-btn");
-
   if (musicSlider) {
     musicSlider.value = String(Math.round(musicVolume * 100));
     musicSlider.addEventListener("input", (event) => {
@@ -146,6 +145,7 @@ function loadGame() {
   stopMenuMusic();
   startGame();
   createGameWorld();
+  initMobileControls();
 }
 
 function restartGame() {
@@ -159,6 +159,7 @@ function returnToMainMenu() {
   stopGame();
   hideOverlays();
   hideStageAndCanvas();
+  hideElementById("mobile-controls");
   resetWorld();
   showElementById("main-menu");
   playMenuMusic();
@@ -303,4 +304,51 @@ function initOverlayButtons() {
   addClickHandlerById("restart-won-btn", restartGame);
   addClickHandlerById("menu-btn", returnToMainMenu);
   addClickHandlerById("menu-won-btn", returnToMainMenu);
+}
+
+function isTouchDevice() {
+  return "ontouchstart" in window || navigator.maxTouchPoints > 0;
+}
+
+function getMobileButtons() {
+  return {
+    controls: document.getElementById("mobile-controls"),
+    left:     document.getElementById("btn-left"),
+    right:    document.getElementById("btn-right"),
+    jump:     document.getElementById("btn-jump"),
+    throwBtn: document.getElementById("btn-throw"),
+  };
+}
+
+function bindTouchButton(button, onDown, onUp) {
+  if (!button) return;
+
+  const start = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onDown();
+  };
+  const end = (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    onUp();
+  };
+  button.addEventListener("touchstart", start);
+  button.addEventListener("touchend", end);
+  button.addEventListener("touchcancel", end);
+}
+
+function bindMobileControlsToKeyboard(btns) {
+  bindTouchButton(btns.left,  () => keyboard.LEFT  = true, () => keyboard.LEFT  = false);
+  bindTouchButton(btns.right, () => keyboard.RIGHT = true, () => keyboard.RIGHT = false);
+  bindTouchButton(btns.jump,  () => keyboard.SPACE = true, () => keyboard.SPACE = false);
+  bindTouchButton(btns.throwBtn, () => keyboard.D  = true, () => keyboard.D     = false);
+}
+
+function initMobileControls() {
+  if (!isTouchDevice()) return;
+  const btns = getMobileButtons();
+  if (!btns.controls) return;
+  btns.controls.classList.remove("d-none");
+  bindMobileControlsToKeyboard(btns);
 }

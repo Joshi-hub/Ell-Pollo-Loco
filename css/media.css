@@ -45,12 +45,6 @@
     padding: 16px 32px;
     min-width: 220px;
   }
-
-  .fullscreen-btn,
-  .sound-btn {
-    top: -120px;
-    font-size: 22px;
-  }
 }
 
 @media screen and (orientation: landscape) and (max-width: 900px) {
@@ -81,7 +75,7 @@
 
   .fullscreen-btn,
   .sound-btn {
-    top: -30px;
+    top: 65px;
     font-size: 20px;
     padding: 6px 10px;
   }
@@ -115,7 +109,7 @@
 
   .fullscreen-btn,
   .sound-btn {
-    top: -30px;
+    top: 55px;
     font-size: 18px;
   }
 
@@ -132,5 +126,17 @@
   .controls-grid .key,
   .controls-grid .action {
     font-size: 15px;
+  }
+}
+
+@media screen and (orientation: landscape) and (max-width: 900px) {
+  #mobile-controls {
+    display: flex !important;
+  }
+}
+
+@media screen and (orientation: landscape) and (min-width: 901px) {
+  #mobile-controls {
+    display: none !important;
   }
 }
