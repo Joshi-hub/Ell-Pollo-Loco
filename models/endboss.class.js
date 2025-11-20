@@ -18,6 +18,10 @@ class Endboss extends MovableObject {
   alertRange = 400;
   attackRange = 250;
 
+  deathSound = new Audio('audio/chicken-boss.mp3');
+  deathSounds = new Audio('audio/chicken-deads.mp3');
+  hitSound   = new Audio('audio/chicken-die.mp3');
+
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
     "img/4_enemie_boss_chicken/1_walk/G2.png",
@@ -102,6 +106,7 @@ class Endboss extends MovableObject {
       this.die();
       return;
     }
+    this.playSound(this.hitSound);
     if (!this.isEnraged && this.hitsTaken >= 2) {
       this.startEnrage();
     }
@@ -112,6 +117,7 @@ class Endboss extends MovableObject {
     this.isEnragedIntroPlaying = true;
     this.speed = 0;
     const enragedIntroDuration = this.IMAGES_HURT.length * 250;
+    this.playSound(this.deathSound);
     setTimeout(() => {
       this.isEnragedIntroPlaying = false;
       this.speed = this.enragedSpeed;
@@ -121,6 +127,7 @@ class Endboss extends MovableObject {
   die() {
     this.speed = 0;
     this.currentImage = 0;
+    this.playSound(this.deathSounds);
   }
 
   animate() {
