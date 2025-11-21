@@ -1,11 +1,16 @@
+/**
+ * Core game state and engine-related helpers.
+ * Handles world, canvas, keyboard and intervals.
+ */
+
 let canvas;
 let world;
 let keyboard = new Keyboard();
 let intervalIds = [];
-let soundEnabled = true;
-let menuMusicInitialized = false;
-let musicVolume = 0.4;
 
+/**
+ * Maps keyboard key codes to logical in-game actions.
+ */
 const keyMap = {
   39: "RIGHT",
   37: "LEFT",
@@ -15,161 +20,46 @@ const keyMap = {
   68: "D",
 };
 
-function playGameSound(sound) {
-  if (!sound) return;
-  if (typeof soundEnabled !== "undefined" && !soundEnabled) return;
-  sound.currentTime = 0;
-  if (typeof sound.play === "function") {
-    sound.play().catch(() => {});
-  }
-}
-
-const menuMusic = new Audio("audio/awesomeness.mp3");
-menuMusic.loop = true;
-menuMusic.volume = musicVolume;
-
-function playMenuMusic() {
-  playGameSound(menuMusic);
-}
-
-function stopMenuMusic() {
-  menuMusic.pause();
-}
-
-function initMenuMusicOnce() {
-  if (menuMusicInitialized) return;
-  menuMusicInitialized = true;
-  playMenuMusic();
-}
-
-document.addEventListener("click", initMenuMusicOnce, { once: true });
-
-function toggleSound() {
-  soundEnabled = !soundEnabled;
-  updateSoundButtonIcon();
-  menuMusic.muted = !soundEnabled;
-  muteCharacterSoundIfAvailable();
-}
-
-function updateSoundButtonIcon() {
-  const soundButtonElement = document.getElementById("sound-btn");
-  if (!soundButtonElement) return;
-  soundButtonElement.textContent = soundEnabled ? "🔊" : "🔇";
-}
-
-function muteCharacterSoundIfAvailable() {
-  if (!world || !world.character || !world.character.sound) return;
-  world.character.sound.muted = !soundEnabled;
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  initializeGameControls();
-  initSoundButtonHandler();
-  initOverlayButtons();
-  initSettingsControls();
-});
-
-function initSoundButtonHandler() {
-  addClickHandlerById("sound-btn", toggleSound);
-}
-
-function initSettingsControls() {
-  const musicSlider = document.getElementById("music-volume-slider");
-  const fullscreenButton = document.getElementById("settings-fullscreen-btn");
-  if (musicSlider) {
-    musicSlider.value = String(Math.round(musicVolume * 100));
-    musicSlider.addEventListener("input", (event) => {
-      const value = Number(event.target.value);
-      setMusicVolumeFromPercent(value);
-    });
-  }
-  if (fullscreenButton) {
-    fullscreenButton.addEventListener("click", toggleFullscreen);
-  }
-}
-
-function setMusicVolumeFromPercent(percent) {
-  musicVolume = percent / 100;
-  menuMusic.volume = musicVolume;
-  if (!world || !world.character || !world.character.sound) return;
-  world.character.sound.volume = musicVolume;
-}
-
-window.addEventListener("keydown", (event) => updateKeyboardState(event, true));
-window.addEventListener("keyup", (event) => updateKeyboardState(event, false));
-
+/**
+ * Updates keyboard state when a key is pressed or released.
+ * 
+ * @param {KeyboardEvent} event 
+ * @param {boolean} isPressed - True on keydown, false on keyup.
+ */
 function updateKeyboardState(event, isPressed) {
   const action = keyMap[event.keyCode];
   if (!action) return;
   keyboard[action] = isPressed;
 }
 
+/**
+ * Registers keyboard listeners for game controls.
+ */
+window.addEventListener("keydown", (event) => updateKeyboardState(event, true));
+window.addEventListener("keyup", (event) => updateKeyboardState(event, false));
+
+/**
+ * Finds and shows the canvas element used for rendering.
+ */
 function initializeCanvas() {
   canvas = document.getElementById("canvas");
   if (!canvas) return;
   canvas.classList.remove("d-none");
 }
 
-function initializeGameControls() {
-  attachMenuEventListeners();
+/**
+ * Clears the visible canvas completely.
+ */
+function clearCanvas() {
+  if (!canvas) return;
+  const canvasRenderingContext = canvas.getContext("2d");
+  if (!canvasRenderingContext) return;
+  canvasRenderingContext.clearRect(0, 0, canvas.width, canvas.height);
 }
 
-function attachMenuEventListeners() {
-  addClickHandlerById("play-btn", handleStartButtonClick);
-  addClickHandlerById("help-btn", showHelpScreen);
-  addClickHandlerById("back-to-menu-btn", hideHelpScreen);
-  addClickHandlerById("settings-btn", showSettingsScreen);
-  addClickHandlerById("settings-back-btn", hideSettingsScreen);
-}
-
-function addClickHandlerById(elementId, handler) {
-  const element = document.getElementById(elementId);
-  if (!element) return;
-  element.addEventListener("click", handler);
-}
-
-function handleStartButtonClick() {
-  hideStartScreen();
-  loadGame();
-}
-
-function hideStartScreen() {
-  const mainMenuElement = document.getElementById("main-menu");
-  if (!mainMenuElement) return;
-  mainMenuElement.classList.add("d-none");
-}
-
-function loadGame() {
-  showElementById("stage");
-  initializeCanvas();
-  stopMenuMusic();
-  startGame();
-  createGameWorld();
-  initMobileControls();
-}
-
-function restartGame() {
-  hideOverlays();
-  stopGame();
-  clearCanvas();
-  loadGame();
-}
-
-function returnToMainMenu() {
-  stopGame();
-  hideOverlays();
-  hideStageAndCanvas();
-  hideElementById("mobile-controls");
-  resetWorld();
-  showElementById("main-menu");
-  playMenuMusic();
-}
-
-function hideOverlays() {
-  hideElementById("game-over-screen");
-  hideElementById("you-won-screen");
-}
-
+/**
+ * Hides the game stage and clears the canvas drawing area.
+ */
 function hideStageAndCanvas() {
   hideElementById("stage");
   const canvasElement = document.getElementById("canvas");
@@ -180,136 +70,70 @@ function hideStageAndCanvas() {
   canvasRenderingContext.clearRect(0, 0, canvasElement.width, canvasElement.height);
 }
 
-function clearCanvas() {
-  if (!canvas) return;
-  const canvasRenderingContext = canvas.getContext("2d");
-  if (!canvasRenderingContext) return;
-  canvasRenderingContext.clearRect(0, 0, canvas.width, canvas.height);
-}
-
+/**
+ * Resets world reference and creates a fresh keyboard instance.
+ */
 function resetWorld() {
   world = null;
   keyboard = new Keyboard();
 }
 
+/**
+ * Creates a new game world instance for the current canvas,
+ * keyboard and predefined level.
+ */
 function createGameWorld() {
   world = new World(canvas, keyboard, level1);
 }
 
-function showHelpScreen() {
-  showElementById("menu-help");
-}
-
-function hideHelpScreen() {
-  hideElementById("menu-help");
-}
-
-function showSettingsScreen() {
-  showElementById("menu-settings");
-}
-
-function hideSettingsScreen() {
-  hideElementById("menu-settings");
-}
-
-function toggleScreenContent(hideId, showId) {
-  hideElementById(hideId);
-  showElementById(showId);
-}
-
-function hideElementById(elementId) {
-  const element = document.getElementById(elementId);
-  if (!element) return;
-  element.classList.add("d-none");
-}
-
-function showElementById(elementId) {
-  const element = document.getElementById(elementId);
-  if (!element) return;
-  element.classList.remove("d-none");
-}
-
+/**
+ * Wrapper around setInterval that stores the ID
+ * so all intervals can be cleared later.
+ * 
+ * @param {Function} fn - Callback for the interval.
+ * @param {number} time - Interval delay in ms.
+ */
 function setStopableIntervall(fn, time) {
   const intervalId = setInterval(fn, time);
   intervalIds.push(intervalId);
 }
 
+/**
+ * Stops the game loop by clearing all registered intervals.
+ */
 function stopGame() {
   clearAllIntervals();
   resetIntervalStorage();
 }
 
+/**
+ * Clears all stored interval IDs.
+ */
 function clearAllIntervals() {
   intervalIds.forEach((intervalId) => clearInterval(intervalId));
 }
 
+/**
+ * Empties the interval ID storage array.
+ */
 function resetIntervalStorage() {
   intervalIds = [];
 }
 
-const titleElement = document.getElementById("title");
-
-function wrapTitleText() {
-  if (!titleElement || titleElement.dataset.wrapped) return;
-  titleElement.dataset.wrapped = "1";
-  const originalTitleText = titleElement.textContent;
-  titleElement.textContent = "";
-  Array.from(originalTitleText).forEach((character, index) => {
-    titleElement.appendChild(createTitleChar(character, index));
-  });
-}
-
-function createTitleChar(character, index) {
-  const titleCharElement = document.createElement("span");
-  titleCharElement.className = "title-char enter";
-  titleCharElement.style.setProperty("--i", index);
-  if (character === " ") {titleCharElement.textContent = "\u00A0";
-  } else {
-    titleCharElement.textContent = character;
-  }
-  return titleCharElement;
-}
-
-wrapTitleText();
-
-function toggleFullscreen() {
-  const documentRootElement = document.documentElement;
-  if (!document.fullscreenElement) {
-    enterFullscreen(documentRootElement);
-  } else {
-    exitFullscreen();
-  }
-}
-
-function enterFullscreen(element) {
-  if (element.requestFullscreen) {
-    element.requestFullscreen();
-  } else if (element.msRequestFullscreen) {
-    element.msRequestFullscreen();
-  } else if (element.webkitRequestFullscreen) {
-    element.webkitRequestFullscreen();
-  }
-}
-
-function exitFullscreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  }
-}
-
-function initOverlayButtons() {
-  addClickHandlerById("restart-btn", restartGame);
-  addClickHandlerById("restart-won-btn", restartGame);
-  addClickHandlerById("menu-btn", returnToMainMenu);
-  addClickHandlerById("menu-won-btn", returnToMainMenu);
-}
-
+/**
+ * Detects if the current device supports touch input.
+ * 
+ * @returns {boolean}
+ */
 function isTouchDevice() {
   return "ontouchstart" in window || navigator.maxTouchPoints > 0;
 }
 
+/**
+ * Collects references to all mobile control buttons.
+ * 
+ * @returns {{controls: HTMLElement|null, left: HTMLElement|null, right: HTMLElement|null, jump: HTMLElement|null, throwBtn: HTMLElement|null}}
+ */
 function getMobileButtons() {
   return {
     controls: document.getElementById("mobile-controls"),
@@ -320,11 +144,18 @@ function getMobileButtons() {
   };
 }
 
+/**
+ * Binds touchstart/touchend events for a button
+ * to simulate key presses via callbacks.
+ * 
+ * @param {HTMLElement|null} button 
+ * @param {Function} onDown 
+ * @param {Function} onUp 
+ */
 function bindTouchButton(button, onDown, onUp) {
   if (!button) return;
-
   const start = (e) => {
-    e.preventDefault();
+   e.preventDefault();
     e.stopPropagation();
     onDown();
   };
@@ -338,17 +169,66 @@ function bindTouchButton(button, onDown, onUp) {
   button.addEventListener("touchcancel", end);
 }
 
+/**
+ * Maps mobile touch buttons to the internal keyboard state
+ * so the game can be controlled on touch devices.
+ * 
+ * @param {*} btns - Object returned from getMobileButtons().
+ */
 function bindMobileControlsToKeyboard(btns) {
-  bindTouchButton(btns.left,  () => keyboard.LEFT  = true, () => keyboard.LEFT  = false);
-  bindTouchButton(btns.right, () => keyboard.RIGHT = true, () => keyboard.RIGHT = false);
-  bindTouchButton(btns.jump,  () => keyboard.SPACE = true, () => keyboard.SPACE = false);
-  bindTouchButton(btns.throwBtn, () => keyboard.D  = true, () => keyboard.D     = false);
+  bindTouchButton(btns.left,     () => keyboard.LEFT  = true,  () => keyboard.LEFT  = false);
+  bindTouchButton(btns.right,    () => keyboard.RIGHT = true,  () => keyboard.RIGHT = false);
+  bindTouchButton(btns.jump,     () => keyboard.SPACE = true,  () => keyboard.SPACE = false);
+  bindTouchButton(btns.throwBtn, () => keyboard.D     = true,  () => keyboard.D     = false);
 }
 
+/**
+ * Initializes mobile controls if a touch device is detected.
+ * Shows the mobile controls bar and binds touch events.
+ */
 function initMobileControls() {
   if (!isTouchDevice()) return;
   const btns = getMobileButtons();
   if (!btns.controls) return;
   btns.controls.classList.remove("d-none");
   bindMobileControlsToKeyboard(btns);
+}
+
+/**
+ * Toggles fullscreen mode for the whole document.
+ */
+function toggleFullscreen() {
+  const documentRootElement = document.documentElement;
+  if (!document.fullscreenElement) {
+    enterFullscreen(documentRootElement);
+  } else {
+    exitFullscreen();
+  }
+}
+
+/**
+ * Requests fullscreen mode on the given element
+ * using vendor-prefixed methods where necessary.
+ * 
+ * @param {HTMLElement} element 
+ */
+function enterFullscreen(element) {
+  if (element.requestFullscreen) {
+    element.requestFullscreen();
+  } else if (element.msRequestFullscreen) {
+    element.msRequestFullscreen();
+  } else if (element.webkitRequestFullscreen) {
+    element.webkitRequestFullscreen();
+  }
+}
+
+/**
+ * Exits fullscreen mode using the appropriate browser API.
+ */
+function exitFullscreen() {
+  if (document.exitFullscreen) {
+    document.exitFullscreen();
+  } else if (document.webkitExitFullscreen) {
+    document.webkitExitFullscreen();
+  }
 }
