@@ -68,9 +68,9 @@
 }
 
 .sound-btn {
-  position: absolute;
-  top: 250px;
-  left: 47%;
+  position: fixed;             
+  top: 0px;
+  right: 20px;                  
   z-index: 10;
   background: rgba(244, 228, 188, 0.95);
   border: 3px solid var(--btn-brown);
@@ -91,3 +91,4 @@
 .sound-btn:active {
   transform: scale(0.95);
 }
+

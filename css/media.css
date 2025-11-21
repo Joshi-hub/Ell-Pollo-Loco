@@ -47,7 +47,11 @@
   }
 }
 
-@media screen and (orientation: landscape) and (max-width: 900px) {
+@media screen and (orientation: landscape) and (max-width: 920px) {
+  #title {
+    padding-bottom: 5px;
+  }
+
   .menu-shield {
     max-width: 900px;
   }
@@ -55,6 +59,10 @@
   .menu-content {
     inset: 28% 8% 12% 8%;
     gap: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
   }
 
   .menu-main-title {
@@ -73,18 +81,13 @@
     min-width: 200px;
   }
 
-  .fullscreen-btn,
   .sound-btn {
-    top: 65px;
     font-size: 20px;
     padding: 6px 10px;
-    left: 300px;
   }
 
-  .menu-help,
-  .menu-settings {
-    inset: 20% 8% 20% 8%;
-    padding: 20px;
+  #mobile-controls {
+    display: flex !important;
   }
 }
 
@@ -108,17 +111,9 @@
     min-width: 160px;
   }
 
-  .fullscreen-btn,
   .sound-btn {
-    top: 55px;
     font-size: 18px;
-    left: 260px;
-  }
-
-  .menu-help,
-  .menu-settings {
-    inset: 20% 8% 20% 8%;
-    padding: 20px;
+    padding: 4px 8px;
   }
 
   .controls-grid .control-item {
@@ -128,12 +123,6 @@
   .controls-grid .key,
   .controls-grid .action {
     font-size: 15px;
-  }
-}
-
-@media screen and (orientation: landscape) and (max-width: 900px) {
-  #mobile-controls {
-    display: flex !important;
   }
 }
 
