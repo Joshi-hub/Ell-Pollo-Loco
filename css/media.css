@@ -78,6 +78,7 @@
     top: 65px;
     font-size: 20px;
     padding: 6px 10px;
+    left: 300px;
   }
 
   .menu-help,
@@ -111,6 +112,7 @@
   .sound-btn {
     top: 55px;
     font-size: 18px;
+    left: 260px;
   }
 
   .menu-help,

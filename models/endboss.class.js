@@ -194,9 +194,7 @@ class Endboss extends MovableObject {
    */
   updateMovement(char) {
     if (!this.isAlertPlayed) return;
-
     this.speed = this.isEnraged ? this.enragedSpeed : this.baseSpeed;
-
     if (char.x < this.x) {
       this.otherDirection = false;
       this.moveLeft();
@@ -212,12 +210,10 @@ class Endboss extends MovableObject {
   startAnimationLoop() {
     setStopableIntervall(() => {
       const state = this.getCurrentAnimationState();
-
       if (state === "dead") {
         this.playDeathAnimation();
         return;
       }
-
       const images = this.getImagesForState(state);
       if (images) {
         this.playAnimation(images);
@@ -245,7 +241,6 @@ class Endboss extends MovableObject {
   startAlert() {
     this.isAlertPlaying = true;
     this.speed = 0;
-
     const alertDuration = this.IMAGES_ALERT.length * 150;
 
     setTimeout(() => {

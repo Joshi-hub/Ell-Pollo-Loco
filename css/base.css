@@ -39,7 +39,6 @@ body {
   background-size: cover;
   font-family: "zabars", Arial, Helvetica, sans-serif;
   line-height: 1.25;
-  overflow: hidden; 
 }
 
 body.no-scroll {
@@ -269,5 +268,25 @@ body.no-scroll {
   width: 100%;
   margin-top: 6px;
   accent-color: var(--btn-green);
+}
+
+.impressum,
+.privacy {
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.impressum h1,
+.privacy h1,
+.impressum h2,
+.privacy h2 {
+  font-size: 40px;
+}
+
+p,
+li {
+  font-size: 20px;
+  line-height: 1.5;
 }
 
