@@ -1,3 +1,15 @@
+/**
+ * Represents the final boss enemy.
+ * 
+ * The Endboss has multiple behavior states:
+ * - walking
+ * - alert (before chasing)
+ * - attacking
+ * - enraged (faster chase after being hit)
+ * - death animation
+ * 
+ * It reacts to the player's distance and switches animations accordingly.
+ */
 class Endboss extends MovableObject {
   height = 400;
   width = 250;
@@ -18,9 +30,9 @@ class Endboss extends MovableObject {
   alertRange = 400;
   attackRange = 250;
 
-  deathSound = new Audio('audio/chicken-boss.mp3');
-  deathSounds = new Audio('audio/chicken-deads.mp3');
-  hitSound   = new Audio('audio/chicken-die.mp3');
+  deathSound = new Audio('audio/chicken-boss.mp3');   
+  deathSounds = new Audio('audio/chicken-deads.mp3'); 
+  hitSound   = new Audio('audio/chicken-die.mp3');    
 
   IMAGES_WALKING = [
     "img/4_enemie_boss_chicken/1_walk/G1.png",
@@ -63,6 +75,10 @@ class Endboss extends MovableObject {
     "img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
 
+  /**
+   * Initializes the Endboss with full health and default animations.
+   * Loads all images and starts movement + animation loops.
+   */
   constructor() {
     super().loadImage(this.IMAGES_WALKING[0]);
     this.loadImages(this.IMAGES_WALKING);
@@ -71,12 +87,16 @@ class Endboss extends MovableObject {
     this.loadImages(this.IMAGES_ATTACK);
     this.loadImages(this.IMAGES_DEAD);
     this.x = 2500;
-    this.speed = 0; 
+    this.speed = 0;
     this.maxHealth = 5;
     this.health = this.maxHealth;
     this.animate();
   }
 
+  /**
+   * Returns the current animation state based on health,
+   * distance to the player, and internal flags.
+   */
   getCurrentAnimationState() {
     if (this.health <= 0) return "dead";
     if (this.isEnragedIntroPlaying) return "enraged_intro";
@@ -89,21 +109,24 @@ class Endboss extends MovableObject {
     return "walking";
   }
 
+  /**
+   * Plays the death animation frame by frame.
+   */
   playDeathAnimation() {
-    if (this.currentImage < this.IMAGES_DEAD.length - 1) {
-      this.currentImage++;
-    }
-    const i = Math.min(this.currentImage, this.IMAGES_DEAD.length - 1);
-    const path = this.IMAGES_DEAD[i];
+    if (this.currentImage < this.IMAGES_DEAD.length - 1) {this.currentImage++;}
+    const index = Math.min(this.currentImage, this.IMAGES_DEAD.length - 1);
+    const path = this.IMAGES_DEAD[index];
     this.img = this.imageCache[path];
   }
 
+  /**
+   * Applies damage to the boss and handles enraged mode or death.
+   */
   takeDamage(damage = 1) {
     if (this.health <= 0) return;
     this.health -= damage;
     this.hitsTaken++;
-    if (this.health <= 0) {this.health = 0; 
-      this.die();
+    if (this.health <= 0) {this.health = 0;this.die();
       return;
     }
     this.playSound(this.hitSound);
@@ -112,29 +135,44 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Triggers the enraged intro animation and sound,
+   * then increases speed after a short delay.
+   */
   startEnrage() {
     this.isEnraged = true;
     this.isEnragedIntroPlaying = true;
     this.speed = 0;
     const enragedIntroDuration = this.IMAGES_HURT.length * 250;
     this.playSound(this.deathSound);
+
     setTimeout(() => {
       this.isEnragedIntroPlaying = false;
       this.speed = this.enragedSpeed;
     }, enragedIntroDuration);
   }
 
+  /**
+   * Plays the final death sound and freezes movement.
+   */
   die() {
     this.speed = 0;
     this.currentImage = 0;
     this.playSound(this.deathSounds);
   }
 
+  /**
+   * Starts all movement and animation intervals.
+   */
   animate() {
     this.startMovementLoop();
     this.startAnimationLoop();
   }
 
+  /**
+   * Handles boss movement, including alert phase,
+   * chasing behavior and enraged chasing.
+   */
   startMovementLoop() {
     setStopableIntervall(() => {
       if (this.health <= 0) return;
@@ -147,14 +185,18 @@ class Endboss extends MovableObject {
       }
       if (this.isAlertPlaying) return;
       if (this.isEnragedIntroPlaying) return;
-
       this.updateMovement(char);
     }, 1000 / 60);
   }
 
+  /**
+   * Moves the boss toward the player with either normal or enraged speed.
+   */
   updateMovement(char) {
     if (!this.isAlertPlayed) return;
+
     this.speed = this.isEnraged ? this.enragedSpeed : this.baseSpeed;
+
     if (char.x < this.x) {
       this.otherDirection = false;
       this.moveLeft();
@@ -164,13 +206,18 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Plays the correct animation depending on the boss state.
+   */
   startAnimationLoop() {
     setStopableIntervall(() => {
       const state = this.getCurrentAnimationState();
+
       if (state === "dead") {
         this.playDeathAnimation();
         return;
       }
+
       const images = this.getImagesForState(state);
       if (images) {
         this.playAnimation(images);
@@ -178,21 +225,29 @@ class Endboss extends MovableObject {
     }, 500);
   }
 
+  /**
+   * Maps behavior states to their corresponding image arrays.
+   */
   getImagesForState(state) {
-    const stateToImages = {
+    const map = {
       enraged_intro: this.IMAGES_HURT,
       enraged_chase: this.IMAGES_WALKING,
       alert: this.IMAGES_ALERT,
       walking: this.IMAGES_WALKING,
       attack: this.IMAGES_ATTACK,
     };
-    return stateToImages[state] || null;
+    return map[state] || null;
   }
 
+  /**
+   * Plays the alert animation before the boss starts chasing.
+   */
   startAlert() {
     this.isAlertPlaying = true;
     this.speed = 0;
+
     const alertDuration = this.IMAGES_ALERT.length * 150;
+
     setTimeout(() => {
       this.isAlertPlaying = false;
       this.isAlertPlayed = true;
