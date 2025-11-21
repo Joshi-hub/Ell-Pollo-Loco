@@ -14,6 +14,7 @@ class SmallChicken extends MovableObject {
     hitboxWidth = this.width - 16;
     hitboxHeight = this.height - 16;
     deathSound = new Audio('audio/chicken-dead.mp3');
+    reactionSound = new Audio('audio/small-chicken.mp3');
     isDead = false;
 
     IMAGES_WALKING = [
@@ -75,6 +76,41 @@ class SmallChicken extends MovableObject {
         this.deathTime = Date.now();
         this.loadImage(this.IMAGES_DEAD[0]);
     }
+    /**
+   * Returns true if the chicken is currently visible on screen.
+   */
+  isOnScreen() {
+    if (!this.world || !this.world.canvas) return false;
+
+    const cameraX = this.world.camera_x;
+    const canvasWidth = this.world.canvas.width;
+
+    const screenLeft = this.x + cameraX;
+    const screenRight = screenLeft + this.width;
+
+    return screenRight > 0 && screenLeft < canvasWidth;
+  }
+
+  /**
+   * Plays the reaction sound from time to time while walking,
+   * but only if the chicken is visible on screen.
+   */
+  playReaction() {
+    if (typeof soundEnabled !== "undefined" && !soundEnabled) return;
+    if (!this.reactionSound) return;
+    if (!this.isOnScreen()) return;
+
+    const now = Date.now();
+    const minDelay = 3000; // mind. 3 Sekunden Abstand
+    const chance = 0.03;   // 3% Chance pro Tick
+
+    if (now - this.lastReactionTime < minDelay) return;
+    if (Math.random() > chance) return;
+
+    this.lastReactionTime = now;
+    this.reactionSound.currentTime = 0;
+    this.reactionSound.play().catch(() => {});
+  }
 
     /**
      * Starts both the movement loop (physics) and animation loop (visuals).
@@ -100,6 +136,7 @@ class SmallChicken extends MovableObject {
         setStopableIntervall(() => {
             if (!this.isDead) {
                 this.playAnimation(this.IMAGES_WALKING);
+                this.playReaction();
             }
         }, 200);
     }
