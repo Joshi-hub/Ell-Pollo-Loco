@@ -9,13 +9,16 @@ class Character extends MovableObject {
   speed = 5;
   world;
   isIdle = 0;
+  isSleeping = false; 
   hitboxOffsetX = 16;
   hitboxOffsetY = 110;
   hitboxWidth = this.width - 30;
   hitboxHeight = this.height - 120;
+
   jumpSound = new Audio("audio/jump.wav");
   hurtSound = new Audio("audio/damage.wav");
   deadSound = new Audio("audio/01._death_groan_male.wav");
+  sleepSound = new Audio("audio/sleep.mp3");
   hasPlayedDeathSound = false;
 
   IMAGES_WALKING = [
@@ -97,11 +100,18 @@ class Character extends MovableObject {
     this.animate();
   }
 
+  /** Stoppt den Schlaf-Sound */
+  stopSleepSound() {
+    if (this.sleepSound && !this.sleepSound.paused) {
+      this.sleepSound.pause();
+      this.sleepSound.currentTime = 0;
+    }
+  }
+
   /**
    * Called when the character receives damage.
    * Triggers hurt animation & sound.
    */
-
   hit() {
     const now = Date.now();
     let timePassed = (now - this.lastHit) / 1000;
@@ -165,10 +175,12 @@ class Character extends MovableObject {
     if (keyboard.RIGHT && this.x < world.level.level_end_x) {
       this.moveRight();
       this.otherDirection = false;
+      this.resetIsIdle();
     }
     if (keyboard.LEFT && this.x > 0) {
       this.moveLeft();
       this.otherDirection = true;
+      this.resetIsIdle();
     }
   }
 
@@ -181,6 +193,7 @@ class Character extends MovableObject {
     if (keyboard.SPACE && !this.isAboveGround()) {
       this.playSound(this.jumpSound);
       this.jump();
+      this.resetIsIdle();
     }
   }
 
@@ -215,6 +228,8 @@ class Character extends MovableObject {
   /** Resets idle counter */
   resetIsIdle() {
     this.isIdle = 0;
+    this.isSleeping = false;
+    this.stopSleepSound();
   }
 
   /**
@@ -223,10 +238,15 @@ class Character extends MovableObject {
    */
   checkIdleStatus() {
     this.isIdle++;
-
-    if (this.isIdle < 200) {
+    if (this.isIdle < 80) {
+      this.isSleeping = false;
+      this.stopSleepSound(); 
       this.playAnimation(this.IMAGES_IDLE);
     } else {
+      if (!this.isSleeping) {
+        this.isSleeping = true;
+        this.playSound(this.sleepSound);
+      }
       this.playAnimation(this.IMAGES_IDLE_LONG);
     }
   }
