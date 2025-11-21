@@ -155,7 +155,7 @@ function getMobileButtons() {
 function bindTouchButton(button, onDown, onUp) {
   if (!button) return;
   const start = (e) => {
-   e.preventDefault();
+    e.preventDefault();
     e.stopPropagation();
     onDown();
   };
