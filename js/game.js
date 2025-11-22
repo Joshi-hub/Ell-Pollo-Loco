@@ -61,7 +61,8 @@ function clearCanvas() {
  * Hides the game stage and clears the canvas drawing area.
  */
 function hideStageAndCanvas() {
-  hideElementById("stage");
+  const stage = document.getElementById("stage");
+  if (stage) stage.classList.add("d-none");
   const canvasElement = document.getElementById("canvas");
   if (!canvasElement) return;
   canvasElement.classList.add("d-none");
