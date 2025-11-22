@@ -9,7 +9,7 @@ class Level {
     enemies;
     clouds;
     backgroundObjects;
-    level_end_x = 2200;
+    level_end_x = 3600;
 
     /**
      * Creates a new Level instance with all included world objects.

@@ -55,7 +55,7 @@ class SmallChicken extends MovableObject {
      * Assigns a random X-position within the level range.
      */
     setRandomPosition() {
-        this.x = 300 + (Math.random() * 1860);
+        this.x = 300 + (Math.random() * 3600);
     }
 
     /**

@@ -51,6 +51,8 @@ function createCoins() {
 function createEnemies() {
   return [
     new Chicken(), new Chicken(), new Chicken(),
+    new Chicken(), new Chicken(), new Chicken(),
+    new SmallChicken(), new SmallChicken(), new SmallChicken(),
     new SmallChicken(), new SmallChicken(), new SmallChicken(),
     new Endboss(),
   ];
@@ -73,27 +75,23 @@ function createClouds() {
  * @returns {BackgroundObject[]} Array of background layers.
  */
 function createBackgrounds() {
-  return [
-    ...createBackgroundLayer(-720),
-    ...createBackgroundLayer(0),
-    ...createBackgroundLayer(720),
-    ...createBackgroundLayer(720 * 2),
-    ...createBackgroundLayer(720 * 3),
-  ];
+  const backgrounds = [];
+  const positions = [-720, 0, 720, 720 * 2, 720 * 3, 720 * 4, 720 * 5];
+
+  positions.forEach((positionX, index) => {
+    backgrounds.push(...createBackgroundLayer(positionX, index));
+  });
+
+  return backgrounds;
 }
 
 /**
- * Creates one complete background layer segment:
- * air → third layer → second layer → first layer.
- * 
- * @param {number} x - The X-position of the layer block.
- * @returns {BackgroundObject[]} Layer objects positioned at X.
+ * @param {number} positionX
+ * @param {number} index - 0, 1, 2, 3...
  */
-function createBackgroundLayer(positionX) {
-  let backgroundVariant = "1";
-  if (positionX === -720 || positionX === 720 || positionX === 720 * 3) {
-    backgroundVariant = "2";
-  }
+function createBackgroundLayer(positionX, index) {
+  const backgroundVariant = index % 2 === 0 ? "1" : "2";
+
   return [
     new BackgroundObject("img/5_background/layers/air.png", positionX),
     new BackgroundObject("img/5_background/layers/3_third_layer/" + backgroundVariant + ".png", positionX),
