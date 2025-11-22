@@ -138,14 +138,19 @@ body.no-scroll {
   justify-content: center;
   width: 100%;
   margin: 0 auto;
-  padding-top: 0;
-  transform: translateY(-40px);
+  padding: 0 16px;
+  box-sizing: border-box;
+  transform: translateY(0); 
 }
 
 .menu-shield {
   position: relative;
-  width: 100%; 
-  max-width: 1400px; 
+  width: min(
+    100vw,
+    calc(100vh * 720 / 480),
+    var(--game-width)
+  );
+  max-width: var(--game-width); /* 720px */
 }
 
 .menu-shield-img {
@@ -156,14 +161,14 @@ body.no-scroll {
 
 .menu-content {
   position: absolute;
-  inset: 28% 10% 15% 10%;  
+  inset: 30% 10% 16% 10%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;   
-  gap: 20px;                
+  justify-content: center; 
+  gap: 48px;               
   text-align: center;
-  transform: translateY(0);  
+  transform: translateY(0);
 }
 
 .menu-title {
@@ -202,8 +207,8 @@ body.no-scroll {
   max-height: 100vh;                   
   overflow-y: auto;                  
   box-sizing: border-box;
-  scrollbar-width: thin;                     /* Firefox: dünner Balken */
-  scrollbar-color: #f4e4bc33 transparent;    /* Firefox: Daumen + Track */
+  scrollbar-width: thin;                     
+  scrollbar-color: #f4e4bc33 transparent;    
   scrollbar-gutter: stable;   
 }
 

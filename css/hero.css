@@ -3,17 +3,22 @@
   z-index: 1;
   margin: 0;
   font-weight: 900;
-  font-size: clamp(40px, 7vw, 88px);
+  font-size: clamp(32px, 4.6vw, 60px);
   line-height: 1.05;
   color: var(--title-color);
   letter-spacing: 3px;
   text-transform: uppercase;
-  text-shadow: 0 1px 0 var(--title-outline), 0 2px 0 var(--title-outline),
-    0 4px 6px rgba(0, 0, 0, 0.55);
+  text-shadow: 0 1px 0 var(--title-outline),
+               0 2px 0 var(--title-outline),
+               0 4px 6px rgba(0, 0, 0, 0.55);
   filter: drop-shadow(0 20px 25px rgba(0, 0, 0, 0.35));
   animation: none !important;
   transform: none !important;
-  padding-bottom: 40px;
+  padding-bottom: 24px;     
+  max-width: 90%;
+  margin-inline: auto;
+  word-break: break-word;   
+  text-align: center;
 }
 
 .menu-shield {

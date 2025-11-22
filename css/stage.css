@@ -1,10 +1,14 @@
 .stage {
-  position: relative; 
+  position: relative;
   display: grid;
-  width: min(100vw, var(--game-width));
-  aspect-ratio: 720/480;
+  width: min(
+    100vw,
+    calc(100vh * 720 / 480),
+    var(--game-width)
+  );
+  aspect-ratio: 720 / 480;
   height: auto;
-  overflow: hidden; 
+  overflow: hidden;
   z-index: 5;
 }
 
