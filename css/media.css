@@ -6,7 +6,6 @@
   .menu-content,
   .menu-main,
   .menu-help,
-  #fullscreen-btn,
   #sound-btn {
     display: none !important;
   }
