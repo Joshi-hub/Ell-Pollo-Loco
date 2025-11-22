@@ -16,6 +16,15 @@
   padding-bottom: 40px;
 }
 
+.menu-shield {
+  position: relative;
+  display: inline-block;        
+  transform-origin: top center;  
+  animation:
+    menu-sway 3.6s ease-in-out infinite,
+    menu-flicker 1.9s ease-in-out infinite;
+}
+
 #title .title-char {
   display: inline-block;
   transform-origin: bottom center;
@@ -44,3 +53,28 @@
   }
 }
 
+@keyframes menu-sway {
+  0%,
+  100% {
+    transform: rotate(-2deg) translateY(0);
+  }
+  50% {
+    transform: rotate(2deg) translateY(-4px);
+  }
+}
+
+@keyframes menu-flicker {
+  0%,
+  100% {
+    filter: brightness(1);
+  }
+  20% {
+    filter: brightness(1.06);
+  }
+  55% {
+    filter: brightness(0.96);
+  }
+  70% {
+    filter: brightness(1.03);
+  }
+}
