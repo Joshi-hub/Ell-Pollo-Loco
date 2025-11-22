@@ -50,10 +50,8 @@ function createCoins() {
  */
 function createEnemies() {
   return [
-    new Chicken(), new Chicken(), new Chicken(),
-    new Chicken(), new Chicken(), new Chicken(),
-    new SmallChicken(), new SmallChicken(), new SmallChicken(),
-    new SmallChicken(), new SmallChicken(), new SmallChicken(),
+    new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(), new Chicken(),
+    new SmallChicken(), new SmallChicken(), new SmallChicken(), new SmallChicken(), new SmallChicken(), new SmallChicken(), new SmallChicken(), new SmallChicken(), new SmallChicken(), new SmallChicken(), new SmallChicken(), new SmallChicken(),
     new Endboss(),
   ];
 }

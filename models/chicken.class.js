@@ -43,19 +43,13 @@ class Chicken extends MovableObject {
  */
 isOnScreen() {
     if (!this.world || !this.world.canvas) return false;
-  
-    const cameraX = this.world.camera_x;        // meist negativ
+    const cameraX = this.world.camera_x;       
     const canvasWidth = this.world.canvas.width;
-  
-    // Welt-Koordinate + Kameraoffset = Bildschirmposition
     const screenLeft = this.x + cameraX;
     const screenRight = screenLeft + this.width;
-  
-    // sichtbar, wenn sich irgendwas im 0..canvasWidth Bereich befindet
     return screenRight > 0 && screenLeft < canvasWidth;
   }
   
-
   /**
    * Kills the chicken and switches sprite to its dead image.
    * Prevents repeated trigger when called multiple times.
