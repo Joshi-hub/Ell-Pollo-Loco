@@ -184,12 +184,6 @@ body.no-scroll {
   color: #f8e9c5;
 }
 
-.button-container .game-btn {
-  font-size: 26px;
-  padding: 18px 40px;
-  min-width: 260px;
-}
-
 .menu-help,
 .menu-settings,
 .menu-story {
