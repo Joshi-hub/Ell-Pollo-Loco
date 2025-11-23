@@ -16,12 +16,24 @@ document.addEventListener("click", initMenuMusicOnce, { once: true });
  * Aggregates all initialization steps.
  */
 function init() {
+  loadSoundState();
   initGameButtons();
   initSoundControls();
   initOverlayButtons();
   initSettingsControls();
   initMenuOutsideClick();
   updateSoundButtonIcon();
+}
+
+/**
+ * Load sound state from localStorage.
+ */
+function loadSoundState() {
+  const stored = localStorage.getItem("soundEnabled");
+  if (stored !== null) {
+    soundEnabled = stored === "true";
+    menuMusic.muted = !soundEnabled;
+  }
 }
 
 /**
@@ -61,7 +73,7 @@ function initSettingsControls() {
 }
 
 /**
- * Hides alle Submenus und zeigt dann das gewünschte Menü.
+ * Opens a specific menu overlay.
  * @param {string} menuId - The ID of the menu element to show.
  * @param {Event} event - The click event, used to stop propagation.
  */
@@ -143,8 +155,8 @@ function loadGame() {
   showElement("stage");
   initializeCanvas();
   stopMenuMusic();
-  startGame();       
-  createGameWorld(); 
+  startGame();       // defined in game.js
+  createGameWorld(); // defined in game.js
   initMobileControls();
 }
 
@@ -194,8 +206,10 @@ function hideOverlays() {
  */
 function toggleSound() {
   soundEnabled = !soundEnabled;
+  localStorage.setItem("soundEnabled", String(soundEnabled));
   menuMusic.muted = !soundEnabled;
   updateSoundButtonIcon();
+
   if (world && world.character && world.character.sound) {
     world.character.sound.muted = !soundEnabled;
   }
@@ -218,7 +232,7 @@ function updateSoundButtonIcon() {
 function setMusicVolume(vol) {
   musicVolume = vol;
   menuMusic.volume = musicVolume;
-  if (world && world.character) {
+  if (world && world.character && world.character.sound) {
     world.character.sound.volume = musicVolume;
   }
 }
@@ -229,7 +243,9 @@ function setMusicVolume(vol) {
 function initMenuMusicOnce() {
   if (!menuMusicInitialized) {
     menuMusicInitialized = true;
-    if (soundEnabled) menuMusic.play().catch(() => {});
+    if (soundEnabled) {
+      menuMusic.play().catch(() => {});
+    }
   }
 }
 
@@ -248,6 +264,17 @@ function playMenuMusic() {
  */
 function stopMenuMusic() {
   menuMusic.pause();
+}
+
+/**
+ * Toggles fullscreen mode for the whole document (desktop).
+ */
+function toggleFullscreen() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+  } else {
+    document.exitFullscreen();
+  }
 }
 
 /**

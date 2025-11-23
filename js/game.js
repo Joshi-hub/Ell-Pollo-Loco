@@ -1,16 +1,8 @@
-/**
- * Core game state and engine-related helpers.
- * Handles world, canvas, keyboard and intervals.
- */
-
 let canvas;
 let world;
 let keyboard = new Keyboard();
 let intervalIds = [];
 
-/**
- * Maps keyboard key codes to logical in-game actions.
- */
 const keyMap = {
   39: "RIGHT",
   37: "LEFT",
@@ -196,52 +188,20 @@ function initMobileControls() {
 }
 
 /**
- * Toggles fullscreen mode for the whole document.
+ * Resizes the canvas when entering or leaving fullscreen.
+ * Keeps normal layout when not in fullscreen.
  */
-function toggleFullscreen() {
-  if (!document.fullscreenElement) {
-    document.documentElement.requestFullscreen();
-  } else {
-    document.exitFullscreen();
-  }
-}
-
 function resizeCanvasToFullscreen() {
-  const canvas = document.getElementById("canvas");
+  const canvasElement = document.getElementById("canvas");
+  if (!canvasElement) return;
   if (document.fullscreenElement) {
-    canvas.style.width = "100vw";
-    canvas.style.height = "100vh";
+    canvasElement.style.width = "100vw";
+    canvasElement.style.height = "100vh";
   } else {
-    canvas.style.width = "";
-    canvas.style.height = "";
+    canvasElement.style.width = "";
+    canvasElement.style.height = "";
   }
 }
 
-/**
- * Requests fullscreen mode on the given element
- * using vendor-prefixed methods where necessary.
- * 
- * @param {HTMLElement} element 
- */
-function enterFullscreen(element) {
-  if (element.requestFullscreen) {
-    element.requestFullscreen();
-  } else if (element.msRequestFullscreen) {
-    element.msRequestFullscreen();
-  } else if (element.webkitRequestFullscreen) {
-    element.webkitRequestFullscreen();
-  }
-}
-
-/**
- * Exits fullscreen mode using the appropriate browser API.
- */
-function exitFullscreen() {
-  if (document.exitFullscreen) {
-    document.exitFullscreen();
-  } else if (document.webkitExitFullscreen) {
-    document.webkitExitFullscreen();
-  }
-}
 document.addEventListener("fullscreenchange", resizeCanvasToFullscreen);
 window.addEventListener("resize", resizeCanvasToFullscreen);
