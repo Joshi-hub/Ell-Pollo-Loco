@@ -191,7 +191,8 @@ body.no-scroll {
 }
 
 .menu-help,
-.menu-settings {
+.menu-settings,
+.menu-story {
   position: relative;               
   margin: 0;
   display: flex;

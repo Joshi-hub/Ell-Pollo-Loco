@@ -29,10 +29,11 @@ function init() {
  */
 function initGameButtons() {
   addClick("play-btn", handleStartGame);
-  // Using a wrapper to pass the event and ID
   addClick("help-btn", (e) => openMenu("menu-help", e));
-  addClick("settings-btn", (e) => openMenu("menu-settings", e));
   addClick("back-to-menu-btn", showMainMenu);
+  addClick("story-btn", (e) => openMenu("menu-story", e));
+  addClick("story-back-btn", showMainMenu);
+  addClick("settings-btn", (e) => openMenu("menu-settings", e));
   addClick("settings-back-btn", showMainMenu);
 }
 
@@ -52,7 +53,7 @@ function initSettingsControls() {
 
   if (musicSlider) {
     musicSlider.value = String(Math.round(musicVolume * 100));
-    musicSlider.addEventListener("input", (e) => 
+    musicSlider.addEventListener("input", (e) =>
       setMusicVolume(Number(e.target.value) / 100)
     );
   }
@@ -60,22 +61,31 @@ function initSettingsControls() {
 }
 
 /**
- * Opens a specific menu overlay.
+ * Hides alle Submenus und zeigt dann das gewünschte Menü.
  * @param {string} menuId - The ID of the menu element to show.
  * @param {Event} event - The click event, used to stop propagation.
  */
 function openMenu(menuId, event) {
   if (event) event.stopPropagation(); // Prevents document listener from closing it immediately
+  hideAllSubMenus();
   hideElement("menu-main");
   showElement(menuId);
+}
+
+/**
+ * Hides Help, Settings und Story.
+ */
+function hideAllSubMenus() {
+  hideElement("menu-help");
+  hideElement("menu-settings");
+  hideElement("menu-story");
 }
 
 /**
  * Hides all overlays and returns to the main menu view.
  */
 function showMainMenu() {
-  hideElement("menu-help");
-  hideElement("menu-settings");
+  hideAllSubMenus();
   showElement("menu-main");
 }
 
@@ -84,13 +94,16 @@ function showMainMenu() {
  */
 function initMenuOutsideClick() {
   document.addEventListener("click", (event) => {
-    checkOutsideClick("menu-help", event.target);
-    checkOutsideClick("menu-settings", event.target);
+    const target = event.target;
+    checkOutsideClick("menu-help", target);
+    checkOutsideClick("menu-settings", target);
+    checkOutsideClick("menu-story", target);
   });
-  
-  // Prevents clicks inside the menu from bubbling up to document
+
+  // Prevents clicks inside the menus from bubbling up to document
   stopPropFor("menu-help");
   stopPropFor("menu-settings");
+  stopPropFor("menu-story");
 }
 
 /**
@@ -216,7 +229,7 @@ function setMusicVolume(vol) {
 function initMenuMusicOnce() {
   if (!menuMusicInitialized) {
     menuMusicInitialized = true;
-    if(soundEnabled) menuMusic.play().catch(() => {});
+    if (soundEnabled) menuMusic.play().catch(() => {});
   }
 }
 

@@ -128,3 +128,12 @@
 .ctrl-btn:active .ctrl-icon {
     transform: translateY(1px);
 }
+
+.story-btn {
+  background: linear-gradient(160deg, var(--btn-beige-light), var(--btn-beige));
+  border-color: var(--btn-brown);
+}
+
+.story-btn:hover {
+  background: linear-gradient(160deg, var(--btn-beige), var(--btn-beige-dark));
+}

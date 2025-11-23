@@ -18,13 +18,22 @@
     <img class="tumbleweed tw2" src="img/tumpleweed.png" alt="tumbleweed" />
     <img class="tumbleweed tw3" src="img/tumpleweed.png" alt="tumbleweed" />
 
+    <!-- MAIN MENU -->
     <div id="main-menu" class="main-menu">
       <div class="menu-shield">
-        <img src="img/shild.png" alt="Main menu sign" class="menu-shield-img"/>
+        <img
+          src="img/shild.png"
+          alt="Main menu sign"
+          class="menu-shield-img"
+        />
+
         <div class="menu-content">
+          <!-- HAUPTMENÜ -->
           <div id="menu-main" class="menu-main">
             <button id="sound-btn" class="sound-btn"></button>
+
             <h1 id="title" class="menu-main-title">El Pollo Loco</h1>
+
             <div class="button-container">
               <button id="play-btn" class="game-btn start-btn">
                 START GAME
@@ -32,12 +41,16 @@
               <button id="help-btn" class="game-btn help-btn">
                 CONTROLS
               </button>
+              <button id="story-btn" class="game-btn story-btn">
+                STORY
+              </button>
               <button id="settings-btn" class="game-btn settings-btn">
                 SETTINGS
               </button>
             </div>
           </div>
-    
+
+          <!-- CONTROLS / HELP -->
           <div id="menu-help" class="menu-help d-none">
             <div class="controls-grid">
               <div class="control-item">
@@ -57,27 +70,77 @@
                 <span class="action">Throw bottle</span>
               </div>
             </div>
-    
+
             <div class="help-buttons">
               <button id="back-to-menu-btn" class="game-btn help-btn">
                 BACK
               </button>
             </div>
           </div>
-    
+
+          <!-- STORY-MENÜ -->
+          <div id="menu-story" class="menu-story d-none">
+            <h2 class="menu-section-title">Story</h2>
+
+            <section class="settings-section">
+              <p>
+                Irgendwo in der glühend heißen Wüste von Mexiko hat ein
+                verrückter Hühnerfarmer ein paar ganz besondere Hühner gezüchtet
+                – schneller, wilder und frecher als alles, was je über einen
+                staubigen Hof gerannt ist.
+              </p>
+              <p>
+                Eines Tages brechen die Hühner aus, stiften Chaos im ganzen
+                Land und klauen alles, was nicht bei drei auf dem Kaktus ist:
+                Münzen, Flaschen – sogar die geheime Salsa-Rezeptur!
+              </p>
+              <p>
+                Deine Aufgabe: Als mutiger Held machst du dich auf den Weg durch
+                die Wüste, sammelst Münzen und Flaschen ein, weichst den
+                verrückten Hühnern aus und stellst dich am Ende dem mächtigen
+                Endboss-Huhn.
+              </p>
+              <p>
+                Nur wenn du flink springst, rechtzeitig ausweichst und deine
+                Flaschen clever einsetzt, bringst du Ruhe zurück auf die Farm –
+                und die Salsa zurück auf den Tisch.
+              </p>
+            </section>
+
+            <div class="help-buttons">
+              <button id="story-back-btn" class="game-btn">
+                BACK
+              </button>
+            </div>
+          </div>
+
+          <!-- SETTINGS -->
           <div id="menu-settings" class="menu-settings d-none">
             <h2 class="menu-section-title">Settings</h2>
+
             <section class="settings-section">
               <h3>Audio</h3>
               <label for="music-volume-slider">Master volume</label>
-              <input id="music-volume-slider" type="range" min="0" max="100" value="20"/>
+              <input
+                id="music-volume-slider"
+                type="range"
+                min="0"
+                max="100"
+                value="20"
+              />
             </section>
-    
+
             <section class="settings-section">
               <h3>Display</h3>
-              <button id="settings-fullscreen-btn" class="game-btn" type="button">Fullscreen</button>
+              <button
+                id="settings-fullscreen-btn"
+                class="game-btn"
+                type="button"
+              >
+                Fullscreen
+              </button>
             </section>
-    
+
             <section class="settings-section">
               <h3>Imprint</h3>
               <div class="settings-links">
@@ -85,20 +148,28 @@
                 <a href="./html/privacy.html">Privacy Policy</a>
               </div>
             </section>
-    
+
             <section class="settings-section">
               <h3>Credits</h3>
               <ul class="credits-list">
-                <li>Game design & development: Joshua</li>
-                <li>Grafiken & Animationen: El Pollo Loco Kurs-Assets</li>
-                <li>Zusätzliche Bilder & Sounds: 
-                  <a href="https://pixabay.com" target="_blank">Pixabay (lizenzfrei)</a>
+                <li>Game design &amp; development: Joshua</li>
+                <li>Grafiken &amp; Animationen: El Pollo Loco Kurs-Assets</li>
+                <li>
+                  Zusätzliche Bilder &amp; Sounds:
+                  <a href="https://pixabay.com" target="_blank"
+                    >Pixabay (lizenzfrei)</a
+                  >
                 </li>
-                <li>Ein KI-generiertes Bild: erstellt mit ChatGPT (OpenAI)</li>
-                <li>Musik & Soundeffekte: Eigene Auswahl + lizenzfreie Quellen</li>
+                <li>
+                  Ein KI-generiertes Bild: erstellt mit ChatGPT (OpenAI)
+                </li>
+                <li>
+                  Musik &amp; Soundeffekte: Eigene Auswahl + lizenzfreie
+                  Quellen
+                </li>
               </ul>
-            </section>            
-    
+            </section>
+
             <div class="help-buttons">
               <button id="settings-back-btn" class="game-btn">
                 BACK
@@ -108,49 +179,86 @@
         </div>
       </div>
     </div>
-    
+
+    <!-- GAME STAGE -->
     <div id="stage" class="stage d-none">
-      <canvas id="canvas" width="720" height="480" class="d-none"></canvas>
-    
+      <canvas
+        id="canvas"
+        width="720"
+        height="480"
+        class="d-none"
+      ></canvas>
+
+      <!-- GAME OVER -->
       <div id="game-over-screen" class="overlay d-none">
         <div class="game-over-content">
-          <img src="./img/You won, you lost/You lost.png" alt="Game Over" />
+          <img
+            src="./img/You won, you lost/You lost.png"
+            alt="Game Over"
+          />
           <button id="restart-btn" class="game-btn">Play Again</button>
           <button id="menu-btn" class="game-btn">Main Menu</button>
         </div>
       </div>
-    
+
+      <!-- YOU WON -->
       <div id="you-won-screen" class="overlay d-none">
         <div class="you-won-content">
-          <img src="./img/You won, you lost/You won A.png" alt="You Won"/>
+          <img
+            src="./img/You won, you lost/You won A.png"
+            alt="You Won"
+          />
           <button id="restart-won-btn" class="game-btn">Play Again</button>
           <button id="menu-won-btn" class="game-btn">Main Menu</button>
         </div>
       </div>
-    
+
+      <!-- MOBILE CONTROLS -->
       <div id="mobile-controls" class="mobile-controls d-none">
         <div class="mobile-controls-left">
           <button id="btn-left" class="ctrl-btn">
-            <svg width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"/></svg>
+            <svg width="32" height="32" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M15.41 7.41L14 6l-6 6 6 6 1.41-1.41L10.83 12z"
+              />
+            </svg>
           </button>
           <button id="btn-right" class="ctrl-btn">
-            <svg width="32" height="32" viewBox="0 0 24 24"><path fill="currentColor" d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            <svg width="32" height="32" viewBox="0 0 24 24">
+              <path
+                fill="currentColor"
+                d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"
+              />
+            </svg>
           </button>
         </div>
-    
+
         <div class="mobile-controls-right">
           <button id="btn-jump" class="ctrl-btn">
-            <img src="img/jump.png" alt="Jump" class="ctrl-icon">
+            <img
+              src="img/jump.png"
+              alt="Jump"
+              class="ctrl-icon"
+            />
           </button>
           <button id="btn-throw" class="ctrl-btn">
-            <img src="img/6_salsa_bottle/2_salsa_bottle_on_ground.png" alt="Throw" class="ctrl-icon">
+            <img
+              src="img/6_salsa_bottle/2_salsa_bottle_on_ground.png"
+              alt="Throw"
+              class="ctrl-icon"
+            />
           </button>
         </div>
       </div>
     </div>
-    
-    <div id="portrait-mode" class="d-none">Please rotate your device.</div>    
 
+    <!-- PORTRAIT MODE HINWEIS -->
+    <div id="portrait-mode" class="d-none">
+      Please rotate your device.
+    </div>
+
+    <!-- SCRIPT-INCLUDES -->
     <script src="models/drawable-object.class.js"></script>
     <script src="models/moveble-object.class.js"></script>
     <script src="models/status-bar.class.js"></script>
