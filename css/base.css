@@ -244,15 +244,15 @@ body.no-scroll {
 .settings-section label,
 .settings-section p,
 .settings-section li {
-  font-size: 1.1rem;
+  font-size: 24px;
   line-height: 1.4;
   color: #f8e9c5;
 }
 
 .settings-links a {
-  font-size: 1.1rem;
-  color: var(--btn-beige-light);
+  font-size: 24px;
   text-decoration: underline;
+  padding-right: 5px;
 }
 
 .credits-list {
