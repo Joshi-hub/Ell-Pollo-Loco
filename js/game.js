@@ -199,11 +199,21 @@ function initMobileControls() {
  * Toggles fullscreen mode for the whole document.
  */
 function toggleFullscreen() {
-  const documentRootElement = document.documentElement;
   if (!document.fullscreenElement) {
-    enterFullscreen(documentRootElement);
+    document.documentElement.requestFullscreen();
   } else {
-    exitFullscreen();
+    document.exitFullscreen();
+  }
+}
+
+function resizeCanvasToFullscreen() {
+  const canvas = document.getElementById("canvas");
+  if (document.fullscreenElement) {
+    canvas.style.width = "100vw";
+    canvas.style.height = "100vh";
+  } else {
+    canvas.style.width = "";
+    canvas.style.height = "";
   }
 }
 
@@ -233,3 +243,5 @@ function exitFullscreen() {
     document.webkitExitFullscreen();
   }
 }
+document.addEventListener("fullscreenchange", resizeCanvasToFullscreen);
+window.addEventListener("resize", resizeCanvasToFullscreen);

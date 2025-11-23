@@ -292,3 +292,9 @@ li {
   line-height: 1.5;
 }
 
+:fullscreen .stage {
+  width: 100vw !important;
+  height: 100vh !important;
+  max-width: none !important;
+  aspect-ratio: auto !important;
+}
