@@ -205,8 +205,7 @@ body.no-scroll {
   z-index: 20;
   padding: 24px 28px;
   width: min(100%, 520px);           
-  max-height: 100vh;                   
-  overflow-y: auto;                  
+  max-height: 100vh;                  
   box-sizing: border-box;
   scrollbar-width: thin;                     
   scrollbar-color: #f4e4bc33 transparent;    
