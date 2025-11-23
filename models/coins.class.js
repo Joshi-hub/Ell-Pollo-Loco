@@ -5,39 +5,33 @@
  * a coin pickup sound if sound is enabled.
  */
 class Coin extends DrawableObjects {
-    height = 120;
-    width = 120;
-    coinSound = new Audio('audio/coin5.ogg');
-    hitboxOffsetX = 40;
-    hitboxOffsetY = 40;
-    hitboxWidth = 40;
-    hitboxHeight = 40;
+  height = 120;
+  width = 120;
+  coinSound = new Audio("audio/coin5.ogg");
+  hitboxOffsetX = 40;
+  hitboxOffsetY = 40;
+  hitboxWidth = 40;
+  hitboxHeight = 40;
 
-    IMAGES_COINS = [
-        'img/8_coin/coin_1.png',
-        'img/8_coin/coin_2.png'
-    ];
+  IMAGES_COINS = ["img/8_coin/coin_1.png", "img/8_coin/coin_2.png"];
 
-    /**
-     * Constructs a new coin object and assigns:
-     * - a random coin frame (for a slight flicker effect)
-     * - a random X/Y position inside the level bounds
-     */
-    constructor() {
-        super();
-        let randomNumber = Math.floor(Math.random() * 2);
-        this.loadImage(this.IMAGES_COINS[randomNumber]);
-        this.x = Math.floor(200 + (Math.random() * 2000));
-        this.y = Math.floor(80 + (Math.random() * 260));
-    }
+  /**
+   * Constructs a new coin object and assigns:
+   * - a random coin frame (for a slight flicker effect)
+   * - a random X/Y position inside the level bounds
+   */
+  constructor() {
+    super();
+    let randomNumber = Math.floor(Math.random() * 2);
+    this.loadImage(this.IMAGES_COINS[randomNumber]);
+    this.x = Math.floor(200 + Math.random() * 2000);
+    this.y = Math.floor(80 + Math.random() * 260);
+  }
 
-    /**
-     * Plays the coin pickup sound.
-     * Sound only plays when global sound is enabled.
-     */
-    playSound() {
-        if (!soundEnabled) return;
-        this.coinSound.currentTime = 0;
-        this.coinSound.play().catch(() => {});
-    }
+  /**
+   * Plays the coin pickup sound using the shared sound helper.
+   */
+  playSound() {
+    DrawableObjects.prototype.playSound.call(this, this.coinSound);
+  }
 }

@@ -62,22 +62,20 @@ isOnScreen() {
     this.loadImage(this.IMAGES_DEAD[0]);
   }
 
-  /**
- * Plays the reaction sound while walking from time to time,
- * but only if the chicken is currently visible on screen.
- */
-playReaction() {
-    if (typeof soundEnabled !== "undefined" && !soundEnabled) return;
+   /**
+   * Plays the reaction sound from time to time while walking,
+   * but only if the chicken is currently visible on screen.
+   */
+  playReaction() {
     if (!this.reactionSound) return;
     if (!this.isOnScreen()) return;
     const now = Date.now();
     const minDelay = 3000; 
-    const chance = 0.03;  
+    const chance = 0.03;   
     if (now - this.lastReactionTime < minDelay) return;
     if (Math.random() > chance) return;
     this.lastReactionTime = now;
-    this.reactionSound.currentTime = 0;
-    this.reactionSound.play().catch(() => {});
+    this.playSound(this.reactionSound);
   }
 
   /**

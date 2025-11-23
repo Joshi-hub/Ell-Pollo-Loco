@@ -250,24 +250,31 @@ class World {
     this.ctx.restore();
   }
 
-  /**
+    /**
+   * Plays a given audio clip if global sound is enabled.
+   * Shared helper for world sounds (win / game over).
+   * 
+   * @param {HTMLAudioElement} audio 
+   */
+  playWorldSound(audio) {
+    if (!audio) return;
+    if (typeof soundEnabled !== 'undefined' && !soundEnabled) return;
+    audio.currentTime = 0;
+    audio.play().catch(() => {});
+  }
+
+    /**
    * Plays the win sound if global sound is enabled.
    */
   playWinSound() {
-    if (typeof soundEnabled !== 'undefined' && !soundEnabled) return;
-    if (!this.winSound) return;
-    this.winSound.currentTime = 0;
-    this.winSound.play().catch(() => {});
+    this.playWorldSound(this.winSound);
   }
 
-  /**
+    /**
    * Plays the game over sound if global sound is enabled.
    */
   playGameOverSound() {
-    if (typeof soundEnabled !== 'undefined' && !soundEnabled) return;
-    if (!this.gameOverSound) return;
-    this.gameOverSound.currentTime = 0;
-    this.gameOverSound.play().catch(() => {});
+    this.playWorldSound(this.gameOverSound);
   }
 
   /**

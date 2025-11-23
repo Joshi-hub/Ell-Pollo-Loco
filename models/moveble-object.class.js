@@ -17,13 +17,13 @@ class MovableObject extends DrawableObjects {
     energy = 100;
     lastHit = 0;
 
-    /**
+        /**
      * Applies gravity over time.
      * Objects fall down while above ground or moving upward,
      * reducing `speedY` each tick.
      */
     applyGravity() {
-        setInterval(() => {
+        setStopableIntervall(() => {
             if (this.isAboveGround() || this.speedY > 0) {
                 this.y -= this.speedY;
                 this.speedY -= this.acceleration;

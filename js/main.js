@@ -155,8 +155,8 @@ function loadGame() {
   showElement("stage");
   initializeCanvas();
   stopMenuMusic();
-  startGame();       // defined in game.js
-  createGameWorld(); // defined in game.js
+  startGame();       
+  createGameWorld(); 
   initMobileControls();
 }
 
