@@ -138,9 +138,9 @@ body.no-scroll {
   justify-content: center;
   width: 100%;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 40px 24px 24px;
   box-sizing: border-box;
-  transform: translateY(0); 
+  transform: translateY(0);
 }
 
 .menu-shield {
@@ -148,9 +148,9 @@ body.no-scroll {
   width: min(
     100vw,
     calc(100vh * 720 / 480),
-    var(--game-width)
+    1150px
   );
-  max-width: var(--game-width); /* 720px */
+  max-width: 1150px;
 }
 
 .menu-shield-img {
@@ -161,12 +161,12 @@ body.no-scroll {
 
 .menu-content {
   position: absolute;
-  inset: 30% 10% 16% 10%;
+  inset: 22% 16% 14% 16%;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center; 
-  gap: 48px;               
+  justify-content: center;
+  gap: 60px;
   text-align: center;
   transform: translateY(0);
 }
