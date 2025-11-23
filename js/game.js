@@ -185,6 +185,17 @@ function initMobileControls() {
   if (!btns.controls) return;
   btns.controls.classList.remove("d-none");
   bindMobileControlsToKeyboard(btns);
+  disableContextMenuOnMobileControls();
+}
+
+/**
+ * Disables the context menu (right-click / long-press)
+ * on the mobile control buttons.
+ */
+function disableContextMenuOnMobileControls() {
+  const controls = document.getElementById("mobile-controls");
+  if (!controls) return;
+  controls.addEventListener("contextmenu", (e) => e.preventDefault());
 }
 
 /**
