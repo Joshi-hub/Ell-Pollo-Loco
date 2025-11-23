@@ -196,7 +196,7 @@ function toggleSound() {
   soundEnabled = !soundEnabled;
   menuMusic.muted = !soundEnabled;
   updateSoundButtonIcon();
-  if (world && world.character) {
+  if (world && world.character && world.character.sound) {
     world.character.sound.muted = !soundEnabled;
   }
 }
