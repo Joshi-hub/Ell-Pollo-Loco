@@ -179,7 +179,12 @@ class CollisionHandler {
     this.world.statusBar.setPercentage(char.energy);
     if (char.energy <= 20 && !this.deathTimeoutSet) {
       this.deathTimeoutSet = true;
-      this.world.handleGameOver(false);   
+      char.stopAnimation?.();
+      char.playAnimation(char.IMAGES_DEAD); 
+      const deathAnimationDuration = char.IMAGES_DEAD.length * 120; 
+      setTimeout(() => {
+        this.world.handleGameOver(false);
+      }, deathAnimationDuration);
     }
   }
 
