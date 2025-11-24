@@ -192,6 +192,7 @@ class Character extends MovableObject {
     const keyboard = world.keyboard;
     if (keyboard.SPACE && !this.isAboveGround()) {
       this.playSound(this.jumpSound);
+      this.currentImage = 0;
       this.jump();
       this.resetIsIdle();
     }
