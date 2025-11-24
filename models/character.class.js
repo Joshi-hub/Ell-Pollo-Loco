@@ -9,7 +9,7 @@ class Character extends MovableObject {
   speed = 5;
   world;
   isIdle = 0;
-  isSleeping = false; 
+  isSleeping = false;
   hitboxOffsetX = 16;
   hitboxOffsetY = 110;
   hitboxWidth = this.width - 30;
@@ -240,7 +240,7 @@ class Character extends MovableObject {
     this.isIdle++;
     if (this.isIdle < 80) {
       this.isSleeping = false;
-      this.stopSleepSound(); 
+      this.stopSleepSound();
       this.playAnimation(this.IMAGES_IDLE);
     } else {
       if (!this.isSleeping) {
@@ -249,6 +249,16 @@ class Character extends MovableObject {
       }
       this.playAnimation(this.IMAGES_IDLE_LONG);
     }
+  }
+
+  wakeUp() {
+    this.isSleeping = false;
+    this.sleeping = false;
+    if (this.sleepInterval) {
+      clearInterval(this.sleepInterval);
+      this.sleepInterval = null;
+    }
+    this.playIdleAnimation();
   }
 
   /** Plays death animation & death sound once */

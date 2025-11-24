@@ -71,18 +71,22 @@ class World {
   }
 
   /**
-   * Handles bottle throwing logic based on input, cooldown
-   * and available bottle count.
-   */
-  checkThrowObjects() {
-    const now = Date.now();
+ * Handles bottle throwing logic based on input, cooldown
+ * and available bottle count.
+ */
+checkThrowObjects() {
+  const now = Date.now();
 
-    if (this.canThrowBottle(now)) {
-      this.throwNewBottle();
-      this.updateThrowCooldown(now);
-      this.decreaseBottleAmount();
+  if (this.canThrowBottle(now)) {
+    if (this.character && typeof this.character.resetIsIdle === "function") {
+      this.character.resetIsIdle();
     }
+
+    this.throwNewBottle();
+    this.updateThrowCooldown(now);
+    this.decreaseBottleAmount();
   }
+}
 
   /**
    * Evaluates if the player is allowed to throw a bottle
