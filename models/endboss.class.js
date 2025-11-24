@@ -15,10 +15,10 @@ class Endboss extends MovableObject {
   width = 250;
   y = 60;
 
-  hitboxOffsetX = 10;
-  hitboxOffsetY = 10;
-  hitboxWidth = this.width - 20;
-  hitboxHeight = this.height - 20;
+  hitboxOffsetX = 30;
+  hitboxOffsetY = 120;
+  hitboxWidth = this.width - 60;
+  hitboxHeight = this.height - 140;
 
   baseSpeed = 0.6;
   enragedSpeed = 3.5;
