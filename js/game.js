@@ -4,12 +4,14 @@ let keyboard = new Keyboard();
 let intervalIds = [];
 
 const keyMap = {
-  39: "RIGHT",
-  37: "LEFT",
-  38: "UP",
-  40: "DOWN",
-  32: "SPACE",
-  68: "D",
+  "ArrowLeft": "LEFT",
+  "ArrowRight": "RIGHT",
+  "ArrowUp": "UP",
+  "ArrowDown": "DOWN",
+  " ": "SPACE",
+  "Space": "SPACE", 
+  "d": "D",
+  "D": "D"
 };
 
 /**
@@ -19,7 +21,7 @@ const keyMap = {
  * @param {boolean} isPressed - True on keydown, false on keyup.
  */
 function updateKeyboardState(event, isPressed) {
-  const action = keyMap[event.keyCode];
+  const action = keyMap[event.key];   
   if (!action) return;
   keyboard[action] = isPressed;
 }
