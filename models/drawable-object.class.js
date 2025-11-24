@@ -83,7 +83,9 @@ class DrawableObjects {
      */
     playSound(audio) {
         if (typeof soundEnabled !== 'undefined' && !soundEnabled) return;
+        if (typeof musicVolume !== 'undefined' && musicVolume <= 0) return;
         if (!audio) return;
+        if (typeof musicVolume !== 'undefined') audio.volume = musicVolume;
         audio.currentTime = 0;
         audio.play().catch(() => {});
     }

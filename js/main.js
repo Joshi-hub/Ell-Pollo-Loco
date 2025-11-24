@@ -207,12 +207,8 @@ function hideOverlays() {
 function toggleSound() {
   soundEnabled = !soundEnabled;
   localStorage.setItem("soundEnabled", String(soundEnabled));
-  menuMusic.muted = !soundEnabled;
+  menuMusic.muted = !soundEnabled || musicVolume <= 0;
   updateSoundButtonIcon();
-
-  if (world && world.character && world.character.sound) {
-    world.character.sound.muted = !soundEnabled;
-  }
 }
 
 /**
@@ -232,8 +228,10 @@ function updateSoundButtonIcon() {
 function setMusicVolume(vol) {
   musicVolume = vol;
   menuMusic.volume = musicVolume;
+  menuMusic.muted = !soundEnabled || musicVolume <= 0;
   if (world && world.character && world.character.sound) {
     world.character.sound.volume = musicVolume;
+    world.character.sound.muted = !soundEnabled || musicVolume <= 0;
   }
 }
 
