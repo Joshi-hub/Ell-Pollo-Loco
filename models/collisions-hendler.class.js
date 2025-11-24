@@ -329,11 +329,9 @@ class CollisionHandler {
    */
   removeCompletedSplashes() {
     const flasksToRemove = [];
-
     this.world.throwableObjects.forEach((flask, index) => {
       if (flask.splashAnimationComplete) flasksToRemove.push(index);
     });
-
     this.removeUsedFlasks(flasksToRemove);
   }
 }

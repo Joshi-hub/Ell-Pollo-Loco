@@ -7,10 +7,10 @@
 class Bottle extends DrawableObjects {
     width = 60;
     height = 70;
-    hitboxOffsetX = 10;
-    hitboxOffsetY = 10;
-    hitboxWidth = 40;
-    hitboxHeight = 50;
+    hitboxOffsetX = 15;
+    hitboxOffsetY = 30;
+    hitboxWidth = 25;
+    hitboxHeight = 30;
     bottleTouch = new Audio('audio/click_005.ogg');
     bottleBreakingSound = new Audio('audio/glass-bottle-breaking.mp3');
     IMAGES_BOTTLE = [
