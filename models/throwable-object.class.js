@@ -30,7 +30,7 @@ class ThrowableObjects extends MovableObject {
    * @param {number} x - Initial X-position of the bottle.
    * @param {number} y - Initial Y-position of the bottle.
    */
-  constructor(x, y) {
+  constructor(x, y, directionX = 1) {
     super().loadImage(
       "img/6_salsa_bottle/bottle_rotation/1_bottle_rotation.png"
     );
@@ -42,6 +42,7 @@ class ThrowableObjects extends MovableObject {
     this.y = y;
     this.height = 60;
     this.width = 50;
+    this.directionX = directionX;
     this.throw();
     this.animate();
   }
@@ -66,13 +67,13 @@ class ThrowableObjects extends MovableObject {
   }
 
   /**
-   * Moves the bottle horizontally to the right at a fixed speed.
-   */
-  moveBottleForward() {
-    setStopableIntervall(() => {
-      this.x += 7.5;
-    }, 25);
-  }
+ * Moves the bottle horizontally at a fixed speed in the given direction.
+ */
+moveBottleForward() {
+  setStopableIntervall(() => {
+    this.x += 7.5 * (this.directionX || 1);
+  }, 25);
+}
 
   /**
    * Plays rotation animation until impact,

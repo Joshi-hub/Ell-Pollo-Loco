@@ -103,11 +103,12 @@ checkThrowObjects() {
    */
   throwNewBottle() {
     const char = this.character;
-    const throwY = char.y + 100;  
-    const throwX = char.x + (char.otherDirection ? -10 : 35);
-    let bottle = new ThrowableObjects(throwX, throwY);
+    const directionX = char.otherDirection ? -1 : 1;
+    const throwY = char.y + 100;
+    const throwX = char.x + (directionX === 1 ? 35 : -10);
+    let bottle = new ThrowableObjects(throwX, throwY, directionX);
     this.throwableObjects.push(bottle);
-}
+  }
 
   /**
    * Updates the internal cooldown timestamp for throwing.
