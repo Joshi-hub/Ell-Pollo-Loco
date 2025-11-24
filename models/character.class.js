@@ -10,7 +10,7 @@ class Character extends MovableObject {
   world;
   isIdle = 0;
   isSleeping = false;
-  hitboxOffsetX = 16;
+  hitboxOffsetX = 15;
   hitboxOffsetY = 100;
   hitboxWidth = this.width - 40;
   hitboxHeight = this.height - 80;

@@ -9,9 +9,9 @@ class Coin extends DrawableObjects {
   width = 120;
   coinSound = new Audio("audio/coin5.ogg");
   hitboxOffsetX = 50;
-  hitboxOffsetY = 50;
-  hitboxWidth = 40;
-  hitboxHeight = 40;
+  hitboxOffsetY = 20;
+  hitboxWidth = 5;
+  hitboxHeight = 20;
 
   IMAGES_COINS = ["img/8_coin/coin_1.png", "img/8_coin/coin_2.png"];
 
