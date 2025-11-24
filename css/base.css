@@ -34,8 +34,7 @@ body {
   place-items: center;
   min-height: 100vh;
   margin: 0;
-  background: url("../img/5_background/desert-5112222_1920.png") no-repeat
-    center center fixed;
+  background: url("../img/5_background/desert-5112222_1920.png") no-repeat center center fixed;
   background-size: cover;
   font-family: "zabars", Arial, Helvetica, sans-serif;
   line-height: 1.25;
@@ -275,16 +274,50 @@ a:-webkit-any-link {
 
 .impressum,
 .privacy {
-  font-size: 16px;
-  line-height: 1.6;
-  color: var(--btn-beige-dark);
+  position: relative;
+  z-index: 0;
+  font-size: 24px;
+  line-height: 1.65;
+  color: var(--btn-beige-dark); 
+}
+
+.impressum::before,
+.privacy::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  z-index: -1;
 }
 
 .impressum h1,
 .privacy h1,
 .impressum h2,
 .privacy h2 {
-  font-size: 40px;
+  color: var(--btn-beige-light); 
+  text-shadow: var(--shadow-text);
+  margin-top: 20px;
+  margin-bottom: 12px;
+}
+
+.impressum p,
+.privacy p,
+.impressum li,
+.privacy li {
+  color: var(--btn-beige-dark);
+  font-size: 24px;
+  line-height: 1.6;
+}
+
+.impressum a,
+.privacy a {
+  color: var(--btn-beige); 
+  text-decoration: underline;
+}
+
+.impressum a:hover,
+.privacy a:hover {
+  color: var(--btn-beige-light); 
 }
 
 p,

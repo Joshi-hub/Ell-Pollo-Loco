@@ -76,12 +76,8 @@ class World {
  */
 checkThrowObjects() {
   const now = Date.now();
-
-  if (this.canThrowBottle(now)) {
-    if (this.character && typeof this.character.resetIsIdle === "function") {
-      this.character.resetIsIdle();
-    }
-
+    if (this.canThrowBottle(now)) {
+    if (this.character && typeof this.character.resetIsIdle === "function") this.character.resetIsIdle();
     this.throwNewBottle();
     this.updateThrowCooldown(now);
     this.decreaseBottleAmount();
