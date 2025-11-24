@@ -1,4 +1,4 @@
-@media screen and (orientation: portrait) {
+@media screen and (pointer: coarse) and (orientation: portrait) {
   #main-menu,
   #stage,
   canvas,
@@ -6,7 +6,8 @@
   .menu-content,
   .menu-main,
   .menu-help,
-  #sound-btn {
+  #sound-btn,
+  #mobile-controls {
     display: none !important;
   }
 
@@ -99,10 +100,6 @@
     font-size: 20px;
     padding: 6px 10px;
   }
-
-  #mobile-controls {
-    display: flex !important;
-  }
 }
 
 @media screen and (orientation: landscape) and (max-width: 700px) {
@@ -151,7 +148,13 @@
   }
 }
 
-@media screen and (orientation: landscape) and (min-width: 901px) {
+@media (pointer: coarse) {
+  #mobile-controls {
+    display: flex !important;
+  }
+}
+
+@media (pointer: fine) {
   #mobile-controls {
     display: none !important;
   }

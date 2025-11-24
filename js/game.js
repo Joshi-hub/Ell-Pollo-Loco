@@ -183,7 +183,6 @@ function initMobileControls() {
   if (!isTouchDevice()) return;
   const btns = getMobileButtons();
   if (!btns.controls) return;
-  btns.controls.classList.remove("d-none");
   bindMobileControlsToKeyboard(btns);
   disableContextMenuOnMobileControls();
 }
