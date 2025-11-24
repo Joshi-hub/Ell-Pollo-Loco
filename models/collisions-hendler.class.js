@@ -3,10 +3,6 @@
  * enemies, coins, bottles, projectiles and game-ending events.
  */
 class CollisionHandler {
-
-  /**
-   * @param {World} world - Reference to the current game world instance.
-   */
   constructor(world) {
     this.world = world;
     this.deathTimeoutSet = false;
@@ -22,7 +18,7 @@ class CollisionHandler {
     this.checkEnemyCollisions();
     this.checkCoinCollisions();
     this.checkBottlePickup();
-    this.checkFlaskVsEndboss();
+    this.checkFlaskVsEnemies();
     this.removeCompletedSplashes();
   }
 
@@ -38,7 +34,7 @@ class CollisionHandler {
     this.world.level.enemies.forEach((enemy) => {
       if (!char.isColliding(enemy)) return;
       if (enemy instanceof Endboss) this.handleEndbossCollision(char, enemy, now);
-      else {this.handleRegularEnemyCollision(char, enemy, now);}
+      else this.handleRegularEnemyCollision(char, enemy, now);
     });
   }
 
@@ -58,9 +54,9 @@ class CollisionHandler {
   /**
    * Handles collisions between the player and the Endboss.
    * The Endboss does not get stomped and always damages the player.
-   * 
-   * @param {Character} char 
-   * @param {Endboss} enemy 
+   *
+   * @param {Character} char
+   * @param {Endboss} enemy
    * @param {number} now - Current timestamp
    */
   handleEndbossCollision(char, enemy, now) {
@@ -71,26 +67,26 @@ class CollisionHandler {
   /**
    * Handles collisions between the player and regular enemies
    * (small chicken, big chicken). Includes stomp logic.
-   * 
-   * @param {Character} char 
-   * @param {MovableObject} enemy 
-   * @param {number} now 
+   *
+   * @param {Character} char
+   * @param {MovableObject} enemy
+   * @param {number} now
    */
   handleRegularEnemyCollision(char, enemy, now) {
     if (enemy._deadByStomp) return;
     const isFallingDown = char.speedY < 0;
     const charBottom = char.y + char.height - 50;
     const isAboveEnemy = charBottom < enemy.y;
-    if (isFallingDown && isAboveEnemy) {
-      this.killEnemyByStomp(char, enemy, now);
+    if (isFallingDown && isAboveEnemy) {this.killEnemyByStomp(char, enemy, now);
       return;
-    } if (this.hasActiveStompGrace(char, now)) return;
+    }
+    if (this.hasActiveStompGrace(char, now)) return;
     this.handlePlayerDamage(enemy);
   }
 
   /**
    * Checks whether the player is currently protected after stomping an enemy.
-   * @param {Character} char 
+   * @param {Character} char
    * @param {number} now
    * @returns {boolean}
    */
@@ -101,10 +97,10 @@ class CollisionHandler {
   /**
    * Kills an enemy when the player jumps on top of it.
    * Plays death animation and removes enemy shortly after.
-   * 
-   * @param {Character} char 
-   * @param {MovableObject} enemy 
-   * @param {number} now 
+   *
+   * @param {Character} char
+   * @param {MovableObject} enemy
+   * @param {number} now
    */
   killEnemyByStomp(char, enemy, now) {
     if (enemy.deathSound && typeof enemy.playSound === "function") enemy.playSound(enemy.deathSound);
@@ -115,47 +111,43 @@ class CollisionHandler {
     if (typeof char.isJumpingHandler === "function") char.isJumpingHandler();
     char._stompGraceUntil = now + 120;
     setTimeout(() => {
-      const i = this.world.level.enemies.indexOf(enemy);
-      if (i !== -1) {
-        this.world.level.enemies.splice(i, 1);
-      }
+      const enemies = this.world.level.enemies;
+      const i = enemies.indexOf(enemy);
+      if (i !== -1) enemies.splice(i, 1);
     }, 120);
   }
 
   /**
    * Applies damage to the player depending on the enemy type.
-   * 
-   * @param {MovableObject} enemy 
+   *
+   * @param {MovableObject} enemy
    */
   handlePlayerDamage(enemy) {
     const char = this.world.character;
     if (this.shouldSkipDamage(char)) return;
-    if (enemy instanceof Endboss) {
-      this.applyEndbossDamage(char);
-    } else {this.applyRegularEnemyDamage(char);}
+    if (enemy instanceof Endboss) this.applyEndbossDamage(char); 
+    else this.applyRegularEnemyDamage(char);
     this.updateStatusAndMaybeEndGame(char);
   }
 
   /**
    * Determines whether player damage should be ignored
    * (e.g., player is already dead or currently in hurt state).
-   * 
-   * @param {Character} char 
+   *
+   * @param {Character} char
    * @returns {boolean}
    */
   shouldSkipDamage(char) {
-  if (char.isDead?.()) return true;
-  const now = Date.now();
-  const damageCooldown = 100; 
-  if (char.lastHit && now - char.lastHit < damageCooldown) {
-    return true;
+    if (char.isDead?.()) return true;
+    const now = Date.now();
+    const damageCooldown = 100;
+    if (char.lastHit && now - char.lastHit < damageCooldown) return true;
+    return false;
   }
-  return false;
-}
 
   /**
    * Applies damage taken from the Endboss.
-   * @param {Character} char 
+   * @param {Character} char
    */
   applyEndbossDamage(char) {
     char.energy = Math.max(0, char.energy - 20);
@@ -165,7 +157,7 @@ class CollisionHandler {
 
   /**
    * Applies regular damage from smaller enemies.
-   * @param {Character} char 
+   * @param {Character} char
    */
   applyRegularEnemyDamage(char) {
     char.hit();
@@ -173,15 +165,15 @@ class CollisionHandler {
 
   /**
    * Updates the health bar and handles game-over logic when HP <= 0.
-   * @param {Character} char 
+   * @param {Character} char
    */
   updateStatusAndMaybeEndGame(char) {
     this.world.statusBar.setPercentage(char.energy);
     if (char.energy <= 20 && !this.deathTimeoutSet) {
       this.deathTimeoutSet = true;
       char.stopAnimation?.();
-      char.playAnimation(char.IMAGES_DEAD); 
-      const deathAnimationDuration = char.IMAGES_DEAD.length * 120; 
+      char.playAnimation(char.IMAGES_DEAD);
+      const deathAnimationDuration = char.IMAGES_DEAD.length * 120;
       setTimeout(() => {
         this.world.handleGameOver(false);
       }, deathAnimationDuration);
@@ -242,15 +234,18 @@ class CollisionHandler {
   }
 
   /**
-   * Checks collisions between thrown flasks and the Endboss.
+   * Checks collisions between thrown flasks and all enemies
+   * (Endboss + regular chickens).
    */
-  checkFlaskVsEndboss() {
-    if (!this.hasFlasksOrEndboss()) return;
+  checkFlaskVsEnemies() {
+    if (!this.hasFlasksAndEnemies()) return;
     const flasksToRemove = [];
     this.world.throwableObjects.forEach((flask, flaskIndex) => {
       this.world.level.enemies.forEach((enemy) => {
         if (this.shouldFlaskHitEndboss(flask, enemy)) {
           this.handleFlaskEndbossHit(flask, flaskIndex, enemy, flasksToRemove);
+        } else if (this.shouldFlaskHitRegularEnemy(flask, enemy)) {
+          this.handleFlaskRegularEnemyHit(flask, flaskIndex, enemy, flasksToRemove);
         }
       });
     });
@@ -259,43 +254,63 @@ class CollisionHandler {
   }
 
   /**
-   * Returns whether flasks and endboss exist.
+   * Returns whether flasks and enemies exist.
    * @returns {boolean}
    */
-  hasFlasksOrEndboss() {
+  hasFlasksAndEnemies() {
     return (
       this.world &&
       Array.isArray(this.world.throwableObjects) &&
       this.world.throwableObjects.length > 0 &&
       this.world.level &&
       Array.isArray(this.world.level.enemies) &&
-      this.world.level.enemies.some((e) => e instanceof Endboss)
+      this.world.level.enemies.length > 0
     );
   }
 
   /**
    * Determines whether a flask hits the Endboss.
-   * @param {ThrowableObject} flask 
-   * @param {MovableObject} enemy 
    */
   shouldFlaskHitEndboss(flask, enemy) {
-    return (
-      enemy instanceof Endboss && flask.isColliding(enemy) && !flask.isImpacting
-    );
+    return enemy instanceof Endboss && flask.isColliding(enemy) && !flask.isImpacting;
+  }
+
+  /**
+   * Determines whether a flask hits a regular chicken enemy
+   * (Chicken or SmallChicken).
+  */
+  shouldFlaskHitRegularEnemy(flask, enemy) {
+    return ((enemy instanceof Chicken || enemy instanceof SmallChicken) && flask.isColliding(enemy) && !flask.isImpacting);
   }
 
   /**
    * Handles impact when a flask hits the Endboss.
    */
   handleFlaskEndbossHit(flask, flaskIndex, enemy, flasksToRemove) {
-    if (typeof flask.playSound === "function" && flask.bottleBreakingSound) {
-      flask.playSound(flask.bottleBreakingSound);
-    } enemy.takeDamage();
+    if (typeof flask.playSound === "function" && flask.bottleBreakingSound) flask.playSound(flask.bottleBreakingSound);
+    enemy.takeDamage();
     this.world.endbossStatusBar.updateStatusBar();
     flask.triggerImpact(enemy);
-    if (enemy.health <= 0) {
-      this.handleEndbossDefeat();
-    } this.scheduleFlaskRemoval(flask, flaskIndex, flasksToRemove);
+    if (enemy.health <= 0) this.handleEndbossDefeat();
+    this.scheduleFlaskRemoval(flask, flaskIndex, flasksToRemove);
+  }
+
+  /**
+   * Handles the impact when a flask hits a regular chicken enemy.
+   * Plays the death animation, triggers the splash effect,
+   * and removes the enemy from the level.
+  */
+  handleFlaskRegularEnemyHit(flask, flaskIndex, enemy, flasksToRemove) {
+    if (typeof flask.playSound === "function" && flask.bottleBreakingSound) flask.playSound(flask.bottleBreakingSound);
+    if (typeof enemy.die === "function") enemy.die();
+    else {enemy.isDead = true;}
+    if (typeof flask.triggerImpact === "function") flask.triggerImpact(enemy);
+    setTimeout(() => {
+      const enemies = this.world.level.enemies;
+      const idx = enemies.indexOf(enemy);
+      if (idx !== -1) enemies.splice(idx, 1);
+    }, 150);
+    this.scheduleFlaskRemoval(flask, flaskIndex, flasksToRemove);
   }
 
   /**
