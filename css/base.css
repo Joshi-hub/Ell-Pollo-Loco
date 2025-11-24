@@ -246,13 +246,20 @@ body.no-scroll {
 .settings-section li {
   font-size: 24px;
   line-height: 1.4;
-  color: #f8e9c5;
+  color: var(--btn-beige);
+}
+
+a:-webkit-any-link {
+    color: var(--btn-beige-dark);
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .settings-links a {
   font-size: 24px;
   text-decoration: underline;
   padding-right: 5px;
+  color: var(--btn-beige);
 }
 
 .credits-list {
@@ -270,7 +277,7 @@ body.no-scroll {
 .privacy {
   font-size: 16px;
   line-height: 1.6;
-  color: #333;
+  color: var(--btn-beige-dark);
 }
 
 .impressum h1,

@@ -177,13 +177,9 @@ class CollisionHandler {
    */
   updateStatusAndMaybeEndGame(char) {
     this.world.statusBar.setPercentage(char.energy);
-
-    if (char.energy <= 0 && !this.deathTimeoutSet) {
+    if (char.energy <= 20 && !this.deathTimeoutSet) {
       this.deathTimeoutSet = true;
-
-      setTimeout(() => {
-        this.world.handleGameOver(false);
-      }, 1500);
+      this.world.handleGameOver(false);   
     }
   }
 

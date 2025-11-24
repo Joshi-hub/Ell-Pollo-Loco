@@ -4,7 +4,7 @@
  * with the game world.
  */
 class Character extends MovableObject {
-  height = 280;
+  height = 270;
   y = 80;
   speed = 5;
   world;
