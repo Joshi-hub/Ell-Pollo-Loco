@@ -11,8 +11,8 @@ class Character extends MovableObject {
   isIdle = 0;
   isSleeping = false;
   hitboxOffsetX = 16;
-  hitboxOffsetY = 100;
-  hitboxWidth = this.width - 50;
+  hitboxOffsetY = 130;
+  hitboxWidth = this.width - 40;
   hitboxHeight = this.height - 80;
 
   jumpSound = new Audio("audio/jump.wav");

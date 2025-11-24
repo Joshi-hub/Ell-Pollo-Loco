@@ -102,9 +102,12 @@ checkThrowObjects() {
    * Creates and adds a new throwable bottle at the character's position.
    */
   throwNewBottle() {
-    let bottle = new ThrowableObjects(this.character.x, this.character.y);
+    const char = this.character;
+    const throwY = char.y + 100;  
+    const throwX = char.x + (char.otherDirection ? -10 : 35);
+    let bottle = new ThrowableObjects(throwX, throwY);
     this.throwableObjects.push(bottle);
-  }
+}
 
   /**
    * Updates the internal cooldown timestamp for throwing.
