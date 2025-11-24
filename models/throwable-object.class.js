@@ -71,7 +71,7 @@ class ThrowableObjects extends MovableObject {
  */
 moveBottleForward() {
   setStopableIntervall(() => {
-    this.x += 7.5 * (this.directionX || 1);
+    this.x += 10 * (this.directionX || 1);
   }, 25);
 }
 

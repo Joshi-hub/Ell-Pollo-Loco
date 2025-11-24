@@ -11,7 +11,7 @@ class Character extends MovableObject {
   isIdle = 0;
   isSleeping = false;
   hitboxOffsetX = 16;
-  hitboxOffsetY = 130;
+  hitboxOffsetY = 100;
   hitboxWidth = this.width - 40;
   hitboxHeight = this.height - 80;
 
@@ -148,7 +148,7 @@ class Character extends MovableObject {
     }, 1000 / 60);
     setStopableIntervall(() => {
       this.handleStateTick();
-    }, 100);
+    }, 150);
   }
 
   /**
@@ -195,6 +195,7 @@ class Character extends MovableObject {
       this.currentImage = 0;
       this.jump();
       this.resetIsIdle();
+      this.isJumpingHandler();
     }
   }
 
